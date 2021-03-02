@@ -9,10 +9,11 @@
 	"categories": [
 		"Other"
 	],
-	"publisher":"ChiragGupta",
+	"publisher": "ChiragGupta",
 	"activationEvents": [
 		"onCommand:dev-boon.STACKOVERFLOW_SEARCH_WITH_SELECTED_TEXT",
-		"onCommand:dev-boon.DEACTIVATE_EXTENSION"
+		"onCommand:dev-boon.DEACTIVATE_EXTENSION",
+		"onCommand:dev-boon.STACKOVERFLOW_SEARCH_WITH_SELECTED_TEXT_USING_PROMPT"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
@@ -20,12 +21,17 @@
 			{
 				"command": "dev-boon.STACKOVERFLOW_SEARCH_WITH_SELECTED_TEXT",
 				"category": "dev-boon",
-				"title": "stackOverFlow Search"
+				"title": "stackOverFlow Search without prompt"
 			},
 			{
 				"command": "dev-boon.DEACTIVATE_EXTENSION",
 				"category": "dev-boon",
 				"title": "deactivate dev-boon extension"
+			},
+			{
+				"command": "dev-boon.STACKOVERFLOW_SEARCH_WITH_SELECTED_TEXT_USING_PROMPT",
+				"category": "dev-boon",
+				"title": "stackOverFlow Search using prompt"
 			}
 		]
 	},
@@ -38,16 +44,22 @@
 		"test": "node ./out/test/runTest.js"
 	},
 	"devDependencies": {
-		"@types/vscode": "^1.53.0",
 		"@types/glob": "^7.1.3",
 		"@types/mocha": "^8.0.4",
 		"@types/node": "^12.11.7",
-		"eslint": "^7.19.0",
+		"@types/request-promise-native": "^1.0.17",
+		"@types/vscode": "^1.53.0",
 		"@typescript-eslint/eslint-plugin": "^4.14.1",
 		"@typescript-eslint/parser": "^4.14.1",
+		"eslint": "^7.19.0",
 		"glob": "^7.1.6",
 		"mocha": "^8.2.1",
 		"typescript": "^4.1.3",
 		"vscode-test": "^1.5.0"
+	},
+	"dependencies": {
+		"open": "^8.0.1",
+		"request": "^2.88.2",
+		"request-promise-native": "^1.0.9"
 	}
 }

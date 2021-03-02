@@ -1,9 +1,13 @@
 // The module 'vscode' contains the VS Code extensibility API
 // Import the module and reference it with the alias vscode in your code below
+import * as request from "request-promise-native";
 import * as vscode from 'vscode';
+let open = require('open'); //this module is used to open browser such as google chrome
+
 
 let isExtensionActivated = 0; // o means thaT initially ,it is deactivated
 var catSmiley = String.fromCodePoint(0X0001F638);
+const regex = /\[(.+?)\]/gm;
 
 
 
@@ -43,12 +47,45 @@ export async function activate(context: vscode.ExtensionContext) {
 
 		context.subscriptions.push(deactivateCommand);
 
+
+		let stackOverFlowSearchBySelectingTextFromEditorWithPrompt = vscode.commands.registerCommand(`dev-boon.STACKOVERFLOW_SEARCH_WITH_SELECTED_TEXT_USING_PROMPT`,async ()=>{
+			try{
+				if(isExtensionActivated === 1){
+					let selectedText = getSelectedTextFromEditor();
+					if(selectedText!==undefined){
+						let searchTerm = await vscode.window.showInputBox({
+							ignoreFocusOut: selectedText === '',
+							placeHolder: 'Please enter your Stackoverflow query',
+							// prompt: 'search for tooltip',
+							value: selectedText,
+							valueSelection: [0, selectedText.length + 1],
+						});
+				
+						await runSearchingForStackOverFlowPosts(searchTerm!);
+					}
+				}else{
+					check(context);
+				}
+			}catch(err){
+				await vscode.window.showErrorMessage("Something went wrong while searching for Stackoverflow posts 😣");
+			}
+		});
+
+		context.subscriptions.push(stackOverFlowSearchBySelectingTextFromEditorWithPrompt);
+
 		let stackOverFlowSearchBySelectingTextFromEditor = vscode.commands.registerCommand('dev-boon.STACKOVERFLOW_SEARCH_WITH_SELECTED_TEXT', async () => {
 			if(isExtensionActivated === 1){
 				try {
 					let selectedText = await getSelectedTextFromEditor();
 	
-					vscode.window.showInformationMessage(`Working fine with ${isExtensionActivated}`);
+					
+
+					if(selectedText!==undefined){
+						vscode.window.showInformationMessage(`Working fine with ${isExtensionActivated}`);
+						await runSearchingForStackOverFlowPosts(selectedText);
+					}else{
+						vscode.window.showErrorMessage("Something went Wrong 😣");
+					}
 	
 				} catch (err) {
 					await vscode.window.showErrorMessage("Some Error occured while searching stackOverFlow posts 😣.Please try again");
@@ -123,3 +160,79 @@ function getSelectedTextFromEditor(): string|undefined{
 
 
 }
+
+
+
+async function runSearchingForStackOverFlowPosts(selectedText:string): Promise<void>{
+	if(!selectedText || selectedText.trim() === ""){
+		return;
+	}
+
+	selectedText = selectedText.trim();
+    vscode.window.showWarningMessage(`User initiated a stackoverflow search with [${selectedText}] search term`);
+
+	let tags: string[] = [];
+	let tagsMatch;
+	let updatedSelectedText = selectedText;
+
+	while ((tagsMatch = regex.exec(updatedSelectedText)) !== null) {
+        // This is necessary to avoid infinite loops with zero-width matches
+        if (tagsMatch.index === regex.lastIndex) {
+            regex.lastIndex++;
+        }
+        
+        // The result can be accessed through the `m`-variable.
+        tagsMatch.forEach((match, groupIndex) => {
+            if(groupIndex === 0) { // full match without group for replace
+                updatedSelectedText = updatedSelectedText.replace(match, "").trim();
+            } else if(groupIndex === 1) { // not a full match
+                tags.push(match);
+            }
+        });  
+    }
+
+	const stackoverflowApiKey = 'Y3TeIyyVjpbz**icfv1oVg((';
+    const encodedTagsString = encodeURIComponent(tags.join(';'));
+    const encodedAPISearchTerm = encodeURIComponent(updatedSelectedText);
+    const encodedWebSearchTerm = encodeURIComponent(selectedText);
+    const apiSearchUrl = `https://api.stackexchange.com/2.2/search?order=desc&sort=relevance&intitle=${encodedAPISearchTerm}&tagged=${encodedTagsString}&site=stackoverflow&key=${stackoverflowApiKey}`;
+    const stackoverflowSearchUrl = `https://stackoverflow.com/search?q=${encodedWebSearchTerm}`;
+    const googleSearchUrl = `https://www.google.com/search?q=${encodedWebSearchTerm}`;
+    const uriOptions = {
+        uri: apiSearchUrl,
+        json: true,
+        gzip: true,
+    };
+
+
+	const questionsMeta = [
+        { title: `🌐 🔎 Search Stackoverflow: ${selectedText}`, url: stackoverflowSearchUrl },
+        { title: `🕸️ 🔎 Search Google: ${selectedText}`, url: googleSearchUrl },
+    ];
+    try {
+        const searchResponse = await request.get(uriOptions);
+        if (searchResponse.items && searchResponse.items.length > 0) {
+
+
+            searchResponse.items.forEach((q: any, i: any) => {
+                questionsMeta.push({
+                    title: `${i}: ${q.is_answered ? '✅' : '🤔'} ${q.score}🔺 ${q.answer_count}❗ ➡️ ${decodeURIComponent(q.title)} 🏷️ ${q.tags.join(',')} 👩‍💻 by ${q.owner.display_name}`,
+                    url: q.link
+                });
+            });
+        }
+    } catch (error) {
+        console.error(error);
+    }
+
+    const questions = questionsMeta.map(q => q.title);
+    const selectedTitle = await vscode.window.showQuickPick(questions, { canPickMany: false });
+    const selectedQuestionMeta = questionsMeta.find(q => q.title === selectedTitle);
+    const selectedQuestionUrl = selectedQuestionMeta ? selectedQuestionMeta.url : stackoverflowSearchUrl;
+    if (selectedQuestionUrl) {
+        open(selectedQuestionUrl);
+    }
+
+
+
+}	
