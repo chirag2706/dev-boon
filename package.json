@@ -11,14 +11,21 @@
 	],
 	"publisher":"ChiragGupta",
 	"activationEvents": [
-		"onCommand:dev-boon.helloWorld"
+		"onCommand:dev-boon.STACKOVERFLOW_SEARCH_WITH_SELECTED_TEXT",
+		"onCommand:dev-boon.DEACTIVATE_EXTENSION"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
 		"commands": [
 			{
-				"command": "dev-boon.helloWorld",
-				"title": "Hello World"
+				"command": "dev-boon.STACKOVERFLOW_SEARCH_WITH_SELECTED_TEXT",
+				"category": "dev-boon",
+				"title": "stackOverFlow Search"
+			},
+			{
+				"command": "dev-boon.DEACTIVATE_EXTENSION",
+				"category": "dev-boon",
+				"title": "deactivate dev-boon extension"
 			}
 		]
 	},
