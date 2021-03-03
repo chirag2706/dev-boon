@@ -2,6 +2,7 @@
 // Import the module and reference it with the alias vscode in your code below
 import * as request from "request-promise-native";
 import * as vscode from 'vscode';
+import Youtube from './youtube';
 let open = require('open'); //this module is used to open browser such as google chrome
 
 
@@ -98,6 +99,54 @@ export async function activate(context: vscode.ExtensionContext) {
 
 		context.subscriptions.push(stackOverFlowSearchBySelectingTextFromEditor);
 
+
+		let youTubeSearchBySelectingTextFromEditorWithPrompt = vscode.commands.registerCommand(`dev-boon.YOUTUBE_SEARCH_WITH_SELECTED_TEXT_USING_PROMPT`,async ()=>{
+			try{
+				if(isExtensionActivated === 1){
+					let selectedText = getSelectedTextFromEditor();
+					if(selectedText!==undefined){
+						let searchTerm = await vscode.window.showInputBox({
+							ignoreFocusOut: selectedText === '',
+							placeHolder: 'Please enter your Youtube query',
+							value: selectedText,
+							valueSelection: [0, selectedText.length + 1],
+						});
+				
+						await runSearchingForYouTube(searchTerm!);
+					}
+				}else{
+					check(context);
+				}
+			}catch(err){
+				await vscode.window.showErrorMessage("Something went wrong while searching for Youtube videos 😣");
+			}
+		});
+
+		context.subscriptions.push(youTubeSearchBySelectingTextFromEditorWithPrompt);
+
+		let youTubeSearchBySelectingTextFromEditor = vscode.commands.registerCommand('dev-boon.YOUTUBE_SEARCH_WITH_SELECTED_TEXT', async () => {
+			if(isExtensionActivated === 1){
+				try {
+					let selectedText = await getSelectedTextFromEditor();
+					if(selectedText!==undefined){
+						vscode.window.showInformationMessage(`Working fine with ${isExtensionActivated}`);
+						await runSearchingForYouTube(selectedText);
+					}else{
+						vscode.window.showErrorMessage("Something went Wrong 😣");
+					}
+	
+				} catch (err) {
+					await vscode.window.showErrorMessage("Some Error occured while searching youTube videos 😣.Please try again");
+				}
+			}else{
+				check(context);
+			}
+
+		});
+
+		context.subscriptions.push(youTubeSearchBySelectingTextFromEditor);
+
+
 }
 
 // this method is called when your extension is deactivated
@@ -169,7 +218,7 @@ async function runSearchingForStackOverFlowPosts(selectedText:string): Promise<v
 	}
 
 	selectedText = selectedText.trim();
-    vscode.window.showWarningMessage(`User initiated a stackoverflow search with [${selectedText}] search term`);
+    vscode.window.showInformationMessage(`User initiated a stackoverflow search with [${selectedText}] query`);
 
 	let tags: string[] = [];
 	let tagsMatch;
@@ -206,8 +255,8 @@ async function runSearchingForStackOverFlowPosts(selectedText:string): Promise<v
 
 
 	const questionsMeta = [
-        { title: `🌐 🔎 Search Stackoverflow: ${selectedText}`, url: stackoverflowSearchUrl },
-        { title: `🕸️ 🔎 Search Google: ${selectedText}`, url: googleSearchUrl },
+        { title: `🔎 Search Stackoverflow: ${selectedText}`, url: stackoverflowSearchUrl },
+        { title: `🔎 Search Google: ${selectedText}`, url: googleSearchUrl },
     ];
     try {
         const searchResponse = await request.get(uriOptions);
@@ -235,4 +284,103 @@ async function runSearchingForStackOverFlowPosts(selectedText:string): Promise<v
 
 
 
+}	
+
+
+function getStringOutOfTagList(tags:string[]): string{
+	let result = "";
+
+	tags.forEach((str)=>{
+		result+=str;
+		result+=" ";
+	});
+
+	result = result.trim();
+	console.log(`Resultant string is: ${result}`);
+	return result;
+
+}
+
+
+async function runSearchingForYouTube(selectedText:string): Promise<void>{
+	if(!selectedText || selectedText.trim() === ""){
+		return;
+	}
+
+	selectedText = selectedText.trim();
+    vscode.window.showInformationMessage(`User initiated a youTube search with [${selectedText}] query`);
+
+	let tags: string[] = [];
+	let tagsMatch;
+	let updatedSelectedText = selectedText;
+
+	while ((tagsMatch = regex.exec(updatedSelectedText)) !== null) {
+        // This is necessary to avoid infinite loops with zero-width matches
+        if (tagsMatch.index === regex.lastIndex) {
+            regex.lastIndex++;
+        }
+        
+        // The result can be accessed through the `m`-variable.
+        tagsMatch.forEach((match, groupIndex) => {
+            if(groupIndex === 0) { // full match without group for replace
+                updatedSelectedText = updatedSelectedText.replace(match, "").trim();
+            } else if(groupIndex === 1) { // not a full match
+                tags.push(match);
+            }
+        });  
+    }
+
+
+    const encodedWebSearchTerm = encodeURIComponent(selectedText);
+    const youtubeSearchUrl = `https://www.youtube.com/results?search_query=${encodedWebSearchTerm}`;
+    const googleSearchUrl = `https://www.google.com/search?q=${encodedWebSearchTerm}`;
+   
+
+
+	const questionsMeta = [
+        { title: `🔎 Search Youtube ${selectedText}`, url: youtubeSearchUrl },
+        { title: `🔎 Search Google: ${selectedText}`, url: googleSearchUrl },
+    ];
+    try {
+
+
+		//Will try to improve integration of youtube with our plugin
+		//integration of youtube done till now is good but improvement can be done
+
+        // var response  = await Youtube.get('/search',{
+        //     params:{
+        //         q:getStringOutOfTagList(tags)
+        //     }
+        // });
+
+		// let videoList = response.data.items;
+		// console.log(videoList[0]);
+		// if (videoList && videoList.length > 0) {
+
+
+        //     videoList.forEach((video: any) => {
+        //         if(video.id.videoId!==undefined || video.id.videoId!==null){
+		// 			questionsMeta.push({
+		// 				title: `${video.snippet.title}: ${video.snippet.description ? '✅' : '🤔'}`,
+		// 				url: `https://www.youtube.com/embed/${video.id.videoId}`
+		// 			});
+		// 		}
+        //     });
+        // }
+		
+
+		// console.log(questionsMeta);
+
+
+    } catch (error) {
+        console.error(error);
+    }
+
+    const questions = questionsMeta.map(q => q.title);
+    const selectedTitle = await vscode.window.showQuickPick(questions, { canPickMany: false });
+    const selectedQuestionMeta = questionsMeta.find(q => q.title === selectedTitle);
+    const selectedQuestionUrl = selectedQuestionMeta ? selectedQuestionMeta.url : youtubeSearchUrl;
+    if (selectedQuestionUrl) {
+        open(selectedQuestionUrl);
+    }
 }	

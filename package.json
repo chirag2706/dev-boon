@@ -13,7 +13,9 @@
 	"activationEvents": [
 		"onCommand:dev-boon.STACKOVERFLOW_SEARCH_WITH_SELECTED_TEXT",
 		"onCommand:dev-boon.DEACTIVATE_EXTENSION",
-		"onCommand:dev-boon.STACKOVERFLOW_SEARCH_WITH_SELECTED_TEXT_USING_PROMPT"
+		"onCommand:dev-boon.STACKOVERFLOW_SEARCH_WITH_SELECTED_TEXT_USING_PROMPT",
+		"onCommand:dev-boon.YOUTUBE_SEARCH_WITH_SELECTED_TEXT",
+		"onCommand:dev-boon.YOUTUBE_SEARCH_WITH_SELECTED_TEXT_USING_PROMPT"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
@@ -21,7 +23,7 @@
 			{
 				"command": "dev-boon.STACKOVERFLOW_SEARCH_WITH_SELECTED_TEXT",
 				"category": "dev-boon",
-				"title": "stackOverFlow Search without prompt"
+				"title": "stackOverFlow Search without prompt(but only takes selected text)"
 			},
 			{
 				"command": "dev-boon.DEACTIVATE_EXTENSION",
@@ -32,6 +34,16 @@
 				"command": "dev-boon.STACKOVERFLOW_SEARCH_WITH_SELECTED_TEXT_USING_PROMPT",
 				"category": "dev-boon",
 				"title": "stackOverFlow Search using prompt"
+			},
+			{
+				"command": "dev-boon.YOUTUBE_SEARCH_WITH_SELECTED_TEXT",
+				"category": "dev-boon",
+				"title": "youTube Search without prompt(but only takes selected text)"
+			},
+			{
+				"command": "dev-boon.YOUTUBE_SEARCH_WITH_SELECTED_TEXT_USING_PROMPT",
+				"category": "dev-boon",
+				"title": "youTube Search using prompt"
 			}
 		]
 	},
@@ -58,6 +70,7 @@
 		"vscode-test": "^1.5.0"
 	},
 	"dependencies": {
+		"axios": "^0.21.1",
 		"open": "^8.0.1",
 		"request": "^2.88.2",
 		"request-promise-native": "^1.0.9"
