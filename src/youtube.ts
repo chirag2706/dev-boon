@@ -6,6 +6,6 @@ export default Axios.create({
     params:{
         part:'snippet',
         key:KEY,
-        maxResults:10
+        maxResults:15
     }
 });
