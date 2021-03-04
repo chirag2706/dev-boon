@@ -451,7 +451,7 @@ function getWebviewContent(x:number,pass_the_result:description[]) {
 			d=pass_the_result[num].Owner;
 			e=pass_the_result[num].Url;
 
-			stck+=`<div class="card" style="width:20%" >
+			stck+=`<div class="card" style="width:20%;border: 0.1px solid white;margin-bottom:5px;padding:5px 5px 5px 5px;" >
 					
 					<div class="continer">
 					<h3><b>${b}</b></h3>
@@ -461,7 +461,6 @@ function getWebviewContent(x:number,pass_the_result:description[]) {
 					<a href="${e}" class="card-link button center">Click Here To Open</a>
 					
 					</div>
-					<hr style="color:white;">
 					</div>`
 
 		stck+='</td></tr>'
@@ -484,8 +483,10 @@ function getWebviewContent(x:number,pass_the_result:description[]) {
 				background-color: white;
 				color: black;
 				border: 2px solid #e7e7e7;
+				text-align: center;
+			  	border-radius:20px;
 			}
-			.button:hover {background-color: #e7e7e7;}
+			.button:hover {background-color: #e7e7e7;transform: translateY(4px);}
 			.center {
 				display: block;
 				margin-left: auto;
@@ -501,6 +502,7 @@ function getWebviewContent(x:number,pass_the_result:description[]) {
 			/* On mouse-over, add a deeper shadow */
 			.card:hover {
 				box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+				z-index:100000 !important;
 			}
 			
 			/* Add some padding inside the card container */
@@ -521,7 +523,7 @@ function getWebviewContent(x:number,pass_the_result:description[]) {
 			c=pass_the_result[num].Description;
 			d=pass_the_result[num].Owner;
 			e=pass_the_result[num].Url;
-			stck+=`<div class="card" style="width:20%" >
+			stck+=`<div class="card" style="width:20%;border: 0.1px solid white;margin-bottom:5px%;padding:5px 5px 5px 5px;" >
 					<img  src="${a}" alt="YOUTUBE" class="center">
 					<div class="continer">
 					<h3><b>${b}</b></h3>
@@ -531,7 +533,7 @@ function getWebviewContent(x:number,pass_the_result:description[]) {
 					<a href="${e}" class="card-link button center">Click Here To Open</a>
 					
 					</div>
-					<hr style="color:white;">
+					
 					</div>`
 		}
 		return `<!DOCTYPE html>
@@ -552,8 +554,10 @@ function getWebviewContent(x:number,pass_the_result:description[]) {
 			background-color: white;
   			color: black;
   			border: 2px solid #e7e7e7;
+			  text-align: center;
+			  border-radius:20px;
 		  }
-		.button:hover {background-color: #e7e7e7;}
+		.button:hover {background-color: #e7e7e7;transform: translateY(4px);}
 		.center {
 			display: block;
 			margin-left: auto;
@@ -568,6 +572,7 @@ function getWebviewContent(x:number,pass_the_result:description[]) {
 		  /* On mouse-over, add a deeper shadow */
 		  .card:hover {
 			box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+			z-index:100000 !important;
 		  }
 		  
 		  /* Add some padding inside the card container */
