@@ -278,26 +278,12 @@ async function runSearchingForStackOverFlowPosts(selectedText:string): Promise<v
 					pass_the_result[count]=new description(q.title,q.tags.join(','),q.owner.display_name,q.link,"");
 					count=count+1;
 				}
-                // questionsMeta.push({
-                //     title: `${i}: ${q.is_answered ? '✅' : '🤔'} ${q.score}🔺 ${q.answer_count}❗ ➡️ ${decodeURIComponent(q.title)} 🏷️ ${q.tags.join(',')} 👩‍💻 by ${q.owner.display_name}`,
-                //     url: q.link
-                // });
             });
 			panel.webview.html = getWebviewContent(0,pass_the_result);
         }
     } catch (error) {
         console.error(error);
     }
-    // const questions = questionsMeta.map(q => q.title);
-    // const selectedTitle = await vscode.window.showQuickPick(questions, { canPickMany: false });
-    // const selectedQuestionMeta = questionsMeta.find(q => q.title === selectedTitle);
-    // const selectedQuestionUrl = selectedQuestionMeta ? selectedQuestionMeta.url : stackoverflowSearchUrl;
-    // if (selectedQuestionUrl) {
-    //     open(selectedQuestionUrl);
-    // }
-
-
-
 }	
 
 
@@ -361,16 +347,6 @@ async function runSearchingForYouTube(selectedText:string): Promise<void>{
     ];
     try {
 
-
-		//Will try to improve integration of youtube with our plugin
-		//integration of youtube done till now is good but improvement can be done
-
-        // var response  = await Youtube.get('/search',{
-        //     params:{
-        //         q:getStringOutOfTagList(tags)
-        //     }
-        // });
-
 		var response = await Youtube.get("/search",{
 			params:{
 				q:selectedText,
@@ -398,10 +374,6 @@ async function runSearchingForYouTube(selectedText:string): Promise<void>{
 						pass_the_result[count]=new description(video.snippet.title,video.snippet.description,video.snippet.channelTitle ,`https://www.youtube.com/embed/${video.id.videoId}`,video.snippet.thumbnails.default.url);
 					    count=count+1;
 					}
-					// questionsMeta.push({
-					// 	title: `${video.snippet.title}: ${video.snippet.description ? '✅' : '🤔'}`,
-					// 	url: `https://www.youtube.com/embed/${video.id.videoId}`
-					// });
 				}
             });
 			panel.webview.html = getWebviewContent(1,pass_the_result);
@@ -410,13 +382,6 @@ async function runSearchingForYouTube(selectedText:string): Promise<void>{
     } catch (error) {
         console.error(error);
     }
-    // const questions = questionsMeta.map(q => q.title);
-    // const selectedTitle = await vscode.window.showQuickPick(questions, { canPickMany: false });
-    // const selectedQuestionMeta = questionsMeta.find(q => q.title === selectedTitle);
-    // const selectedQuestionUrl = selectedQuestionMeta ? selectedQuestionMeta.url : youtubeSearchUrl;
-    // if (selectedQuestionUrl) {
-    //     open(selectedQuestionUrl);
-    // }
 }	
 
 
@@ -512,6 +477,7 @@ function getWebviewContent(x:number,pass_the_result:description[]) {
 			</style>
 				</head>
 			<body>
+			<h1>STACKOVERFLOW</h1>
 				${stck}
 			</body>
 			</html>`;
@@ -541,7 +507,7 @@ function getWebviewContent(x:number,pass_the_result:description[]) {
 		<head>
 		<style>
 		.button {
-			background-color: #4CAF50; /* Green */
+			background-color: purple; /* Green */
 			border: none;
 			color: white;
 			
@@ -582,6 +548,7 @@ function getWebviewContent(x:number,pass_the_result:description[]) {
 		</style>
 			</head>
 		<body>
+		<h1>YOUTUBE</h1>
 			${stck}
 		</body>
 		</html>`;
