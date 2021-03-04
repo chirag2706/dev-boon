@@ -160,7 +160,6 @@ export function deactivate(context: vscode.ExtensionContext) {
 
 
 
-
 //function which parses editor and gives only that text which is currently selected
 function getSelectedTextFromEditor(): string|undefined{
 	let activeEditor = vscode.window.activeTextEditor;
@@ -196,7 +195,6 @@ function getSelectedTextFromEditor(): string|undefined{
 			}
 		}
 	});
-
 
 	
 
@@ -261,26 +259,42 @@ async function runSearchingForStackOverFlowPosts(selectedText:string): Promise<v
     try {
         const searchResponse = await request.get(uriOptions);
         if (searchResponse.items && searchResponse.items.length > 0) {
+			const panel = vscode.window.createWebviewPanel(
+				'extension',
+				'Extension',
+				vscode.ViewColumn.One,
+				{}
+			  );
+            
+            var pass_the_result:description[]=new Array(10);
+			var count:number=0;
 
 
             searchResponse.items.forEach((q: any, i: any) => {
-                questionsMeta.push({
-                    title: `${i}: ${q.is_answered ? '✅' : '🤔'} ${q.score}🔺 ${q.answer_count}❗ ➡️ ${decodeURIComponent(q.title)} 🏷️ ${q.tags.join(',')} 👩‍💻 by ${q.owner.display_name}`,
-                    url: q.link
-                });
+				console.log(q);
+				console.log("\n===========\n");
+
+				if(count<10){
+					pass_the_result[count]=new description(q.title,q.tags.join(','),q.owner.display_name,q.link,"");
+					count=count+1;
+				}
+                // questionsMeta.push({
+                //     title: `${i}: ${q.is_answered ? '✅' : '🤔'} ${q.score}🔺 ${q.answer_count}❗ ➡️ ${decodeURIComponent(q.title)} 🏷️ ${q.tags.join(',')} 👩‍💻 by ${q.owner.display_name}`,
+                //     url: q.link
+                // });
             });
+			panel.webview.html = getWebviewContent(0,pass_the_result);
         }
     } catch (error) {
         console.error(error);
     }
-
-    const questions = questionsMeta.map(q => q.title);
-    const selectedTitle = await vscode.window.showQuickPick(questions, { canPickMany: false });
-    const selectedQuestionMeta = questionsMeta.find(q => q.title === selectedTitle);
-    const selectedQuestionUrl = selectedQuestionMeta ? selectedQuestionMeta.url : stackoverflowSearchUrl;
-    if (selectedQuestionUrl) {
-        open(selectedQuestionUrl);
-    }
+    // const questions = questionsMeta.map(q => q.title);
+    // const selectedTitle = await vscode.window.showQuickPick(questions, { canPickMany: false });
+    // const selectedQuestionMeta = questionsMeta.find(q => q.title === selectedTitle);
+    // const selectedQuestionUrl = selectedQuestionMeta ? selectedQuestionMeta.url : stackoverflowSearchUrl;
+    // if (selectedQuestionUrl) {
+    //     open(selectedQuestionUrl);
+    // }
 
 
 
@@ -327,7 +341,8 @@ async function runSearchingForYouTube(selectedText:string): Promise<void>{
             } else if(groupIndex === 1) { // not a full match
                 tags.push(match);
             }
-        });  
+        }); 
+		 
     }
 
 
@@ -366,31 +381,210 @@ async function runSearchingForYouTube(selectedText:string): Promise<void>{
 		let videoList = response.data.items;
 		console.log(videoList[0]);
 		if (videoList && videoList.length > 0) {
+			const panel = vscode.window.createWebviewPanel(
+				'extension',
+				'Extension',
+				vscode.ViewColumn.One,
+				{}
+			  );
+            
+            var pass_the_result:description[]=new Array(10);
+			var count:number=0;
 
 
             videoList.forEach((video: any) => {
                 if(video.id.videoId!==undefined && video.id.videoId!==null){
-					questionsMeta.push({
-						title: `${video.snippet.title}: ${video.snippet.description ? '✅' : '🤔'}`,
-						url: `https://www.youtube.com/embed/${video.id.videoId}`
-					});
+					if(count<10){
+						pass_the_result[count]=new description(video.snippet.title,video.snippet.description,video.snippet.channelTitle ,`https://www.youtube.com/embed/${video.id.videoId}`,video.snippet.thumbnails.default.url);
+					    count=count+1;
+					}
+					// questionsMeta.push({
+					// 	title: `${video.snippet.title}: ${video.snippet.description ? '✅' : '🤔'}`,
+					// 	url: `https://www.youtube.com/embed/${video.id.videoId}`
+					// });
 				}
             });
+			panel.webview.html = getWebviewContent(1,pass_the_result);
         }
-		
-
-		// console.log(questionsMeta);
-
-
+		console.log(questionsMeta);
     } catch (error) {
         console.error(error);
     }
-
-    const questions = questionsMeta.map(q => q.title);
-    const selectedTitle = await vscode.window.showQuickPick(questions, { canPickMany: false });
-    const selectedQuestionMeta = questionsMeta.find(q => q.title === selectedTitle);
-    const selectedQuestionUrl = selectedQuestionMeta ? selectedQuestionMeta.url : youtubeSearchUrl;
-    if (selectedQuestionUrl) {
-        open(selectedQuestionUrl);
-    }
+    // const questions = questionsMeta.map(q => q.title);
+    // const selectedTitle = await vscode.window.showQuickPick(questions, { canPickMany: false });
+    // const selectedQuestionMeta = questionsMeta.find(q => q.title === selectedTitle);
+    // const selectedQuestionUrl = selectedQuestionMeta ? selectedQuestionMeta.url : youtubeSearchUrl;
+    // if (selectedQuestionUrl) {
+    //     open(selectedQuestionUrl);
+    // }
 }	
+
+
+class description{
+	Title:string;
+	Description:string;
+	Owner:string;
+	ThumbnailURL:string;
+	Url:string;
+	constructor(Title:string="",Description:string="",Owner:string="",Url:string="",ThumbnailUrl:string=""){
+		this.Title=Title;
+		this.Description=Description;
+		this.Url=Url;
+		this.Owner=Owner;
+		this.ThumbnailURL=ThumbnailUrl;
+	}
+}
+function getWebviewContent(x:number,pass_the_result:description[]) {
+	var stck:string;
+	stck='';
+	var num:number=0;
+	var a:string;
+	var b:string;
+	var c:string;
+	var d:string;
+	var e:string;
+	if(x==0){
+		for(num=0;num<10;num++){
+			a=pass_the_result[num].ThumbnailURL;
+			b=pass_the_result[num].Title;
+			c=pass_the_result[num].Description;
+			d=pass_the_result[num].Owner;
+			e=pass_the_result[num].Url;
+
+			stck+=`<div class="card" style="width:20%;border: 0.1px solid white;margin-bottom:5px;padding:5px 5px 5px 5px;" >
+					
+					<div class="continer">
+					<h3><b>${b}</b></h3>
+					<p>${c}</p>
+					<p>By ${d}</p>
+					</ul>
+					<a href="${e}" class="card-link button center">Click Here To Open</a>
+					
+					</div>
+					</div>`
+
+		stck+='</td></tr>'
+		}
+		return `<!DOCTYPE html>
+			<html>
+			<head>
+			<style>
+			.button {
+				background-color: #4CAF50; /* Green */
+				border: none;
+				color: white;
+				
+				text-align: center;
+				text-decoration: none;
+				display: inline-block;
+				
+				transition-duration: 0.4s;
+				cursor: pointer;
+				background-color: white;
+				color: black;
+				border: 2px solid #e7e7e7;
+				text-align: center;
+			  	border-radius:20px;
+			}
+			.button:hover {background-color: #e7e7e7;transform: translateY(4px);}
+			.center {
+				display: block;
+				margin-left: auto;
+				margin-right: auto;
+				width: 50%;
+			}
+			.card {
+				/* Add shadows to create the "card" effect */
+				box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+				transition: 0.3s;
+			}
+			
+			/* On mouse-over, add a deeper shadow */
+			.card:hover {
+				box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+				z-index:100000 !important;
+			}
+			
+			/* Add some padding inside the card container */
+			.container {
+				padding: 2px 16px;
+			}
+			</style>
+				</head>
+			<body>
+				${stck}
+			</body>
+			</html>`;
+	}
+	if(x==1){
+		for(num=0;num<5;num++){
+			a=pass_the_result[num].ThumbnailURL;
+			b=pass_the_result[num].Title;
+			c=pass_the_result[num].Description;
+			d=pass_the_result[num].Owner;
+			e=pass_the_result[num].Url;
+			stck+=`<div class="card" style="width:20%;border: 0.1px solid white;margin-bottom:5px%;padding:5px 5px 5px 5px;" >
+					<img  src="${a}" alt="YOUTUBE" class="center">
+					<div class="continer">
+					<h3><b>${b}</b></h3>
+					<p>${c}</p>
+					<p>By ${d}</p>
+					</ul>
+					<a href="${e}" class="card-link button center">Click Here To Open</a>
+					
+					</div>
+					
+					</div>`
+		}
+		return `<!DOCTYPE html>
+		<html>
+		<head>
+		<style>
+		.button {
+			background-color: #4CAF50; /* Green */
+			border: none;
+			color: white;
+			
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			
+			transition-duration: 0.4s;
+			cursor: pointer;
+			background-color: white;
+  			color: black;
+  			border: 2px solid #e7e7e7;
+			  text-align: center;
+			  border-radius:20px;
+		  }
+		.button:hover {background-color: #e7e7e7;transform: translateY(4px);}
+		.center {
+			display: block;
+			margin-left: auto;
+			margin-right: auto;
+			width: 50%;
+		  }
+		.card {
+			/* Add shadows to create the "card" effect */
+			box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+			transition: 0.3s;
+		  }
+		  /* On mouse-over, add a deeper shadow */
+		  .card:hover {
+			box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+			z-index:100000 !important;
+		  }
+		  
+		  /* Add some padding inside the card container */
+		  .container {
+			padding: 2px 16px;
+		  }
+		</style>
+			</head>
+		<body>
+			${stck}
+		</body>
+		</html>`;
+	}
+	return 'OOPS....';
+  }
