@@ -295,8 +295,8 @@ function getStringOutOfTagList(tags:string[]): string{
 		result+=" ";
 	});
 
-	result = result.trim();
-	console.log(`Resultant string is: ${result}`);
+	// result = result.trim();
+	vscode.window.showInformationMessage(`Resultant string is: ${result}`);
 	return result;
 
 }
@@ -332,6 +332,9 @@ async function runSearchingForYouTube(selectedText:string): Promise<void>{
 
 
     const encodedWebSearchTerm = encodeURIComponent(selectedText);
+
+	vscode.window.showInformationMessage(`encodedWebSearchTerm is ${encodedWebSearchTerm}`);
+
     const youtubeSearchUrl = `https://www.youtube.com/results?search_query=${encodedWebSearchTerm}`;
     const googleSearchUrl = `https://www.google.com/search?q=${encodedWebSearchTerm}`;
    
@@ -353,20 +356,27 @@ async function runSearchingForYouTube(selectedText:string): Promise<void>{
         //     }
         // });
 
-		// let videoList = response.data.items;
-		// console.log(videoList[0]);
-		// if (videoList && videoList.length > 0) {
+		var response = await Youtube.get("/search",{
+			params:{
+				q:selectedText,
+				part:"snippet"
+			}
+		})
+
+		let videoList = response.data.items;
+		console.log(videoList[0]);
+		if (videoList && videoList.length > 0) {
 
 
-        //     videoList.forEach((video: any) => {
-        //         if(video.id.videoId!==undefined || video.id.videoId!==null){
-		// 			questionsMeta.push({
-		// 				title: `${video.snippet.title}: ${video.snippet.description ? '✅' : '🤔'}`,
-		// 				url: `https://www.youtube.com/embed/${video.id.videoId}`
-		// 			});
-		// 		}
-        //     });
-        // }
+            videoList.forEach((video: any) => {
+                if(video.id.videoId!==undefined && video.id.videoId!==null){
+					questionsMeta.push({
+						title: `${video.snippet.title}: ${video.snippet.description ? '✅' : '🤔'}`,
+						url: `https://www.youtube.com/embed/${video.id.videoId}`
+					});
+				}
+            });
+        }
 		
 
 		// console.log(questionsMeta);

@@ -45,6 +45,27 @@
 				"category": "dev-boon",
 				"title": "youTube Search using prompt"
 			}
+		],"keybindings":[
+			{
+				"command": "dev-boon.STACKOVERFLOW_SEARCH_WITH_SELECTED_TEXT",
+				"key": "ctrl+h"
+			},
+			{
+				"command": "dev-boon.STACKOVERFLOW_SEARCH_WITH_SELECTED_TEXT_USING_PROMPT",
+				"key": "ctrl+a"
+			},
+			{
+				"command": "dev-boon.YOUTUBE_SEARCH_WITH_SELECTED_TEXT",
+				"key": "ctrl+g"
+			},
+			{
+				"command": "dev-boon.YOUTUBE_SEARCH_WITH_SELECTED_TEXT_USING_PROMPT",
+				"key": "ctrl+f"
+			},
+			{
+				"command": "dev-boon.DEACTIVATE_EXTENSION",
+				"key": "ctrl+d"
+			}
 		]
 	},
 	"scripts": {
