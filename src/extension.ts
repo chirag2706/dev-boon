@@ -272,7 +272,7 @@ async function runSearchingForStackOverFlowPosts(selectedText:string): Promise<v
 
             searchResponse.items.forEach((q: any, i: any) => {
 				if(count<10){
-					pass_the_result[count]=new description(`${i}: ${q.is_answered ? '✅' : '🤔'} ${q.score}🔺 ${q.answer_count}❗ ➡️ ${decodeURIComponent(q.title)} 🏷️ ${q.tags.join(',')} 👩‍💻 by ${q.owner.display_name}`,q.link);
+					pass_the_result[count]=new description(q.title,q.tags.join(','),"",q.link,"");
 					count=count+1;
 				}
                 // questionsMeta.push({
@@ -285,7 +285,6 @@ async function runSearchingForStackOverFlowPosts(selectedText:string): Promise<v
     } catch (error) {
         console.error(error);
     }
-
     // const questions = questionsMeta.map(q => q.title);
     // const selectedTitle = await vscode.window.showQuickPick(questions, { canPickMany: false });
     // const selectedQuestionMeta = questionsMeta.find(q => q.title === selectedTitle);
@@ -393,7 +392,7 @@ async function runSearchingForYouTube(selectedText:string): Promise<void>{
             videoList.forEach((video: any) => {
                 if(video.id.videoId!==undefined && video.id.videoId!==null){
 					if(count<10){
-						pass_the_result[count]=new description(`${video.snippet.title}: ${video.snippet.description ? '✅' : '🤔'}`,`https://www.youtube.com/embed/${video.id.videoId}`);
+						pass_the_result[count]=new description(video.snippet.title,video.snippet.description,video.snippet.channelTitle ,`https://www.youtube.com/embed/${video.id.videoId}`,video.snippet.thumbnails.default.url);
 					    count=count+1;
 					}
 					// questionsMeta.push({
@@ -404,9 +403,7 @@ async function runSearchingForYouTube(selectedText:string): Promise<void>{
             });
 			panel.webview.html = getWebviewContent(1,pass_the_result);
         }
-		
-
-		// console.log(questionsMeta);
+		console.log(questionsMeta);
     } catch (error) {
         console.error(error);
     }
@@ -422,91 +419,86 @@ async function runSearchingForYouTube(selectedText:string): Promise<void>{
 
 class description{
 	Title:string;
+	Description:string;
+	Owner:string;
+	ThumbnailURL:string;
 	Url:string;
-	constructor(Title:string,Url:string){
+	constructor(Title:string="",Description:string="",Owner:string="",Url:string="",ThumbnailUrl:string=""){
 		this.Title=Title;
+		this.Description=Description;
 		this.Url=Url;
+		this.Owner=Owner;
+		this.ThumbnailURL=ThumbnailUrl;
 	}
 }
 function getWebviewContent(x:number,pass_the_result:description[]) {
 	var stck:string;
 	stck='';
-	var num:number=0
-	for(num=0;num<10;num++){
-		stck+='<tr><td>'
-
-		stck+=pass_the_result[num].Title
-		stck+='</td><td><a href=\"'
-		stck+=pass_the_result[num].Url
-		stck+="\">Click</a>"
-
-		stck+='</td></tr>'
-	}
-
+	var num:number=0;
+	var a:string;
+	var b:string;
+	var c:string;
+	var d:string;
+	var e:string;
 	if(x==0){
+		for(num=0;num<10;num++){
+			a=pass_the_result[num].ThumbnailURL;
+			b=pass_the_result[num].Title;
+			c=pass_the_result[num].Description;
+			d=pass_the_result[num].Owner;
+			e=pass_the_result[num].Url;
+			stck+=`<div class="card" style="width: 18rem;">
+					<img class="card-img-top" src="${a}" alt="Card image cap">
+					<div class="card-body">
+					<h5 class="card-title">${b}</h5>
+					<p class="card-text">${c}</p>
+					</div>
+					<ul class="list-group list-group-flush">
+					<li class="list-group-item">By ${d}</li>
+					</ul>
+					<div class="card-body">
+					<a href="${e}" class="card-link">Link</a>
+					</div>
+					</div>`
+		}
 		return `<!DOCTYPE html>
-					<html>
-					<head>
-						<style>
-						table {
-						font-family: arial, sans-serif;
-						border-collapse: collapse;
-						width: 100%;
-						}
-						
-						td, th {
-						border: 1px solid #dddddd;
-						text-align: left;
-						padding: 8px;
-						}
-						
-						tr:nth-child(even) {
-						}
-						</style>
-						</head>
-					<body>
-						<h2>STACKOVERFLOW</h2>
-							<table>
-							<tr>
-								<th>Description</th>
-								<th>Link</th>
-							</tr>
-							${stck}
-			  				</table>
-					</body>
-					</html>`;
+				<html>
+				<head>
+					</head>
+				<body>
+					${stck}
+				</body>
+				</html>`;
 	}
 	if(x==1){
+		for(num=0;num<5;num++){
+			a=pass_the_result[num].ThumbnailURL;
+			b=pass_the_result[num].Title;
+			c=pass_the_result[num].Description;
+			d=pass_the_result[num].Owner;
+			e=pass_the_result[num].Url;
+			console.log(num);
+			console.log("\n===============================================\n");
+			stck+=`<div class="card" style="width: 18rem;">
+					<img class="card-img-top" src="${a}" alt="Card image cap">
+					<div class="card-body">
+					<h5 class="card-title">${b}</h5>
+					<p class="card-text">${c}</p>
+					</div>
+					<ul class="list-group list-group-flush">
+					<li class="list-group-item">By ${d}</li>
+					</ul>
+					<div class="card-body">
+					<a href="${e}" class="card-link">Link</a>
+					</div>
+					</div>`
+		}
 		return `<!DOCTYPE html>
 		<html>
 		<head>
-			<style>
-			table {
-			font-family: arial, sans-serif;
-			border-collapse: collapse;
-			width: 100%;
-			}
-			
-			td, th {
-			border: 1px solid #dddddd;
-			text-align: left;
-			padding: 8px;
-			}
-			
-			tr:nth-child(even) {
-			background-color: #dddddd;
-			}
-			</style>
 			</head>
 		<body>
-			<h2>YOUTUBE</h2>
-				<table>
-				<tr>
-					<th>Description</th>
-					<th>Link</th>
-				</tr>
-				${stck}
-				  </table>
+			${stck}
 		</body>
 		</html>`;
 	}
