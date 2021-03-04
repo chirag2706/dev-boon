@@ -45,7 +45,8 @@
 				"category": "dev-boon",
 				"title": "youTube Search using prompt"
 			}
-		],"keybindings":[
+		],
+		"keybindings": [
 			{
 				"command": "dev-boon.STACKOVERFLOW_SEARCH_WITH_SELECTED_TEXT",
 				"key": "ctrl+h"
@@ -92,6 +93,7 @@
 	},
 	"dependencies": {
 		"axios": "^0.21.1",
+		"bootstrap": "^5.0.0-beta2",
 		"open": "^8.0.1",
 		"request": "^2.88.2",
 		"request-promise-native": "^1.0.9"

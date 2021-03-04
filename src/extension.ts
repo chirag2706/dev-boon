@@ -160,7 +160,6 @@ export function deactivate(context: vscode.ExtensionContext) {
 
 
 
-
 //function which parses editor and gives only that text which is currently selected
 function getSelectedTextFromEditor(): string|undefined{
 	let activeEditor = vscode.window.activeTextEditor;
@@ -196,7 +195,6 @@ function getSelectedTextFromEditor(): string|undefined{
 			}
 		}
 	});
-
 
 	
 
@@ -261,26 +259,40 @@ async function runSearchingForStackOverFlowPosts(selectedText:string): Promise<v
     try {
         const searchResponse = await request.get(uriOptions);
         if (searchResponse.items && searchResponse.items.length > 0) {
+			const panel = vscode.window.createWebviewPanel(
+				'extension',
+				'Extension',
+				vscode.ViewColumn.One,
+				{}
+			  );
+            
+            var pass_the_result:description[]=new Array(10);
+			var count:number=0;
 
 
             searchResponse.items.forEach((q: any, i: any) => {
-                questionsMeta.push({
-                    title: `${i}: ${q.is_answered ? '✅' : '🤔'} ${q.score}🔺 ${q.answer_count}❗ ➡️ ${decodeURIComponent(q.title)} 🏷️ ${q.tags.join(',')} 👩‍💻 by ${q.owner.display_name}`,
-                    url: q.link
-                });
+				if(count<10){
+					pass_the_result[count]=new description(`${i}: ${q.is_answered ? '✅' : '🤔'} ${q.score}🔺 ${q.answer_count}❗ ➡️ ${decodeURIComponent(q.title)} 🏷️ ${q.tags.join(',')} 👩‍💻 by ${q.owner.display_name}`,q.link);
+					count=count+1;
+				}
+                // questionsMeta.push({
+                //     title: `${i}: ${q.is_answered ? '✅' : '🤔'} ${q.score}🔺 ${q.answer_count}❗ ➡️ ${decodeURIComponent(q.title)} 🏷️ ${q.tags.join(',')} 👩‍💻 by ${q.owner.display_name}`,
+                //     url: q.link
+                // });
             });
+			panel.webview.html = getWebviewContent(0,pass_the_result);
         }
     } catch (error) {
         console.error(error);
     }
 
-    const questions = questionsMeta.map(q => q.title);
-    const selectedTitle = await vscode.window.showQuickPick(questions, { canPickMany: false });
-    const selectedQuestionMeta = questionsMeta.find(q => q.title === selectedTitle);
-    const selectedQuestionUrl = selectedQuestionMeta ? selectedQuestionMeta.url : stackoverflowSearchUrl;
-    if (selectedQuestionUrl) {
-        open(selectedQuestionUrl);
-    }
+    // const questions = questionsMeta.map(q => q.title);
+    // const selectedTitle = await vscode.window.showQuickPick(questions, { canPickMany: false });
+    // const selectedQuestionMeta = questionsMeta.find(q => q.title === selectedTitle);
+    // const selectedQuestionUrl = selectedQuestionMeta ? selectedQuestionMeta.url : stackoverflowSearchUrl;
+    // if (selectedQuestionUrl) {
+    //     open(selectedQuestionUrl);
+    // }
 
 
 
@@ -327,7 +339,8 @@ async function runSearchingForYouTube(selectedText:string): Promise<void>{
             } else if(groupIndex === 1) { // not a full match
                 tags.push(match);
             }
-        });  
+        }); 
+		 
     }
 
 
@@ -366,32 +379,136 @@ async function runSearchingForYouTube(selectedText:string): Promise<void>{
 		let videoList = response.data.items;
 		console.log(videoList[0]);
 		if (videoList && videoList.length > 0) {
+			const panel = vscode.window.createWebviewPanel(
+				'extension',
+				'Extension',
+				vscode.ViewColumn.One,
+				{}
+			  );
+            
+            var pass_the_result:description[]=new Array(10);
+			var count:number=0;
 
 
             videoList.forEach((video: any) => {
                 if(video.id.videoId!==undefined && video.id.videoId!==null){
-					questionsMeta.push({
-						title: `${video.snippet.title}: ${video.snippet.description ? '✅' : '🤔'}`,
-						url: `https://www.youtube.com/embed/${video.id.videoId}`
-					});
+					if(count<10){
+						pass_the_result[count]=new description(`${video.snippet.title}: ${video.snippet.description ? '✅' : '🤔'}`,`https://www.youtube.com/embed/${video.id.videoId}`);
+					    count=count+1;
+					}
+					// questionsMeta.push({
+					// 	title: `${video.snippet.title}: ${video.snippet.description ? '✅' : '🤔'}`,
+					// 	url: `https://www.youtube.com/embed/${video.id.videoId}`
+					// });
 				}
             });
+			panel.webview.html = getWebviewContent(1,pass_the_result);
         }
 		
 
 		// console.log(questionsMeta);
-
-
     } catch (error) {
         console.error(error);
     }
-
-    const questions = questionsMeta.map(q => q.title);
-    const selectedTitle = await vscode.window.showQuickPick(questions, { canPickMany: false });
-    const selectedQuestionMeta = questionsMeta.find(q => q.title === selectedTitle);
-    const selectedQuestionUrl = selectedQuestionMeta ? selectedQuestionMeta.url : youtubeSearchUrl;
-    if (selectedQuestionUrl) {
-        open(selectedQuestionUrl);
-    }
+    // const questions = questionsMeta.map(q => q.title);
+    // const selectedTitle = await vscode.window.showQuickPick(questions, { canPickMany: false });
+    // const selectedQuestionMeta = questionsMeta.find(q => q.title === selectedTitle);
+    // const selectedQuestionUrl = selectedQuestionMeta ? selectedQuestionMeta.url : youtubeSearchUrl;
+    // if (selectedQuestionUrl) {
+    //     open(selectedQuestionUrl);
+    // }
 }	
 
+
+class description{
+	Title:string;
+	Url:string;
+	constructor(Title:string,Url:string){
+		this.Title=Title;
+		this.Url=Url;
+	}
+}
+function getWebviewContent(x:number,pass_the_result:description[]) {
+	var stck:string;
+	stck='';
+	var num:number=0
+	for(num=0;num<10;num++){
+		stck+='<tr><td>'
+
+		stck+=pass_the_result[num].Title
+		stck+='</td><td><a href=\"'
+		stck+=pass_the_result[num].Url
+		stck+="\">Click</a>"
+
+		stck+='</td></tr>'
+	}
+
+	if(x==0){
+		return `<!DOCTYPE html>
+					<html>
+					<head>
+						<style>
+						table {
+						font-family: arial, sans-serif;
+						border-collapse: collapse;
+						width: 100%;
+						}
+						
+						td, th {
+						border: 1px solid #dddddd;
+						text-align: left;
+						padding: 8px;
+						}
+						
+						tr:nth-child(even) {
+						}
+						</style>
+						</head>
+					<body>
+						<h2>STACKOVERFLOW</h2>
+							<table>
+							<tr>
+								<th>Description</th>
+								<th>Link</th>
+							</tr>
+							${stck}
+			  				</table>
+					</body>
+					</html>`;
+	}
+	if(x==1){
+		return `<!DOCTYPE html>
+		<html>
+		<head>
+			<style>
+			table {
+			font-family: arial, sans-serif;
+			border-collapse: collapse;
+			width: 100%;
+			}
+			
+			td, th {
+			border: 1px solid #dddddd;
+			text-align: left;
+			padding: 8px;
+			}
+			
+			tr:nth-child(even) {
+			background-color: #dddddd;
+			}
+			</style>
+			</head>
+		<body>
+			<h2>YOUTUBE</h2>
+				<table>
+				<tr>
+					<th>Description</th>
+					<th>Link</th>
+				</tr>
+				${stck}
+				  </table>
+		</body>
+		</html>`;
+	}
+	return 'OOPS....';
+  }
