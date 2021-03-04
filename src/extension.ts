@@ -271,8 +271,11 @@ async function runSearchingForStackOverFlowPosts(selectedText:string): Promise<v
 
 
             searchResponse.items.forEach((q: any, i: any) => {
+				console.log(q);
+				console.log("\n===========\n");
+
 				if(count<10){
-					pass_the_result[count]=new description(q.title,q.tags.join(','),"",q.link,"");
+					pass_the_result[count]=new description(q.title,q.tags.join(','),q.owner.display_name,q.link,"");
 					count=count+1;
 				}
                 // questionsMeta.push({
@@ -447,28 +450,69 @@ function getWebviewContent(x:number,pass_the_result:description[]) {
 			c=pass_the_result[num].Description;
 			d=pass_the_result[num].Owner;
 			e=pass_the_result[num].Url;
-			stck+=`<div class="card" style="width: 18rem;">
-					<img class="card-img-top" src="${a}" alt="Card image cap">
-					<div class="card-body">
-					<h5 class="card-title">${b}</h5>
-					<p class="card-text">${c}</p>
-					</div>
-					<ul class="list-group list-group-flush">
-					<li class="list-group-item">By ${d}</li>
+
+			stck+=`<div class="card" style="width:20%" >
+					
+					<div class="continer">
+					<h3><b>${b}</b></h3>
+					<p>${c}</p>
+					<p>By ${d}</p>
 					</ul>
-					<div class="card-body">
-					<a href="${e}" class="card-link">Link</a>
+					<a href="${e}" class="card-link button center">Click Here To Open</a>
+					
 					</div>
+					<hr style="color:white;">
 					</div>`
+
+		stck+='</td></tr>'
 		}
 		return `<!DOCTYPE html>
-				<html>
-				<head>
-					</head>
-				<body>
-					${stck}
-				</body>
-				</html>`;
+			<html>
+			<head>
+			<style>
+			.button {
+				background-color: #4CAF50; /* Green */
+				border: none;
+				color: white;
+				
+				text-align: center;
+				text-decoration: none;
+				display: inline-block;
+				
+				transition-duration: 0.4s;
+				cursor: pointer;
+				background-color: white;
+				color: black;
+				border: 2px solid #e7e7e7;
+			}
+			.button:hover {background-color: #e7e7e7;}
+			.center {
+				display: block;
+				margin-left: auto;
+				margin-right: auto;
+				width: 50%;
+			}
+			.card {
+				/* Add shadows to create the "card" effect */
+				box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+				transition: 0.3s;
+			}
+			
+			/* On mouse-over, add a deeper shadow */
+			.card:hover {
+				box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+			}
+			
+			/* Add some padding inside the card container */
+			.container {
+				padding: 2px 16px;
+			}
+			</style>
+				</head>
+			<body>
+				${stck}
+			</body>
+			</html>`;
 	}
 	if(x==1){
 		for(num=0;num<5;num++){
@@ -477,25 +521,60 @@ function getWebviewContent(x:number,pass_the_result:description[]) {
 			c=pass_the_result[num].Description;
 			d=pass_the_result[num].Owner;
 			e=pass_the_result[num].Url;
-			console.log(num);
-			console.log("\n===============================================\n");
-			stck+=`<div class="card" style="width: 18rem;">
-					<img class="card-img-top" src="${a}" alt="Card image cap">
-					<div class="card-body">
-					<h5 class="card-title">${b}</h5>
-					<p class="card-text">${c}</p>
-					</div>
-					<ul class="list-group list-group-flush">
-					<li class="list-group-item">By ${d}</li>
+			stck+=`<div class="card" style="width:20%" >
+					<img  src="${a}" alt="YOUTUBE" class="center">
+					<div class="continer">
+					<h3><b>${b}</b></h3>
+					<p>${c}</p>
+					<p>By ${d}</p>
 					</ul>
-					<div class="card-body">
-					<a href="${e}" class="card-link">Link</a>
+					<a href="${e}" class="card-link button center">Click Here To Open</a>
+					
 					</div>
+					<hr style="color:white;">
 					</div>`
 		}
 		return `<!DOCTYPE html>
 		<html>
 		<head>
+		<style>
+		.button {
+			background-color: #4CAF50; /* Green */
+			border: none;
+			color: white;
+			
+			text-align: center;
+			text-decoration: none;
+			display: inline-block;
+			
+			transition-duration: 0.4s;
+			cursor: pointer;
+			background-color: white;
+  			color: black;
+  			border: 2px solid #e7e7e7;
+		  }
+		.button:hover {background-color: #e7e7e7;}
+		.center {
+			display: block;
+			margin-left: auto;
+			margin-right: auto;
+			width: 50%;
+		  }
+		.card {
+			/* Add shadows to create the "card" effect */
+			box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
+			transition: 0.3s;
+		  }
+		  /* On mouse-over, add a deeper shadow */
+		  .card:hover {
+			box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+		  }
+		  
+		  /* Add some padding inside the card container */
+		  .container {
+			padding: 2px 16px;
+		  }
+		</style>
 			</head>
 		<body>
 			${stck}
