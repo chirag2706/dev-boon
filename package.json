@@ -41,7 +41,6 @@
 			]
 		},
 		"commands": [
-			
 			{
 				"command": "dev-boon.STACKOVERFLOW_SEARCH_WITH_SELECTED_TEXT",
 				"category": "dev-boon",
