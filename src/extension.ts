@@ -3,6 +3,11 @@
 import * as request from "request-promise-native";
 import * as vscode from 'vscode';
 import Youtube from './youtube';
+import {SidebarProvider} from './sidebarProvider';
+import {description} from "./description";
+
+var sidebarProvider:any = undefined ;
+
 let open = require('open'); //this module is used to open browser such as google chrome
 
 
@@ -13,27 +18,61 @@ const regex = /\[(.+?)\]/gm;
 
 
 async function check(context: vscode.ExtensionContext):Promise<string | undefined>{
-	while(context.subscriptions.length>0){
-		context.subscriptions.pop();
-	}
-	let answer = await vscode.window.showInformationMessage(`Extension dev-boon has not been activated 😣\nDo you want to activate it?`,"YES","NO");
-
-	if(answer !== undefined && await answer === "YES"){
-		isExtensionActivated = 1;
-		await vscode.window.showInformationMessage(`Your extension has been activated successfully ${catSmiley} with ${isExtensionActivated} `);
+	try{
+		while(context.subscriptions.length>0){
+			context.subscriptions.pop();
+		}
 		
-		activate(context);
-	}else if(answer === "NO"){
-		await vscode.window.showErrorMessage("Sorry to hear that 😣");
-	}else{
-		await vscode.window.showWarningMessage("Something went wrong 😣");
+		let answer = await vscode.window.showInformationMessage(`Extension dev-boon has not been activated 😣\nDo you want to activate it?`,"YES","NO");
+		vscode.window.showInformationMessage(`answer is ${answer}`);
+		if(answer !== undefined && answer === "YES"){
+			isExtensionActivated = 1;
+			vscode.commands.executeCommand("workbench.view.extension.dev-boon-sidebar-view");
+			vscode.window.showInformationMessage(`Your extension has been activated successfully ${catSmiley} with ${isExtensionActivated} `);
+			
+			await activate(context);
+		}else if(answer === "NO"){
+			vscode.window.showErrorMessage("Sorry to hear that 😣");
+		}else{
+			vscode.window.showWarningMessage("Bug found,Something went wrong 😣");
+		}
+		return "";
+	}catch(error){
+		vscode.window.showErrorMessage(`Error is ${error.message}`);
+		return "";
 	}
-	return "";
 }
 
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export async function activate(context: vscode.ExtensionContext) {
+
+		
+		// vscode.window.showErrorMessage(`sidebarProvider is ${sidebarProvider}`);
+		if(sidebarProvider===undefined){
+			// vscode.window.showErrorMessage(`bug is their`);
+			sidebarProvider = new SidebarProvider(context.extensionUri);
+
+			let sideBar = vscode.window.registerWebviewViewProvider(
+				"dev-boon-sidebar",
+				sidebarProvider
+			);
+
+			context.subscriptions.push(sideBar);
+
+		}
+		// let helloworld = vscode.commands.registerCommand('dev-boon.helloworld',()=>{
+		// 	HelloWorldPanel.createOrShow(context.extensionUri);
+		// });
+
+		// context.subscriptions.push(helloworld);
+
+		// let refreshWebviews = vscode.commands.registerCommand("dev-boon.refreshWebviews",()=>{
+		// 	HelloWorldPanel.kill();
+		// 	HelloWorldPanel.createOrShow(context.extensionUri);
+		// });
+
+		// context.subscriptions.push(refreshWebviews);
 
 
 		let deactivateCommand = vscode.commands.registerCommand("dev-boon.DEACTIVATE_EXTENSION",()=>{
@@ -65,10 +104,10 @@ export async function activate(context: vscode.ExtensionContext) {
 						await runSearchingForStackOverFlowPosts(searchTerm!);
 					}
 				}else{
-					check(context);
+					await check(context);
 				}
 			}catch(err){
-				await vscode.window.showErrorMessage("Something went wrong while searching for Stackoverflow posts 😣");
+				vscode.window.showErrorMessage("Something went wrong while searching for Stackoverflow posts 😣");
 			}
 		});
 
@@ -89,10 +128,10 @@ export async function activate(context: vscode.ExtensionContext) {
 					}
 	
 				} catch (err) {
-					await vscode.window.showErrorMessage("Some Error occured while searching stackOverFlow posts 😣.Please try again");
+					vscode.window.showErrorMessage("Some Error occured while searching stackOverFlow posts 😣.Please try again");
 				}
 			}else{
-				check(context);
+				await check(context);
 			}
 
 		});
@@ -115,10 +154,10 @@ export async function activate(context: vscode.ExtensionContext) {
 						await runSearchingForYouTube(searchTerm!);
 					}
 				}else{
-					check(context);
+					await check(context);
 				}
 			}catch(err){
-				await vscode.window.showErrorMessage("Something went wrong while searching for Youtube videos 😣");
+				vscode.window.showErrorMessage("Something went wrong while searching for Youtube videos 😣");
 			}
 		});
 
@@ -136,10 +175,10 @@ export async function activate(context: vscode.ExtensionContext) {
 					}
 	
 				} catch (err) {
-					await vscode.window.showErrorMessage("Some Error occured while searching youTube videos 😣.Please try again");
+					vscode.window.showErrorMessage("Some Error occured while searching youTube videos 😣.Please try again");
 				}
 			}else{
-				check(context);
+				await check(context);
 			}
 
 		});
@@ -257,17 +296,21 @@ async function runSearchingForStackOverFlowPosts(selectedText:string): Promise<v
         { title: `🔎 Search Google: ${selectedText}`, url: googleSearchUrl },
     ];
     try {
+		vscode.window.showInformationMessage(`request started for stack api`);
         const searchResponse = await request.get(uriOptions);
+		vscode.window.showInformationMessage(`stack api has responded with ${searchResponse}`);
         if (searchResponse.items && searchResponse.items.length > 0) {
-			const panel = vscode.window.createWebviewPanel(
-				'extension',
-				'Extension',
-				vscode.ViewColumn.One,
-				{}
-			  );
+			// const panel = vscode.window.createWebviewPanel(
+			// 	'extension',
+			// 	'Extension',
+			// 	vscode.ViewColumn.One,
+			// 	{}
+			//   );
             
             var pass_the_result:description[]=new Array(10);
 			var count:number=0;
+
+			
 
 
             searchResponse.items.forEach((q: any, i: any) => {
@@ -279,10 +322,19 @@ async function runSearchingForStackOverFlowPosts(selectedText:string): Promise<v
 					count=count+1;
 				}
             });
-			panel.webview.html = getWebviewContent(0,pass_the_result);
+
+			if(sidebarProvider === undefined || sidebarProvider === null){
+				vscode.window.showErrorMessage(`sidebarProvider is ${sidebarProvider} inside stack search`);
+			}
+
+			if(sidebarProvider!==null && sidebarProvider!==undefined){
+				sidebarProvider.customResolveWebviewView(0,pass_the_result);
+			}
+
+			// sidebarProvider._view.webview.html = getWebviewContent(0,pass_the_result);
         }
     } catch (error) {
-        console.error(error);
+        vscode.window.showErrorMessage(`Error is: ${error.message}`);
     }
 }	
 
@@ -346,23 +398,24 @@ async function runSearchingForYouTube(selectedText:string): Promise<void>{
         { title: `🔎 Search Google: ${selectedText}`, url: googleSearchUrl },
     ];
     try {
-
+		vscode.window.showInformationMessage(`request started for youtube api`);
 		var response = await Youtube.get("/search",{
 			params:{
 				q:selectedText,
 				part:"snippet"
 			}
-		})
+		});
+		vscode.window.showInformationMessage(`request has been completed`);
 
 		let videoList = response.data.items;
 		console.log(videoList[0]);
 		if (videoList && videoList.length > 0) {
-			const panel = vscode.window.createWebviewPanel(
-				'extension',
-				'Extension',
-				vscode.ViewColumn.One,
-				{}
-			  );
+			// const panel = vscode.window.createWebviewPanel(
+			// 	'extension',
+			// 	'Extension',
+			// 	vscode.ViewColumn.One,
+			// 	{}
+			//   );
             
             var pass_the_result:description[]=new Array(10);
 			var count:number=0;
@@ -376,182 +429,20 @@ async function runSearchingForYouTube(selectedText:string): Promise<void>{
 					}
 				}
             });
-			panel.webview.html = getWebviewContent(1,pass_the_result);
+
+			if(sidebarProvider === undefined || sidebarProvider === null){
+				vscode.window.showErrorMessage(`sidebarProvider is ${sidebarProvider} inside youtube search`);
+			}
+
+			if(sidebarProvider!==null && sidebarProvider!==undefined){
+				sidebarProvider.customResolveWebviewView(1,pass_the_result);
+			}
+			// panel.webview.html = getWebviewContent(1,pass_the_result);
         }
 		console.log(questionsMeta);
     } catch (error) {
-        console.error(error);
+        vscode.window.showErrorMessage(`Error is: ${error.message}`);
     }
 }	
 
 
-class description{
-	Title:string;
-	Description:string;
-	Owner:string;
-	ThumbnailURL:string;
-	Url:string;
-	constructor(Title:string="",Description:string="",Owner:string="",Url:string="",ThumbnailUrl:string=""){
-		this.Title=Title;
-		this.Description=Description;
-		this.Url=Url;
-		this.Owner=Owner;
-		this.ThumbnailURL=ThumbnailUrl;
-	}
-}
-function getWebviewContent(x:number,pass_the_result:description[]) {
-	var stck:string;
-	stck='';
-	var num:number=0;
-	var a:string;
-	var b:string;
-	var c:string;
-	var d:string;
-	var e:string;
-	if(x==0){
-		for(num=0;num<10;num++){
-			a=pass_the_result[num].ThumbnailURL;
-			b=pass_the_result[num].Title;
-			c=pass_the_result[num].Description;
-			d=pass_the_result[num].Owner;
-			e=pass_the_result[num].Url;
-
-			stck+=`<div class="card" style="width:20%;border: 0.1px solid white;margin-bottom:5px;padding:5px 5px 5px 5px;" >
-					
-					<div class="continer">
-					<h3><b>${b}</b></h3>
-					<p>${c}</p>
-					<p>By ${d}</p>
-					</ul>
-					<a href="${e}" class="card-link button center">Click Here To Open</a>
-					
-					</div>
-					</div>`
-
-		stck+='</td></tr>'
-		}
-		return `<!DOCTYPE html>
-			<html>
-			<head>
-			<style>
-			.button {
-				background-color: #4CAF50; /* Green */
-				border: none;
-				color: white;
-				
-				text-align: center;
-				text-decoration: none;
-				display: inline-block;
-				
-				transition-duration: 0.4s;
-				cursor: pointer;
-				background-color: white;
-				color: black;
-				border: 2px solid #e7e7e7;
-				text-align: center;
-			  	border-radius:20px;
-			}
-			.button:hover {background-color: #e7e7e7;transform: translateY(4px);}
-			.center {
-				display: block;
-				margin-left: auto;
-				margin-right: auto;
-				width: 50%;
-			}
-			.card {
-				/* Add shadows to create the "card" effect */
-				box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-				transition: 0.3s;
-			}
-			
-			/* On mouse-over, add a deeper shadow */
-			.card:hover {
-				box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-				z-index:100000 !important;
-			}
-			
-			/* Add some padding inside the card container */
-			.container {
-				padding: 2px 16px;
-			}
-			</style>
-				</head>
-			<body>
-			<h1>STACKOVERFLOW</h1>
-				${stck}
-			</body>
-			</html>`;
-	}
-	if(x==1){
-		for(num=0;num<5;num++){
-			a=pass_the_result[num].ThumbnailURL;
-			b=pass_the_result[num].Title;
-			c=pass_the_result[num].Description;
-			d=pass_the_result[num].Owner;
-			e=pass_the_result[num].Url;
-			stck+=`<div class="card" style="width:20%;border: 0.1px solid white;margin-bottom:5px%;padding:5px 5px 5px 5px;" >
-					<img  src="${a}" alt="YOUTUBE" class="center">
-					<div class="continer">
-					<h3><b>${b}</b></h3>
-					<p>${c}</p>
-					<p>By ${d}</p>
-					</ul>
-					<a href="${e}" class="card-link button center">Click Here To Open</a>
-					
-					</div>
-					
-					</div>`
-		}
-		return `<!DOCTYPE html>
-		<html>
-		<head>
-		<style>
-		.button {
-			background-color: purple; /* Green */
-			border: none;
-			color: white;
-			
-			text-align: center;
-			text-decoration: none;
-			display: inline-block;
-			
-			transition-duration: 0.4s;
-			cursor: pointer;
-			background-color: white;
-  			color: black;
-  			border: 2px solid #e7e7e7;
-			  text-align: center;
-			  border-radius:20px;
-		  }
-		.button:hover {background-color: #e7e7e7;transform: translateY(4px);}
-		.center {
-			display: block;
-			margin-left: auto;
-			margin-right: auto;
-			width: 50%;
-		  }
-		.card {
-			/* Add shadows to create the "card" effect */
-			box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-			transition: 0.3s;
-		  }
-		  /* On mouse-over, add a deeper shadow */
-		  .card:hover {
-			box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-			z-index:100000 !important;
-		  }
-		  
-		  /* Add some padding inside the card container */
-		  .container {
-			padding: 2px 16px;
-		  }
-		</style>
-			</head>
-		<body>
-		<h1>YOUTUBE</h1>
-			${stck}
-		</body>
-		</html>`;
-	}
-	return 'OOPS....';
-  }

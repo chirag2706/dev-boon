@@ -15,11 +15,33 @@
 		"onCommand:dev-boon.DEACTIVATE_EXTENSION",
 		"onCommand:dev-boon.STACKOVERFLOW_SEARCH_WITH_SELECTED_TEXT_USING_PROMPT",
 		"onCommand:dev-boon.YOUTUBE_SEARCH_WITH_SELECTED_TEXT",
-		"onCommand:dev-boon.YOUTUBE_SEARCH_WITH_SELECTED_TEXT_USING_PROMPT"
+		"onCommand:dev-boon.YOUTUBE_SEARCH_WITH_SELECTED_TEXT_USING_PROMPT",
+		"onView:dev-boon-sidebar"
 	],
 	"main": "./out/extension.js",
 	"contributes": {
+		"viewsContainers": {
+			"activitybar": [
+				{
+					"id": "dev-boon-sidebar-view",
+					"title": "dev-boon sidenavbar",
+					"icon": "icons/sideBarIcon.svg"
+				}
+			]
+		},
+		"views": {
+			"dev-boon-sidebar-view": [
+				{
+					"type": "webview",
+					"id": "dev-boon-sidebar",
+					"name": "dev-boon",
+					"icon": "icons/sideBarIcon.svg",
+					"contextualTitle": "dev-boon"
+				}
+			]
+		},
 		"commands": [
+			
 			{
 				"command": "dev-boon.STACKOVERFLOW_SEARCH_WITH_SELECTED_TEXT",
 				"category": "dev-boon",
@@ -92,10 +114,21 @@
 		"vscode-test": "^1.5.0"
 	},
 	"dependencies": {
+		"@rollup/plugin-commonjs": "^17.1.0",
+		"@rollup/plugin-node-resolve": "^11.2.0",
+		"@rollup/plugin-typescript": "^8.2.0",
+		"@tsconfig/svelte": "^1.0.10",
 		"axios": "^0.21.1",
 		"bootstrap": "^5.0.0-beta2",
+		"concurrently": "^6.0.0",
 		"open": "^8.0.1",
 		"request": "^2.88.2",
-		"request-promise-native": "^1.0.9"
+		"request-promise-native": "^1.0.9",
+		"rollup": "^2.40.0",
+		"rollup-plugin-svelte": "^7.1.0",
+		"rollup-plugin-terser": "^7.0.2",
+		"svelte": "^3.35.0",
+		"svelte-check": "^1.2.1",
+		"svelte-preprocess": "^4.6.9"
 	}
 }
