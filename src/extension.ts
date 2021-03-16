@@ -46,7 +46,18 @@ async function check(context: vscode.ExtensionContext):Promise<string | undefine
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export async function activate(context: vscode.ExtensionContext) {
-
+		// const aaa=`http://127.0.0.1:5002/employees`
+		// console.log(aaa);
+		// const uop = {
+		// 	uri: aaa,
+		// 	json: true,
+		// 	gzip: true,
+		// };
+		// const sr = await request.get(uop);
+		// console.log(sr);
+		// console.log("\n===================================================\n");
+		// console.log("===================================================\n");
+		// console.log("===================================================\n");
 		
 		// vscode.window.showErrorMessage(`sidebarProvider is ${sidebarProvider}`);
 		if(sidebarProvider===undefined){
@@ -61,18 +72,6 @@ export async function activate(context: vscode.ExtensionContext) {
 			context.subscriptions.push(sideBar);
 
 		}
-		// let helloworld = vscode.commands.registerCommand('dev-boon.helloworld',()=>{
-		// 	HelloWorldPanel.createOrShow(context.extensionUri);
-		// });
-
-		// context.subscriptions.push(helloworld);
-
-		// let refreshWebviews = vscode.commands.registerCommand("dev-boon.refreshWebviews",()=>{
-		// 	HelloWorldPanel.kill();
-		// 	HelloWorldPanel.createOrShow(context.extensionUri);
-		// });
-
-		// context.subscriptions.push(refreshWebviews);
 
 
 		let deactivateCommand = vscode.commands.registerCommand("dev-boon.DEACTIVATE_EXTENSION",()=>{
@@ -290,6 +289,8 @@ async function runSearchingForStackOverFlowPosts(selectedText:string): Promise<v
         gzip: true,
     };
 
+	
+	
 
 	const questionsMeta = [
         { title: `🔎 Search Stackoverflow: ${selectedText}`, url: stackoverflowSearchUrl },

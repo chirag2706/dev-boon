@@ -121,6 +121,7 @@
 		"bootstrap": "^5.0.0-beta2",
 		"concurrently": "^6.0.0",
 		"open": "^8.0.1",
+		"python-shell": "^2.0.3",
 		"request": "^2.88.2",
 		"request-promise-native": "^1.0.9",
 		"rollup": "^2.40.0",
