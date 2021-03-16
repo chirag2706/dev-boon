@@ -172,7 +172,6 @@ export async function activate(context: vscode.ExtensionContext) {
 					}else{
 						vscode.window.showErrorMessage("Something went Wrong 😣");
 					}
-	
 				} catch (err) {
 					vscode.window.showErrorMessage("Some Error occured while searching youTube videos 😣.Please try again");
 				}
@@ -183,8 +182,6 @@ export async function activate(context: vscode.ExtensionContext) {
 		});
 
 		context.subscriptions.push(youTubeSearchBySelectingTextFromEditor);
-
-
 }
 
 // this method is called when your extension is deactivated
@@ -195,9 +192,6 @@ export function deactivate(context: vscode.ExtensionContext) {
 	}
 	vscode.window.showInformationMessage(`dev-boon extension has been deactivated successfully ${catSmiley} with ${isExtensionActivated}`);
 }
-
-
-
 //function which parses editor and gives only that text which is currently selected
 function getSelectedTextFromEditor(): string|undefined{
 	let activeEditor = vscode.window.activeTextEditor;
@@ -289,8 +283,6 @@ async function runSearchingForStackOverFlowPosts(selectedText:string): Promise<v
         gzip: true,
     };
 
-	
-	
 
 	const questionsMeta = [
         { title: `🔎 Search Stackoverflow: ${selectedText}`, url: stackoverflowSearchUrl },
@@ -315,9 +307,6 @@ async function runSearchingForStackOverFlowPosts(selectedText:string): Promise<v
 
 
             searchResponse.items.forEach((q: any, i: any) => {
-				console.log(q);
-				console.log("\n===========\n");
-
 				if(count<10){
 					pass_the_result[count]=new description(q.title,q.tags.join(','),q.owner.display_name,q.link,"");
 					count=count+1;
@@ -411,12 +400,6 @@ async function runSearchingForYouTube(selectedText:string): Promise<void>{
 		let videoList = response.data.items;
 		console.log(videoList[0]);
 		if (videoList && videoList.length > 0) {
-			// const panel = vscode.window.createWebviewPanel(
-			// 	'extension',
-			// 	'Extension',
-			// 	vscode.ViewColumn.One,
-			// 	{}
-			//   );
             
             var pass_the_result:description[]=new Array(10);
 			var count:number=0;
