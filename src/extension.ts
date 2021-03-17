@@ -24,7 +24,7 @@ async function check(context: vscode.ExtensionContext):Promise<string | undefine
 		}
 		
 		let answer = await vscode.window.showInformationMessage(`Extension dev-boon has not been activated 😣\nDo you want to activate it?`,"YES","NO");
-		vscode.window.showInformationMessage(`answer is ${answer}`);
+		
 		if(answer !== undefined && answer === "YES"){
 			isExtensionActivated = 1;
 			vscode.commands.executeCommand("workbench.view.extension.dev-boon-sidebar-view");
@@ -48,9 +48,9 @@ async function check(context: vscode.ExtensionContext):Promise<string | undefine
 export async function activate(context: vscode.ExtensionContext) {
 
 		
-		// vscode.window.showErrorMessage(`sidebarProvider is ${sidebarProvider}`);
+		vscode.window.showErrorMessage(`sidebarProvider is ${sidebarProvider}`);
 		if(sidebarProvider===undefined){
-			// vscode.window.showErrorMessage(`bug is their`);
+			vscode.window.showErrorMessage(`bug is their`);
 			sidebarProvider = new SidebarProvider(context.extensionUri);
 
 			let sideBar = vscode.window.registerWebviewViewProvider(
@@ -274,7 +274,11 @@ async function runSearchingForStackOverFlowPosts(selectedText:string): Promise<v
             } else if(groupIndex === 1) { // not a full match
                 tags.push(match);
             }
-        });  
+        }); 
+		
+
+		console.log(tags);
+		
     }
 
 	const stackoverflowApiKey = 'Y3TeIyyVjpbz**icfv1oVg((';
