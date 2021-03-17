@@ -23,151 +23,52 @@ import {description} from "./description";
     var c:string;
     var d:string;
     var e:string;
-    if(x===0){
-      for(num=0;num<min(10,pass_the_result.length);num++){
-        a=pass_the_result[num].ThumbnailURL;
-        b=pass_the_result[num].Title;
-        c=pass_the_result[num].Description;
-        d=pass_the_result[num].Owner;
-        e=pass_the_result[num].Url;
-
-        stck+=`<div class="card" style="width:20%;border: 0.1px solid white;margin-bottom:5px;padding:5px 5px 5px 5px;" >
-            
-            <div class="continer">
-            <h3><b>${b}</b></h3>
-            <p>${c}</p>
-            <p>By ${d}</p>
-            </ul>
-            <a href="${e}" class="card-link button center">Click Here To Open</a>
-            
-            </div>
-            </div>`
-
-      stck+='</td></tr>';
-      }
-      return `<!DOCTYPE html>
-        <html>
-        <head>
-        <style>
-        .button {
-          background-color: #4CAF50; /* Green */
-          border: none;
-          color: white;
-          
-          text-align: center;
-          text-decoration: none;
-          display: inline-block;
-          
-          transition-duration: 0.4s;
-          cursor: pointer;
-          background-color: white;
-          color: black;
-          border: 2px solid #e7e7e7;
-          text-align: center;
-            border-radius:20px;
-        }
-        .button:hover {background-color: #e7e7e7;transform: translateY(4px);}
-        .center {
-          display: block;
-          margin-left: auto;
-          margin-right: auto;
-          width: 50%;
-        }
-        .card {
-          /* Add shadows to create the "card" effect */
-          box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-          transition: 0.3s;
-        }
-        
-        /* On mouse-over, add a deeper shadow */
-        .card:hover {
-          box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-          z-index:100000 !important;
-        }
-        
-        /* Add some padding inside the card container */
-        .container {
-          padding: 2px 16px;
-        }
-        </style>
-          </head>
-        <body>
-        <h1>STACKOVERFLOW</h1>
-          ${stck}
-        </body>
-        </html>`;
-    }
-    else if(x===1){
-      for(num=0;num<min(5,pass_the_result.length);num++){
-        a=pass_the_result[num].ThumbnailURL;
-        b=pass_the_result[num].Title;
-        c=pass_the_result[num].Description;
-        d=pass_the_result[num].Owner;
-        e=pass_the_result[num].Url;
-        stck+=`<div class="card" style="width:20%;border: 0.1px solid white;margin-bottom:5px%;padding:5px 5px 5px 5px;" >
-            <img  src="${a}" alt="YOUTUBE" class="center">
-            <div class="continer">
-            <h3><b>${b}</b></h3>
-            <p>${c}</p>
-            <p>By ${d}</p>
-            </ul>
-            <a href="${e}" class="card-link button center">Click Here To Open</a>
-            
-            </div>
-            
-            </div>`;
-      }
-      return `<!DOCTYPE html>
-      <html>
-      <head>
-      <style>
-      .button {
-        background-color: purple; /* Green */
-        border: none;
-        color: white;
-        
-        text-align: center;
-        text-decoration: none;
-        display: inline-block;
-        
-        transition-duration: 0.4s;
-        cursor: pointer;
-        background-color: white;
-          color: black;
-          border: 2px solid #e7e7e7;
-          text-align: center;
-          border-radius:20px;
-        }
-      .button:hover {background-color: #e7e7e7;transform: translateY(4px);}
-      .center {
-        display: block;
-        margin-left: auto;
-        margin-right: auto;
-        width: 50%;
-        }
-      .card {
-        /* Add shadows to create the "card" effect */
-        box-shadow: 0 4px 8px 0 rgba(0,0,0,0.2);
-        transition: 0.3s;
-        }
-        /* On mouse-over, add a deeper shadow */
-        .card:hover {
-        box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
-        z-index:100000 !important;
-        }
-        
-        /* Add some padding inside the card container */
-        .container {
-        padding: 2px 16px;
-        }
-      </style>
-        </head>
-      <body>
-      <h1>YOUTUBE</h1>
-        ${stck}
-      </body>
-      </html>`;
-    }
+	if(x==0 || x==1){
+		if(x===0){
+			for(num=0;num<min(10,pass_the_result.length);num++){
+				a=pass_the_result[num].ThumbnailURL;
+				b=pass_the_result[num].Title;
+				c=pass_the_result[num].Description;
+				d=pass_the_result[num].Owner;
+				e=pass_the_result[num].Url;
+				stck+=`<h1>STACKOVERFLOW</h1><div class="card" style="width:100%;max-width:200px;" >
+						<div class="card-body">
+						<h3 class="card-title"><b><p style="font-size:18px;">${b}</p></b></h3>
+						<p lass="card-text" style="font-size:14px;">${c}</p>
+						<p lass="card-text" style="font-size:14px;">By ${d}</p>
+						<a href="${e}" style="max-width:200px;width:100%" class="btn btn-outline-info">Open</a>
+						</div>
+						</div>`;
+			}
+		}
+		else if(x===1){
+			for(num=0;num<min(5,pass_the_result.length);num++){
+				a=pass_the_result[num].ThumbnailURL;
+				b=pass_the_result[num].Title;
+				c=pass_the_result[num].Description;
+				d=pass_the_result[num].Owner;
+				e=pass_the_result[num].Url;
+				stck+=`<h1>YOUTUBE</h1><div class="card" style="width:100%;max-width:200px;" >
+						<img class="card-img-top"  src="${a}" alt="YOUTUBE" >
+						<div class="card-body">
+						<h3 class="card-title"><b><p style="font-size:18px;">${b}</p></b></h3>
+						<p lass="card-text" style="font-size:14px;">${c}</p>
+						<p lass="card-text" style="font-size:14px;">By ${d}</p>
+						<a href="${e}" style="max-width:200px;width:100%" class="btn btn-outline-info">Open</a>
+						</div>
+						</div>`;
+			}
+		}
+		return `<!DOCTYPE html>
+		<html>
+		<head>
+		</head>
+		<body>
+			${stck}
+		</body>
+		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+		</html>`;
+	}
     return `<!DOCTYPE html>
     <html>
       <head>
@@ -270,25 +171,6 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
   private _getHtmlForWebview(webview: vscode.Webview,x:number,pass_the_result:description[]) {
 
     vscode.window.showInformationMessage("_getHtmlForWebview function is called");
-
-    // const styleResetUri = webview.asWebviewUri(
-    //   vscode.Uri.joinPath(this._extensionUri, "media", "reset.css")
-    // );
-
-    // const styleVSCodeUri = webview.asWebviewUri(
-    //   vscode.Uri.joinPath(this._extensionUri, "media", "vscode.css")
-    // );
-
-    // const scriptUri = webview.asWebviewUri(
-    //   vscode.Uri.joinPath(this._extensionUri, "out", "compiled/sidebar.js")
-    // );
-    // const styleMainUri = webview.asWebviewUri(
-    //   vscode.Uri.joinPath(this._extensionUri, "out", "compiled/sidebar.css")
-    // );
-    
-
-    // Use a nonce to only allow a sppa ecific script to be run.
-    // const nonce = getNonce();
 
     return getWebviewContent(x,pass_the_result);
   }
