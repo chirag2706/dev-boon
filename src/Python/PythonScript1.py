@@ -1,53 +1,83 @@
-from flask import Flask, request
+from flask import Flask, request,redirect,jsonify
 from flask_restful import Resource, Api
 from json import dumps
+import requests
+from apiclient.discovery import build
 
 app = Flask(__name__)
 api = Api(app)
 
 
-class StackOverFLow_apiSearchUrl(Resource):
+class StackOverFlow_apiSearchUrl_Single(Resource):
+    def get(self,encodedAPISearchTerm):
+        stackoverflowApiKey = 'Y3TeIyyVjpbz**icfv1oVg(('
+        encodedTagsString=''
+        apiSearchUrl = "https://api.stackexchange.com/2.2/search?order=desc&sort=relevance&intitle={encodedAPISearchTerm}&tagged={encodedTagsString}&site=stackoverflow&key={stackoverflowApiKey}".format(encodedAPISearchTerm=encodedAPISearchTerm,encodedTagsString=encodedTagsString,stackoverflowApiKey=stackoverflowApiKey)
+        resp = requests.get(apiSearchUrl)
+        return resp.json()
+
+
+class StackOverFlow_apiSearchUrl(Resource):
     def get(self,encodedAPISearchTerm,encodedTagsString):
         stackoverflowApiKey = 'Y3TeIyyVjpbz**icfv1oVg(('
         apiSearchUrl = "https://api.stackexchange.com/2.2/search?order=desc&sort=relevance&intitle={encodedAPISearchTerm}&tagged={encodedTagsString}&site=stackoverflow&key={stackoverflowApiKey}".format(encodedAPISearchTerm=encodedAPISearchTerm,encodedTagsString=encodedTagsString,stackoverflowApiKey=stackoverflowApiKey)
         resp = requests.get(apiSearchUrl)
-        return resp.text
+        return resp.json()
 
-class StackOverFLow_stackoverflowSearchUrl(Resource):
+
+
+class StackOverFlow_stackoverflowSearchUrl(Resource):
     def get(self,encodedWebSearchTerm):
         stackoverflowSearchUrl = "https://stackoverflow.com/search?q={encodedWebSearchTerm}".format(encodedWebSearchTerm=encodedWebSearchTerm)
         resp = requests.get(stackoverflowSearchUrl)
-        return resp.text
+        print("******************************")
+        return resp.json()
 
 
-class StackOverFLow_googleSearchUrl(Resource):
+
+class StackOverFlow_googleSearchUrl(Resource):
     def get(self,encodedWebSearchTerm):
         googleSearchUrl = "https://www.google.com/search?q={encodedWebSearchTerm}".format(encodedWebSearchTerm=encodedWebSearchTerm)
         resp = requests.get(googleSearchUrl)
-        return resp.text
+        return resp.json()
+
 
 
 class YouTube_youtubeSearchUrl(Resource):
     def get(self,encodedWebSearchTerm):
-        youtubeSearchUrl = "https://www.youtube.com/results?search_query={encodedWebSearchTerm}".format(encodedWebSearchTerm=encodedWebSearchTerm)
+        api_key="AIzaSyCy8jgQFIVEq2qLBdZMSaHQOiDGAggQTeQ"
+        youtube=build('youtube')
         resp = requests.get(youtubeSearchUrl)
-        return resp.text
+        return resp.json()
+
 
 
 class YouTube_googleSearchUrl(Resource):
     def get(self,encodedWebSearchTerm):
         googleSearchUrl = "https://www.google.com/search?q={encodedWebSearchTerm}".format(encodedWebSearchTerm=encodedWebSearchTerm)
         resp = requests.get(googleSearchUrl)        
-        return resp.text
+        return resp.json()
 
 
-api.add_resource(StackOverFLow_apiSearchUrl,'/stackoverflow_apiSearchUrl/<encodedAPISearchTerm>/<encodedTagsString>')
-api.add_resource(StackOverFLow_stackoverflowSearchUrl,'/StackOverFLow_stackoverflowSearchUrl/<encodedWebSearchTerm>')
-api.add_resource(StackOverFLow_googleSearchUrl,'/StackOverFLow_googleSearchUrl/<encodedWebSearchTerm>')
+
+
+
+api.add_resource(StackOverFlow_apiSearchUrl_Single,'/apiSearchUrl_Single/<encodedAPISearchTerm>')
+api.add_resource(StackOverFlow_apiSearchUrl,'/apiSearchUrl/<encodedAPISearchTerm>/<encodedTagsString>')
+api.add_resource(StackOverFlow_stackoverflowSearchUrl,'/stackoverflowSearchUrl/<encodedWebSearchTerm>')
+api.add_resource(StackOverFlow_googleSearchUrl,'/googleSearchUrl/<encodedWebSearchTerm>')
+
 
 api.add_resource(YouTube_youtubeSearchUrl,'/YouTube_youtubeSearchUrl/<encodedWebSearchTerm>')
 api.add_resource(YouTube_googleSearchUrl,'/YouTube_googleSearchUrl/<encodedWebSearchTerm>')
 
 
+
+
+
+
+
 if __name__ == '__main__':
      app.run(port='5000')
+
+
