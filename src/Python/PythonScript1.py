@@ -3,7 +3,7 @@ from flask_restful import Resource, Api
 from json import dumps
 import requests
 from apiclient.discovery import build
-from pyyoutube import Api as API_Y
+from pyyoutube import Api as API_YOUTUBE
 
 
 app = Flask(__name__)
@@ -27,13 +27,11 @@ class StackOverFlow_apiSearchUrl(Resource):
         return resp.json()
 
 
-
 class StackOverFlow_stackoverflowSearchUrl(Resource):
     def get(self,encodedWebSearchTerm):
         stackoverflowSearchUrl = "https://stackoverflow.com/search?q={encodedWebSearchTerm}".format(encodedWebSearchTerm=encodedWebSearchTerm)
         resp = requests.get(stackoverflowSearchUrl)
         return resp.json()
-
 
 
 class StackOverFlow_googleSearchUrl(Resource):
@@ -43,15 +41,19 @@ class StackOverFlow_googleSearchUrl(Resource):
         return resp.json()
 
 
+class YouTube(Resource):
+    def get(self,encodedWebSearchTerm):
+        api_key_="AIzaSyCy8jgQFIVEq2qLBdZMSaHQOiDGAggQTeQ"
+        api = API_YOUTUBE(api_key=api_key_)
+        r=api.search_by_keywords(q=encodedWebSearchTerm, search_type=["video"], count=15, limit=15)
+        return jsonify(r)
+
 
 class YouTube_youtubeSearchUrl(Resource):
     def get(self,encodedWebSearchTerm):
-        api_key_="AIzaSyCy8jgQFIVEq2qLBdZMSaHQOiDGAggQTeQ"
-        api = API_Y(api_key=api_key_)
-        r=api.search_by_keywords(q=encodedWebSearchTerm, search_type=["video"], count=15, limit=15)
-        print(r.items)
-        return jsonify(r)
-
+        googleSearchUrl = "https://www.youtube.com/results?search_query={encodedWebSearchTerm}".format(encodedWebSearchTerm=encodedWebSearchTerm)
+        resp = requests.get(googleSearchUrl)        
+        return resp.json()
 
 
 class YouTube_googleSearchUrl(Resource):
@@ -61,25 +63,16 @@ class YouTube_googleSearchUrl(Resource):
         return resp.json()
 
 
-
-
-
 api.add_resource(StackOverFlow_apiSearchUrl_Single,'/apiSearchUrl_Single/<encodedAPISearchTerm>')
 api.add_resource(StackOverFlow_apiSearchUrl,'/apiSearchUrl/<encodedAPISearchTerm>/<encodedTagsString>')
 api.add_resource(StackOverFlow_stackoverflowSearchUrl,'/stackoverflowSearchUrl/<encodedWebSearchTerm>')
 api.add_resource(StackOverFlow_googleSearchUrl,'/googleSearchUrl/<encodedWebSearchTerm>')
 
 
+api.add_resource(YouTube,'/YouTube/<encodedWebSearchTerm>')
 api.add_resource(YouTube_youtubeSearchUrl,'/YouTube_youtubeSearchUrl/<encodedWebSearchTerm>')
 api.add_resource(YouTube_googleSearchUrl,'/YouTube_googleSearchUrl/<encodedWebSearchTerm>')
 
 
-
-
-
-
-
 if __name__ == '__main__':
      app.run(port='5000')
-
-

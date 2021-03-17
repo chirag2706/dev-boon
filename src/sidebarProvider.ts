@@ -1,7 +1,4 @@
 import * as vscode from "vscode";
-
-
-
 // import { getNonce } from "./getNonce";
 import {description} from "./description";
 
@@ -34,7 +31,7 @@ import {description} from "./description";
 				c=pass_the_result[num].Description;
 				d=pass_the_result[num].Owner;
 				e=pass_the_result[num].Url;
-				stck+=`<div class="card" style="width:100%;max-width:200px;" >
+				stck+=`<h1>STACKOVERFLOW</h1><div class="card" style="width:100%;max-width:200px;" >
 						<div class="card-body">
 						<h3 class="card-title"><b><p style="font-size:18px;">${b}</p></b></h3>
 						<p lass="card-text" style="font-size:14px;">${c}</p>
@@ -51,7 +48,7 @@ import {description} from "./description";
 				c=pass_the_result[num].Description;
 				d=pass_the_result[num].Owner;
 				e=pass_the_result[num].Url;
-				stck+=`<div class="card" style="width:100%;max-width:200px;" >
+				stck+=`<h1>YOUTUBE</h1><div class="card" style="width:100%;max-width:200px;" >
 						<img class="card-img-top"  src="${a}" alt="YOUTUBE" >
 						<div class="card-body">
 						<h3 class="card-title"><b><p style="font-size:18px;">${b}</p></b></h3>
@@ -67,7 +64,6 @@ import {description} from "./description";
 		<head>
 		</head>
 		<body>
-		<h1>BOTH</h1>
 			${stck}
 		</body>
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>

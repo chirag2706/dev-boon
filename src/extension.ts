@@ -1,8 +1,5 @@
-// The module 'vscode' contains the VS Code extensibility API
-// Import the module and reference it with the alias vscode in your code below
 import * as request from "request-promise-native";
 import * as vscode from 'vscode';	
-import Youtube from './youtube';
 import {SidebarProvider} from './sidebarProvider';
 import {description} from "./description";
 
@@ -24,7 +21,7 @@ async function check(context: vscode.ExtensionContext):Promise<string | undefine
 		}
 		
 		let answer = await vscode.window.showInformationMessage(`Extension dev-boon has not been activated 😣\nDo you want to activate it?`,"YES","NO");
-		vscode.window.showInformationMessage(`answer is ${answer}`);
+		// vscode.window.showInformationMessage(`answer is ${answer}`);
 		if(answer !== undefined && answer === "YES"){
 			isExtensionActivated = 1;
 			vscode.commands.executeCommand("workbench.view.extension.dev-boon-sidebar-view");
@@ -46,20 +43,7 @@ async function check(context: vscode.ExtensionContext):Promise<string | undefine
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export async function activate(context: vscode.ExtensionContext) {
-		// const aaa=`http://127.0.0.1:5002/employees`
-		// console.log(aaa);
-		// const uop = {
-		// 	uri: aaa,
-		// 	json: true,
-		// 	gzip: true,
-		// };
-		// const sr = await request.get(uop);
-		// console.log(sr);
-		// console.log("\n===================================================\n");
-		// console.log("===================================================\n");
-		// console.log("===================================================\n");
-		
-		// vscode.window.showErrorMessage(`sidebarProvider is ${sidebarProvider}`);
+
 		if(sidebarProvider===undefined){
 			// vscode.window.showErrorMessage(`bug is their`);
 			sidebarProvider = new SidebarProvider(context.extensionUri);
@@ -240,8 +224,6 @@ function getSelectedTextFromEditor(): string|undefined{
 
 }
 
-
-
 async function runSearchingForStackOverFlowPosts(selectedText:string): Promise<void>{
 	if(!selectedText || selectedText.trim() === ""){
 		return;
@@ -270,42 +252,35 @@ async function runSearchingForStackOverFlowPosts(selectedText:string): Promise<v
         });  
     }
 
-	const stackoverflowApiKey = 'Y3TeIyyVjpbz**icfv1oVg((';
-    const encodedTagsString = encodeURIComponent(tags.join(';'));
+    var encodedTagsString = encodeURIComponent(tags.join(';'));
     const encodedAPISearchTerm = encodeURIComponent(updatedSelectedText);
     const encodedWebSearchTerm = encodeURIComponent(selectedText);
-    const apiSearchUrl = `https://api.stackexchange.com/2.2/search?order=desc&sort=relevance&intitle=${encodedAPISearchTerm}&tagged=${encodedTagsString}&site=stackoverflow&key=${stackoverflowApiKey}`;
-    const stackoverflowSearchUrl = `https://stackoverflow.com/search?q=${encodedWebSearchTerm}`;
-    const googleSearchUrl = `https://www.google.com/search?q=${encodedWebSearchTerm}`;
+	console.log(encodedTagsString);
+	var apiSearchUrl;
+	if(encodedTagsString.length>0){
+    	apiSearchUrl = `http://127.0.0.1:5000/apiSearchUrl/${encodedAPISearchTerm}/${encodedTagsString}`;
+	}
+	else{
+		apiSearchUrl = `http://127.0.0.1:5000/apiSearchUrl_Single/${encodedAPISearchTerm}`
+	}
+	const stackoverflowSearchUrl = `http://127.0.0.1:5000/stackoverflowSearchUrl/${encodedWebSearchTerm}`;
+    const googleSearchUrl = `http://127.0.0.1:5000/googleSearchUrl/${encodedWebSearchTerm}`;
     const uriOptions = {
         uri: apiSearchUrl,
         json: true,
         gzip: true,
     };
-
-
-	const questionsMeta = [
-        { title: `🔎 Search Stackoverflow: ${selectedText}`, url: stackoverflowSearchUrl },
-        { title: `🔎 Search Google: ${selectedText}`, url: googleSearchUrl },
-    ];
+	// const questionsMeta = [
+    //     { title: `🔎 Search Stackoverflow: ${selectedText}`, url: stackoverflowSearchUrl },
+    //     { title: `🔎 Search Google: ${selectedText}`, url: googleSearchUrl },
+    // ];
     try {
-		vscode.window.showInformationMessage(`request started for stack api`);
         const searchResponse = await request.get(uriOptions);
+
 		vscode.window.showInformationMessage(`stack api has responded with ${searchResponse}`);
         if (searchResponse.items && searchResponse.items.length > 0) {
-			// const panel = vscode.window.createWebviewPanel(
-			// 	'extension',
-			// 	'Extension',
-			// 	vscode.ViewColumn.One,
-			// 	{}
-			//   );
-            
             var pass_the_result:description[]=new Array(10);
 			var count:number=0;
-
-			
-
-
             searchResponse.items.forEach((q: any, i: any) => {
 				if(count<10){
 					pass_the_result[count]=new description(q.title,q.tags.join(','),q.owner.display_name,q.link,"");
@@ -321,14 +296,11 @@ async function runSearchingForStackOverFlowPosts(selectedText:string): Promise<v
 				sidebarProvider.customResolveWebviewView(0,pass_the_result);
 			}
 
-			// sidebarProvider._view.webview.html = getWebviewContent(0,pass_the_result);
         }
     } catch (error) {
-        vscode.window.showErrorMessage(`Error is: ${error.message}`);
+        vscode.window.showErrorMessage(`Error Pranav is: ${error.message}`);
     }
-}	
-
-
+}
 function getStringOutOfTagList(tags:string[]): string{
 	let result = "";
 
@@ -336,14 +308,10 @@ function getStringOutOfTagList(tags:string[]): string{
 		result+=str;
 		result+=" ";
 	});
-
-	// result = result.trim();
 	vscode.window.showInformationMessage(`Resultant string is: ${result}`);
 	return result;
 
 }
-
-
 async function runSearchingForYouTube(selectedText:string): Promise<void>{
 	if(!selectedText || selectedText.trim() === ""){
 		return;
@@ -351,17 +319,14 @@ async function runSearchingForYouTube(selectedText:string): Promise<void>{
 
 	selectedText = selectedText.trim();
     vscode.window.showInformationMessage(`User initiated a youTube search with [${selectedText}] query`);
-
 	let tags: string[] = [];
 	let tagsMatch;
 	let updatedSelectedText = selectedText;
-
 	while ((tagsMatch = regex.exec(updatedSelectedText)) !== null) {
         // This is necessary to avoid infinite loops with zero-width matches
         if (tagsMatch.index === regex.lastIndex) {
             regex.lastIndex++;
         }
-        
         // The result can be accessed through the `m`-variable.
         tagsMatch.forEach((match, groupIndex) => {
             if(groupIndex === 0) { // full match without group for replace
@@ -369,42 +334,28 @@ async function runSearchingForYouTube(selectedText:string): Promise<void>{
             } else if(groupIndex === 1) { // not a full match
                 tags.push(match);
             }
-        }); 
-		 
+        });
     }
-
-
     const encodedWebSearchTerm = encodeURIComponent(selectedText);
-
-	vscode.window.showInformationMessage(`encodedWebSearchTerm is ${encodedWebSearchTerm}`);
-
-    const youtubeSearchUrl = `https://www.youtube.com/results?search_query=${encodedWebSearchTerm}`;
-    const googleSearchUrl = `https://www.google.com/search?q=${encodedWebSearchTerm}`;
-   
-
-
-	const questionsMeta = [
-        { title: `🔎 Search Youtube ${selectedText}`, url: youtubeSearchUrl },
-        { title: `🔎 Search Google: ${selectedText}`, url: googleSearchUrl },
-    ];
+	const youtube=`http://127.0.0.1:5000/YouTube/${encodedWebSearchTerm}`;
+	const youtubeSearchUrl=`https://www.youtube.com/results?search_query=${encodedWebSearchTerm}`;
+    const googleSearchUrl = `http://127.0.0.1:dfb5000//YouTube_googleSearchUrl/${encodedWebSearchTerm}`;
+	// const questionsMeta = [
+    //     { title: `🔎 Search Youtube ${selectedText}`, url: youtubeSearchUrl },
+    //     { title: `🔎 Search Google: ${selectedText}`, url: googleSearchUrl },
+    // ];
+	const uriOptions = {
+        uri: youtube,
+        json: true,
+        gzip: true,
+    };
     try {
-		vscode.window.showInformationMessage(`request started for youtube api`);
-		var response = await Youtube.get("/search",{
-			params:{
-				q:selectedText,
-				part:"snippet"
-			}
-		});
-		vscode.window.showInformationMessage(`request has been completed`);
-
-		let videoList = response.data.items;
+		var response = await request.get(uriOptions);
+		let videoList = response.items;
 		console.log(videoList[0]);
 		if (videoList && videoList.length > 0) {
-            
             var pass_the_result:description[]=new Array(10);
 			var count:number=0;
-
-
             videoList.forEach((video: any) => {
                 if(video.id.videoId!==undefined && video.id.videoId!==null){
 					if(count<10){
@@ -413,18 +364,14 @@ async function runSearchingForYouTube(selectedText:string): Promise<void>{
 					}
 				}
             });
-
 			if(sidebarProvider === undefined || sidebarProvider === null){
 				vscode.window.showErrorMessage(`sidebarProvider is ${sidebarProvider} inside youtube search`);
 			}
-
 			if(sidebarProvider!==null && sidebarProvider!==undefined){
 				sidebarProvider.customResolveWebviewView(1,pass_the_result);
 			}
-			// panel.webview.html = getWebviewContent(1,pass_the_result);
         }
-		console.log(questionsMeta);
     } catch (error) {
         vscode.window.showErrorMessage(`Error is: ${error.message}`);
     }
-}	
+}
