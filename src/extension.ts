@@ -3,6 +3,28 @@ import * as vscode from 'vscode';
 import {SidebarProvider} from './sidebarProvider';
 import {description} from "./description";
 
+
+
+//// RUN THE FLASK LOCALLY ON PORT 6615
+var {spawn} = require('child_process');
+var j;
+for(var i=__dirname.length;i>=0;i--){
+	if(__dirname.charAt(i)=="/"){
+		j=i;
+		break;
+	}
+}
+var path=__dirname.slice(0,j);
+// STOP THE FLASK SERVER IF RUNNING ON PORT 6615
+var stop_running_server=spawn('fuser',['-n','tcp','-k','6615']);
+
+//START FLASK ON PORT 6615
+var python=spawn('python3',[path+'/src/Python/PythonScript1.py']);
+
+
+///////////////
+
+
 var sidebarProvider:any = undefined ;
 
 let open = require('open'); //this module is used to open browser such as google chrome
@@ -43,7 +65,6 @@ async function check(context: vscode.ExtensionContext):Promise<string | undefine
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export async function activate(context: vscode.ExtensionContext) {
-
 		if(sidebarProvider===undefined){
 			vscode.window.showErrorMessage(`bug is their`);
 			sidebarProvider = new SidebarProvider(context.extensionUri);
@@ -262,13 +283,13 @@ async function runSearchingForStackOverFlowPosts(selectedText:string): Promise<v
 	console.log(encodedTagsString);
 	var apiSearchUrl;
 	if(encodedTagsString.length>0){
-    	apiSearchUrl = `http://127.0.0.1:5000/apiSearchUrl/${encodedAPISearchTerm}/${encodedTagsString}`;
+    	apiSearchUrl = `http://127.0.0.1:6615/apiSearchUrl/${encodedAPISearchTerm}/${encodedTagsString}`;
 	}
 	else{
-		apiSearchUrl = `http://127.0.0.1:5000/apiSearchUrl_Single/${encodedAPISearchTerm}`
+		apiSearchUrl = `http://127.0.0.1:6615/apiSearchUrl_Single/${encodedAPISearchTerm}`
 	}
-	const stackoverflowSearchUrl = `http://127.0.0.1:5000/stackoverflowSearchUrl/${encodedWebSearchTerm}`;
-    const googleSearchUrl = `http://127.0.0.1:5000/googleSearchUrl/${encodedWebSearchTerm}`;
+	const stackoverflowSearchUrl = `http://127.0.0.1:6615/stackoverflowSearchUrl/${encodedWebSearchTerm}`;
+    const googleSearchUrl = `http://127.0.0.1:6615/googleSearchUrl/${encodedWebSearchTerm}`;
     const uriOptions = {
         uri: apiSearchUrl,
         json: true,
@@ -341,9 +362,9 @@ async function runSearchingForYouTube(selectedText:string): Promise<void>{
         });
     }
     const encodedWebSearchTerm = encodeURIComponent(selectedText);
-	const youtube=`http://127.0.0.1:5000/YouTube/${encodedWebSearchTerm}`;
+	const youtube=`http://127.0.0.1:6615/YouTube/${encodedWebSearchTerm}`;
 	const youtubeSearchUrl=`https://www.youtube.com/results?search_query=${encodedWebSearchTerm}`;
-    const googleSearchUrl = `http://127.0.0.1:dfb5000//YouTube_googleSearchUrl/${encodedWebSearchTerm}`;
+    const googleSearchUrl = `http://127.0.0.1:dfb6615//YouTube_googleSearchUrl/${encodedWebSearchTerm}`;
 	// const questionsMeta = [
     //     { title: `🔎 Search Youtube ${selectedText}`, url: youtubeSearchUrl },
     //     { title: `🔎 Search Google: ${selectedText}`, url: googleSearchUrl },
