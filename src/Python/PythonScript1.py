@@ -3,6 +3,8 @@ from flask_restful import Resource, Api
 from json import dumps
 import requests
 from apiclient.discovery import build
+from pyyoutube import Api as API_Y
+
 
 app = Flask(__name__)
 api = Api(app)
@@ -30,7 +32,6 @@ class StackOverFlow_stackoverflowSearchUrl(Resource):
     def get(self,encodedWebSearchTerm):
         stackoverflowSearchUrl = "https://stackoverflow.com/search?q={encodedWebSearchTerm}".format(encodedWebSearchTerm=encodedWebSearchTerm)
         resp = requests.get(stackoverflowSearchUrl)
-        print("******************************")
         return resp.json()
 
 
@@ -45,10 +46,11 @@ class StackOverFlow_googleSearchUrl(Resource):
 
 class YouTube_youtubeSearchUrl(Resource):
     def get(self,encodedWebSearchTerm):
-        api_key="AIzaSyCy8jgQFIVEq2qLBdZMSaHQOiDGAggQTeQ"
-        youtube=build('youtube')
-        resp = requests.get(youtubeSearchUrl)
-        return resp.json()
+        api_key_="AIzaSyCy8jgQFIVEq2qLBdZMSaHQOiDGAggQTeQ"
+        api = API_Y(api_key=api_key_)
+        r=api.search_by_keywords(q=encodedWebSearchTerm, search_type=["video"], count=15, limit=15)
+        print(r.items)
+        return jsonify(r)
 
 
 
