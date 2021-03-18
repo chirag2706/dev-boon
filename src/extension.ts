@@ -30,7 +30,8 @@ var sidebarProvider:any = undefined ;
 let open = require('open'); //this module is used to open browser such as google chrome
 
 
-let isExtensionActivated = 0; // o means thaT initially ,it is deactivated
+let isExtensionActivated = 0; // 0 means that initially ,it is deactivated
+let queryUnderProcess = 0; // 0 means that api call is under process
 var catSmiley = String.fromCodePoint(0X0001F638);
 const regex = /\[(.+?)\]/gm;
 
@@ -79,47 +80,74 @@ export async function activate(context: vscode.ExtensionContext) {
 		}
 
 
-		// vscode.window.onDidOpenTerminal
-		vscode.window.onDidOpenTerminal(terminal => {
-			console.log("Terminal opened. Total count: " + (<any>vscode.window).terminals.length);
-		});
-		vscode.window.onDidOpenTerminal((terminal: vscode.Terminal) => {
-			vscode.window.showInformationMessage(`onDidOpenTerminal, name: ${terminal.name}`);
-		});
+		if(isExtensionActivated === 1){
+			// vscode.window.onDidOpenTerminal
+			vscode.window.onDidOpenTerminal(terminal => {
+				console.log("Terminal opened. Total count: " + (<any>vscode.window).terminals.length);
+			});
+			vscode.window.onDidOpenTerminal((terminal: vscode.Terminal) => {
+				vscode.window.showInformationMessage(`onDidOpenTerminal, name: ${terminal.name}`);
+			});
 
-		// vscode.window.onDidChangeActiveTerminal
-		vscode.window.onDidChangeActiveTerminal((e) => {
-			console.log(`Active terminal changed`);
-		});
+			// vscode.window.onDidChangeActiveTerminal
+			vscode.window.onDidChangeActiveTerminal((e) => {
+				console.log(`Active terminal changed`);
+			});
 
 
-		(<any>vscode.window).registerTerminalLinkProvider({
-			provideTerminalLinks: (context: any, token: vscode.CancellationToken) => {
-				// Detect the first instance of the word "link" if it exists and linkify it
-				console.log("===================================");
-				let line = (context.line as string);
-				line=line.toLowerCase();
-				console.log((line));
-				const startIndex = (context.line as string).indexOf('error');
-				console.log(startIndex);
-				console.log("===================================");
-				if (startIndex === -1) {
-					return [];
-				}
-				return [
-					{
-						startIndex,
-						length: 'error'.length,
-						tooltip: 'Show a notification',
-						// You can return data in this object to access inside handleTerminalLink
-						data: 'Example data'
+			if(queryUnderProcess === 0){
+				(<any>vscode.window).registerTerminalLinkProvider({
+					provideTerminalLinks: async (context: any, token: vscode.CancellationToken) => {
+						// Detect the first instance of the word "link" if it exists and linkify it
+						console.log("===================================");
+						let line = (context.line as string);
+						line=line.toLowerCase();
+						console.log((line));
+						const startIndex = (context.line as string).indexOf('error');
+						console.log(startIndex);
+						if(startIndex !== -1){
+							// if(queryUnderProcess === 0){
+								// await runSearchingForStackOverFlowPosts(line.substr(startIndex,line.length-startIndex));
+								let answer = await vscode.window.showInformationMessage(`Which content do u want to see?`,"StackOverFlow","Youtube");
+
+								//for now ,i have kept java as a string instead of error string for testing purposes
+								if(answer === "StackOverFlow"){
+									await runSearchingForStackOverFlowPosts("java");
+								}else if(answer === "Youtube"){
+									await runSearchingForYouTube("java");
+								}
+								
+
+							// }else{
+								// console.log("One query already in progress!!!");
+							// }
+						}
+						console.log("===================================");
+						if (startIndex === -1) {
+							return [];
+						}
+						return [
+							{
+								startIndex,
+								length: 'error'.length,
+								tooltip: 'Show a notification',
+								// You can return data in this object to access inside handleTerminalLink
+								data: 'Example data'
+							}
+						];
+					},
+					handleTerminalLink: (link: any) => {
+						vscode.window.showInformationMessage(`Link activated (data = ${link.data})`);
 					}
-				];
-			},
-			handleTerminalLink: (link: any) => {
-				vscode.window.showInformationMessage(`Link activated (data = ${link.data})`);
+				});
+			}else{
+				console.log("One query already in progress!!!");
 			}
-		});
+			
+		}else{
+			// vscode.window.showInformationMessage("Some bug is their in logic");
+			console.log("Some bug is their in logic");
+		}
 
 
 		let deactivateCommand = vscode.commands.registerCommand("dev-boon.DEACTIVATE_EXTENSION",()=>{
@@ -146,8 +174,10 @@ export async function activate(context: vscode.ExtensionContext) {
 							value: selectedText,
 							valueSelection: [0, selectedText.length + 1],
 						});
-				
-						await runSearchingForStackOverFlowPosts(searchTerm!);
+						if(queryUnderProcess === 0){
+							await runSearchingForStackOverFlowPosts(searchTerm!);
+						}
+						
 					}
 				}else{
 					await check(context);
@@ -168,7 +198,10 @@ export async function activate(context: vscode.ExtensionContext) {
 
 					if(selectedText!==undefined){
 						vscode.window.showInformationMessage(`Working fine with ${isExtensionActivated}`);
-						await runSearchingForStackOverFlowPosts(selectedText);
+						if(queryUnderProcess === 0){
+							await runSearchingForStackOverFlowPosts(selectedText);
+						}
+						
 					}else{
 						vscode.window.showErrorMessage("Something went Wrong 😣");
 					}
@@ -196,8 +229,11 @@ export async function activate(context: vscode.ExtensionContext) {
 							value: selectedText,
 							valueSelection: [0, selectedText.length + 1],
 						});
-				
-						await runSearchingForYouTube(searchTerm!);
+						
+						if(queryUnderProcess === 0){
+							await runSearchingForYouTube(searchTerm!);
+						}
+						
 					}
 				}else{
 					await check(context);
@@ -215,7 +251,10 @@ export async function activate(context: vscode.ExtensionContext) {
 					let selectedText = await getSelectedTextFromEditor();
 					if(selectedText!==undefined){
 						vscode.window.showInformationMessage(`Working fine with ${isExtensionActivated}`);
-						await runSearchingForYouTube(selectedText);
+						if(queryUnderProcess === 0){
+							await runSearchingForYouTube(selectedText);
+						}
+						
 					}else{
 						vscode.window.showErrorMessage("Something went Wrong 😣");
 					}
@@ -301,6 +340,7 @@ async function runSearchingForStackOverFlowPosts(selectedText:string): Promise<v
 	}
 
 	selectedText = selectedText.trim();
+	queryUnderProcess = 1;
     vscode.window.showInformationMessage(`User initiated a stackoverflow search with [${selectedText}] query`);
 
 	let tags: string[] = [];
@@ -349,6 +389,7 @@ async function runSearchingForStackOverFlowPosts(selectedText:string): Promise<v
         const searchResponse = await request.get(uriOptions);
 
 		vscode.window.showInformationMessage(`stack api has responded with ${searchResponse}`);
+		console.log(searchResponse);
 		let test = getLatestErrorMessageFromTerminal();
         if (searchResponse.items && searchResponse.items.length > 0) {
             var pass_the_result:description[]=new Array(10);
@@ -372,6 +413,7 @@ async function runSearchingForStackOverFlowPosts(selectedText:string): Promise<v
     } catch (error) {
         vscode.window.showErrorMessage(`Error : ${error.message}`);
     }
+	queryUnderProcess = 0;
 }
 function getStringOutOfTagList(tags:string[]): string{
 	let result = "";
@@ -389,6 +431,7 @@ async function runSearchingForYouTube(selectedText:string): Promise<void>{
 		return;
 	}
 	selectedText = selectedText.trim();
+	queryUnderProcess = 1;
     vscode.window.showInformationMessage(`User initiated a youTube search with [${selectedText}] query`);
 	let tags: string[] = [];
 	let tagsMatch;
@@ -445,4 +488,5 @@ async function runSearchingForYouTube(selectedText:string): Promise<void>{
     } catch (error) {
         vscode.window.showErrorMessage(`Error is: ${error.message}`);
     }
+	queryUnderProcess = 0;
 }

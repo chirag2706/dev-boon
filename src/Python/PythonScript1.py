@@ -16,6 +16,7 @@ class StackOverFlow_apiSearchUrl_Single(Resource):
         stackoverflowApiKey = 'Y3TeIyyVjpbz**icfv1oVg(('
         encodedTagsString=''
         apiSearchUrl = "https://api.stackexchange.com/2.2/search?order=desc&sort=relevance&intitle={encodedAPISearchTerm}&tagged={encodedTagsString}&site=stackoverflow&key={stackoverflowApiKey}".format(encodedAPISearchTerm=encodedAPISearchTerm,encodedTagsString=encodedTagsString,stackoverflowApiKey=stackoverflowApiKey)
+        print(apiSearchUrl)
         resp = requests.get(apiSearchUrl)
         return resp.json()
 
