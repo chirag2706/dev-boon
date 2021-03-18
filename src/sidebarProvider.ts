@@ -25,36 +25,39 @@ import {description} from "./description";
     var e:string;
 	if(x==0 || x==1){
 		if(x===0){
+      stck='<h4>StackOverFlow</h4>';
 			for(num=0;num<min(10,pass_the_result.length);num++){
 				a=pass_the_result[num].ThumbnailURL;
 				b=pass_the_result[num].Title;
 				c=pass_the_result[num].Description;
 				d=pass_the_result[num].Owner;
 				e=pass_the_result[num].Url;
-				stck+=`<h1>STACKOVERFLOW</h1><div class="card" style="width:100%;max-width:200px;" >
-						<div class="card-body">
-						<h3 class="card-title"><b><p style="font-size:18px;">${b}</p></b></h3>
-						<p lass="card-text" style="font-size:14px;">${c}</p>
-						<p lass="card-text" style="font-size:14px;">By ${d}</p>
-						<a href="${e}" style="max-width:200px;width:100%" class="btn btn-outline-info">Open</a>
+				stck+=`<div class="card" style="width:100%;max-width:180px;" >
+        <img src="https://jessehouwing.net/content/images/size/w2000/2018/07/stackoverflow-1.png" class="card-img-top" alt="..."/>
+						<div class="card-body" style="padding:5% 5% 5% 5%;">
+						<h5 class="card-title" ><p style="font-size:14px;">${b}</p></h3>
+						<p lass="card-text" style="font-size:12px;">${c}</p>
+						<p lass="card-text" style="font-size:12px;"><i>By ${d}<i></p>
+						<a href="${e}" style="max-width:100px;width:50%;font-size:12px;" class="btn btn-primary">Open</a>
 						</div>
 						</div>`;
 			}
 		}
 		else if(x===1){
+      stck='<h3>YOUTUBE</h3>';
 			for(num=0;num<min(5,pass_the_result.length);num++){
 				a=pass_the_result[num].ThumbnailURL;
 				b=pass_the_result[num].Title;
 				c=pass_the_result[num].Description;
 				d=pass_the_result[num].Owner;
 				e=pass_the_result[num].Url;
-				stck+=`<h1>YOUTUBE</h1><div class="card" style="width:100%;max-width:200px;" >
+				stck+=`<div class="card" style="width:100%;max-width:200px;" >
 						<img class="card-img-top"  src="${a}" alt="YOUTUBE" >
 						<div class="card-body">
-						<h3 class="card-title"><b><p style="font-size:18px;">${b}</p></b></h3>
+						<h3 class="card-title"><p style="font-size:18px;">${b}</p></h3>
 						<p lass="card-text" style="font-size:14px;">${c}</p>
 						<p lass="card-text" style="font-size:14px;">By ${d}</p>
-						<a href="${e}" style="max-width:200px;width:100%" class="btn btn-outline-info">Open</a>
+						<a href="${e}" style="max-width:100px;width:50%" class="btn btn-outline-info">Open</a>
 						</div>
 						</div>`;
 			}
@@ -62,7 +65,8 @@ import {description} from "./description";
 		return `<!DOCTYPE html>
 		<html>
 		<head>
-		</head>
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous"
+        </head>
 		<body>
 			${stck}
 		</body>
@@ -74,7 +78,7 @@ import {description} from "./description";
       <head>
       </head>
       <body>
-      <h1>WELCOME TO DEV-BOON</h1>
+      <h2>DEV-BOON</h2>
         
       </body>
     </html>`;
