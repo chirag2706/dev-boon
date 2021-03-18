@@ -79,6 +79,49 @@ export async function activate(context: vscode.ExtensionContext) {
 		}
 
 
+		// vscode.window.onDidOpenTerminal
+		vscode.window.onDidOpenTerminal(terminal => {
+			console.log("Terminal opened. Total count: " + (<any>vscode.window).terminals.length);
+		});
+		vscode.window.onDidOpenTerminal((terminal: vscode.Terminal) => {
+			vscode.window.showInformationMessage(`onDidOpenTerminal, name: ${terminal.name}`);
+		});
+
+		// vscode.window.onDidChangeActiveTerminal
+		vscode.window.onDidChangeActiveTerminal((e) => {
+			console.log(`Active terminal changed`);
+		});
+
+
+		(<any>vscode.window).registerTerminalLinkProvider({
+			provideTerminalLinks: (context: any, token: vscode.CancellationToken) => {
+				// Detect the first instance of the word "link" if it exists and linkify it
+				console.log("===================================");
+				let line = (context.line as string);
+				line=line.toLowerCase();
+				console.log((line));
+				const startIndex = (context.line as string).indexOf('error');
+				console.log(startIndex);
+				console.log("===================================");
+				if (startIndex === -1) {
+					return [];
+				}
+				return [
+					{
+						startIndex,
+						length: 'error'.length,
+						tooltip: 'Show a notification',
+						// You can return data in this object to access inside handleTerminalLink
+						data: 'Example data'
+					}
+				];
+			},
+			handleTerminalLink: (link: any) => {
+				vscode.window.showInformationMessage(`Link activated (data = ${link.data})`);
+			}
+		});
+
+
 		let deactivateCommand = vscode.commands.registerCommand("dev-boon.DEACTIVATE_EXTENSION",()=>{
 			
 			if(isExtensionActivated === 1){
@@ -92,10 +135,14 @@ export async function activate(context: vscode.ExtensionContext) {
 		context.subscriptions.push(deactivateCommand);
 
 
+		
+
+
 		let stackOverFlowSearchBySelectingTextFromEditorWithPrompt = vscode.commands.registerCommand(`dev-boon.STACKOVERFLOW_SEARCH_WITH_SELECTED_TEXT_USING_PROMPT`,async ()=>{
 			try{
 				if(isExtensionActivated === 1){
 					let selectedText = getSelectedTextFromEditor();
+					
 					if(selectedText!==undefined){
 						let searchTerm = await vscode.window.showInputBox({
 							ignoreFocusOut: selectedText === '',
@@ -197,6 +244,12 @@ export function deactivate(context: vscode.ExtensionContext) {
 	}
 	vscode.window.showInformationMessage(`dev-boon extension has been deactivated successfully ${catSmiley} with ${isExtensionActivated}`);
 }
+
+function getLatestErrorMessageFromTerminal(): string|undefined{
+	return "";
+	
+}
+
 //function which parses editor and gives only that text which is currently selected
 function getSelectedTextFromEditor(): string|undefined{
 	let activeEditor = vscode.window.activeTextEditor;
@@ -244,6 +297,9 @@ function getSelectedTextFromEditor(): string|undefined{
 
 
 }
+
+
+
 
 async function runSearchingForStackOverFlowPosts(selectedText:string): Promise<void>{
 	if(!selectedText || selectedText.trim() === ""){
@@ -303,6 +359,7 @@ async function runSearchingForStackOverFlowPosts(selectedText:string): Promise<v
         const searchResponse = await request.get(uriOptions);
 
 		vscode.window.showInformationMessage(`stack api has responded with ${searchResponse}`);
+		let test = getLatestErrorMessageFromTerminal();
         if (searchResponse.items && searchResponse.items.length > 0) {
             var pass_the_result:description[]=new Array(10);
 			var count:number=0;

@@ -2,7 +2,8 @@ from flask import Flask, request,redirect,jsonify
 from flask_restful import Resource, Api
 from json import dumps
 import requests
-from apiclient.discovery import build
+# from apiclient.discovery import build
+from googleapiclient.discovery import build
 from pyyoutube import Api as API_YOUTUBE
 
 
