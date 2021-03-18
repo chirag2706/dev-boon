@@ -25,13 +25,15 @@ import {description} from "./description";
     var e:string;
 	if(x==0 || x==1){
 		if(x===0){
+      stck='<h2>STACKOVERFLOW</h2>';
 			for(num=0;num<min(10,pass_the_result.length);num++){
 				a=pass_the_result[num].ThumbnailURL;
 				b=pass_the_result[num].Title;
 				c=pass_the_result[num].Description;
 				d=pass_the_result[num].Owner;
 				e=pass_the_result[num].Url;
-				stck+=`<h1>STACKOVERFLOW</h1><div class="card" style="width:100%;max-width:200px;" >
+				stck+=`<div class="card" style="width:100%;max-width:200px;" >
+        <img src="https://jessehouwing.net/content/images/size/w2000/2018/07/stackoverflow-1.png" class="card-img-top" alt="..."/>
 						<div class="card-body">
 						<h3 class="card-title"><b><p style="font-size:18px;">${b}</p></b></h3>
 						<p lass="card-text" style="font-size:14px;">${c}</p>
@@ -42,13 +44,14 @@ import {description} from "./description";
 			}
 		}
 		else if(x===1){
+      stck='<h2>YOUTUBE</h2>';
 			for(num=0;num<min(5,pass_the_result.length);num++){
 				a=pass_the_result[num].ThumbnailURL;
 				b=pass_the_result[num].Title;
 				c=pass_the_result[num].Description;
 				d=pass_the_result[num].Owner;
 				e=pass_the_result[num].Url;
-				stck+=`<h1>YOUTUBE</h1><div class="card" style="width:100%;max-width:200px;" >
+				stck+=`<div class="card" style="width:100%;max-width:200px;" >
 						<img class="card-img-top"  src="${a}" alt="YOUTUBE" >
 						<div class="card-body">
 						<h3 class="card-title"><b><p style="font-size:18px;">${b}</p></b></h3>
