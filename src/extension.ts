@@ -210,11 +210,6 @@ export async function activate(context: vscode.ExtensionContext) {
 		});
 
 		context.subscriptions.push(deactivateCommand);
-
-
-		
-
-
 		let stackOverFlowSearchBySelectingTextFromEditorWithPrompt = vscode.commands.registerCommand(`dev-boon.STACKOVERFLOW_SEARCH_WITH_SELECTED_TEXT_USING_PROMPT`,async ()=>{
 			try{
 				if(isExtensionActivated === 1){
@@ -388,7 +383,6 @@ function getSelectedTextFromEditor(): string|undefined{
 
 
 
-
 async function runSearchingForStackOverFlowPosts(selectedText:string): Promise<void>{
 	if(!selectedText || selectedText.trim() === ""){
 		return;
@@ -416,12 +410,8 @@ async function runSearchingForStackOverFlowPosts(selectedText:string): Promise<v
                 tags.push(match);
             }
         }); 
-		
-
 		console.log(tags);
-		
     }
-
     var encodedTagsString = encodeURIComponent(tags.join(';'));
     const encodedAPISearchTerm = encodeURIComponent(updatedSelectedText);
     const encodedWebSearchTerm = encodeURIComponent(selectedText);
@@ -470,7 +460,7 @@ async function runSearchingForStackOverFlowPosts(selectedText:string): Promise<v
 
         }
     } catch (error) {
-        vscode.window.showErrorMessage(`Error Pranav is: ${error.message}`);
+        vscode.window.showErrorMessage(`Error : ${error.message}`);
     }
 	queryUnderProcess = 0;
 }
@@ -489,7 +479,6 @@ async function runSearchingForYouTube(selectedText:string): Promise<void>{
 	if(!selectedText || selectedText.trim() === ""){
 		return;
 	}
-
 	selectedText = selectedText.trim();
 	queryUnderProcess = 1;
     vscode.window.showInformationMessage(`User initiated a youTube search with [${selectedText}] query`);

@@ -1,4 +1,3 @@
-
 import {ErrorMessage} from './ErrorMessage';
 
 var operatorsToBeRemoved = {
@@ -20,8 +19,10 @@ export class ErrorMessageParser{
     javaLangExceptionPattern: RegExp = new RegExp("java\\.lang\\.([a-zA-Z]+(Exception|Bounds|Error))");
     javaIOExceptionPattern: RegExp = new RegExp("java\\.io\\.([a-zA-Z]+(Exception|Error))");
 
-
-
+    Python_ModuleNotFoundError= new RegExp("ModuleNotFoundError:[A-Za-z_0-9 ]+\'(\w+)\'") // match[1]
+    Python_ImportError = new RegExp("ImportError:[A-Za-z_0-9 ]+\'(\w+)\'") // match[1]
+    Python_ZeroDivisionError = new RegExp("ZeroDivisionError:[A-Za-z_0-9 ]+")
+    Python_KeyboardInterrupt = new RegExp("KeyboardInterrupt[A-Za-z0-9_ ]*")
 
     addAllInSet(matchedKeywords:Set<string>,matchedGroups:string[]){
         matchedGroups.forEach((group)=>{
@@ -58,7 +59,6 @@ export class ErrorMessageParser{
         return outputArray;
 
     }
-
 
     parseFirstLine(message:string[]){
         if(message.length === 0){
@@ -132,9 +132,6 @@ export class ErrorMessageParser{
         return newArray.join(" ");
 
     }
-
-
-
     findPattern(pattern:RegExp,textBlocks:any){
         let matchedGroups:string[] = [];
         textBlocks.forEach((messageArray: string[]) => {
