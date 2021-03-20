@@ -2,6 +2,8 @@ import * as request from "request-promise-native";
 import * as vscode from 'vscode';	
 import {SidebarProvider} from './sidebarProvider';
 import {description} from "./description";
+import {ErrorMessageParser} from './model/errorQuery/ErrorMessageParser';
+import {ErrorMessage} from './model/errorQuery/ErrorMessage';
 
 
 
@@ -13,6 +15,28 @@ for(var i=__dirname.length;i>=0;i--){
 		j=i;
 		break;
 	}
+}
+
+
+var operatorsToBeRemoved = {
+    "\'":0,
+    "\"":1,
+	"\\":2,
+	"\/":3
+
+};
+
+function replaceAll(operatorsToBeRemoved:Object ,line:string){
+	let output:string = "";
+
+	for(let idx = 0;idx<line.length;idx++){
+		if(!(line[idx] in operatorsToBeRemoved)){
+			output+=line[idx];
+		}
+	}
+
+	return output;
+
 }
 var path=__dirname.slice(0,j);
 // STOP THE FLASK SERVER IF RUNNING ON PORT 6615
@@ -101,26 +125,51 @@ export async function activate(context: vscode.ExtensionContext) {
 						// Detect the first instance of the word "link" if it exists and linkify it
 						console.log("===================================");
 						let line = (context.line as string);
-						line=line.toLowerCase();
-						console.log((line));
-						const startIndex = (context.line as string).indexOf('error');
-						console.log(startIndex);
-						if(startIndex !== -1){
-							// if(queryUnderProcess === 0){
-								// await runSearchingForStackOverFlowPosts(line.substr(startIndex,line.length-startIndex));
-								let answer = await vscode.window.showInformationMessage(`Which content do u want to see?`,"StackOverFlow","Youtube");
 
+						line=line.toLowerCase();
+						line = replaceAll(operatorsToBeRemoved,line);
+						console.log((line));
+						const startIndex = line.indexOf('error');
+						const checkIndex = line.indexOf('java');
+						const exceptionIndex = line.indexOf('exception');
+						console.log(`startIndex is:${startIndex}`);
+						console.log(`checkIndex is:${checkIndex}`);
+						console.log(`exceptionIndex is:${exceptionIndex}`);
+						if(startIndex !== -1 && checkIndex!==-1){
+							// if(queryUnderProcess === 0){
+								let finalParsedString = line.substr(checkIndex,line.length-checkIndex);
+								// await runSearchingForStackOverFlowPosts(line.substr(startIndex,line.length-startIndex));
+								let answer = await vscode.window.showInformationMessage(`Which content do u want to see? query is ${finalParsedString}`,"StackOverFlow","Youtube");
+
+								// let errorMessage = new ErrorMessage();
+								// errorMessage.putSingleMessage("ERROR",line.substr(startIndex,line.length-startIndex));
+
+								// let parsedString = new ErrorMessageParser();
+
+								// let finalParsedString=parsedString.parseCompilerError(errorMessage);
+								
+
+								// console.log(`finalParsedString is ${finalParsedString}`);
 								//for now ,i have kept java as a string instead of error string for testing purposes
 								if(answer === "StackOverFlow"){
-									await runSearchingForStackOverFlowPosts("java");
+									await runSearchingForStackOverFlowPosts(finalParsedString);
 								}else if(answer === "Youtube"){
-									await runSearchingForYouTube("java");
+									await runSearchingForYouTube(finalParsedString);
 								}
 								
 
 							// }else{
 								// console.log("One query already in progress!!!");
 							// }
+						}else if(checkIndex !== -1 && exceptionIndex!== -1){
+							let finalParsedString = line.substr(checkIndex,line.length-checkIndex);
+							let answer = await vscode.window.showInformationMessage(`Which content do u want to see? query is ${finalParsedString}`,"StackOverFlow","Youtube");
+							if(answer === "StackOverFlow"){
+								await runSearchingForStackOverFlowPosts(finalParsedString);
+							}else if(answer === "Youtube"){
+								await runSearchingForYouTube(finalParsedString);
+							}
+
 						}
 						console.log("===================================");
 						if (startIndex === -1) {

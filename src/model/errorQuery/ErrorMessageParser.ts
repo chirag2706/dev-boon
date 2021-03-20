@@ -97,6 +97,38 @@ export class ErrorMessageParser{
         let newArray:string[] = this.convertToArray(matchedKeywords);
         newArray.push(this.parseFirstLine(error));
 
+        console.log(newArray);
+
+        return newArray.join(" ");
+
+    }
+
+    parseRuntimeError(messages:ErrorMessage){
+        let error = messages.get("ERROR");
+        let warning = messages.get("WARNING");
+        let information = messages.get("INFORMATION");
+
+        let matchedKeywords:Set<string> =  new Set();
+
+        matchedKeywords.add("RUNTIME ERROR");
+        this.addAllInSet(matchedKeywords,this.findPattern(this.javaLangExceptionPattern,[error]));
+        this.addAllInSet(matchedKeywords,this.findPattern(this.javaIOExceptionPattern,[error]));
+        this.addAllInSet(matchedKeywords,this.findPattern(this.javaVersionPattern,[error,warning,information]));
+
+
+        //filtering of tokens is remaining
+        error.forEach((errorMessage)=>{
+            console.log(`${errorMessage} inside parseRuntimeError function in ErrorMessageParser file`);
+            errorMessage.split("\n").forEach((line)=>{
+                let tokens = this.replaceAll(operatorsToBeRemoved,line).split("\n");
+                this.addAllInSet(matchedKeywords,tokens);
+            });
+
+        });
+
+        let newArray:string[] = this.convertToArray(matchedKeywords);
+        newArray.push(this.parseFirstLine(error));
+
         return newArray.join(" ");
 
     }
