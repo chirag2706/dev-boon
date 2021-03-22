@@ -153,7 +153,9 @@ export async function activate(context: vscode.ExtensionContext) {
 			if(isExtensionActivated === 1){
 				try {
 					let selectedText = await getSelectedTextFromEditor();
-	
+					
+
+					console.log(selectedText);
 					
 
 					if(selectedText!==undefined){
@@ -263,8 +265,11 @@ function getSelectedTextFromEditor(): string|undefined{
 	}
 	let fetchSelectedLines: string[] = [];
 	activeEditor.selections.forEach((selectedTextLine)=>{
+		// console.log("bug");
+
 		if(selectedTextLine.start.line === selectedTextLine.end.line && selectedTextLine.start.character === selectedTextLine.end.character){
 			let range = editorDocument.lineAt(selectedTextLine.start).range;
+			console.log(editorDocument.lineAt(selectedTextLine.start));
 			let text = "undefined";
 			if(activeEditor!==undefined){
 				text=activeEditor.document.getText(range);
@@ -272,11 +277,13 @@ function getSelectedTextFromEditor(): string|undefined{
 
 			fetchSelectedLines.push(`${text}${eol}`);
 		}else{
+			
 			if(activeEditor!==undefined){
 				fetchSelectedLines.push(activeEditor.document.getText(selectedTextLine));
 			}
 		}
 	});
+	console.log(fetchSelectedLines);
 	if(fetchSelectedLines.length >0){
 		finalSelectedString = fetchSelectedLines[0];
 		finalSelectedString = finalSelectedString.trim();

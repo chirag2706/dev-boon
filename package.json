@@ -9,6 +9,10 @@
 	"categories": [
 		"Other"
 	],
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/chirag2706/dev-boon.git"
+	},
 	"publisher": "ChiragGupta",
 	"activationEvents": [
 		"onCommand:dev-boon.STACKOVERFLOW_SEARCH_WITH_SELECTED_TEXT",
@@ -19,6 +23,7 @@
 		"onView:dev-boon-sidebar"
 	],
 	"main": "./out/extension.js",
+	"license": "MIT",
 	"contributes": {
 		"viewsContainers": {
 			"activitybar": [
