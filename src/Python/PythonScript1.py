@@ -29,11 +29,13 @@ class StackOverFlow_apiSearchUrl(Resource):
         return resp.json()
 
 
+
 class StackOverFlow_stackoverflowSearchUrl(Resource):
     def get(self,encodedWebSearchTerm):
         stackoverflowSearchUrl = "https://stackoverflow.com/search?q={encodedWebSearchTerm}".format(encodedWebSearchTerm=encodedWebSearchTerm)
         resp = requests.get(stackoverflowSearchUrl)
         return resp.json()
+
 
 
 class StackOverFlow_googleSearchUrl(Resource):
