@@ -125,7 +125,7 @@ export async function activate(context: vscode.ExtensionContext) {
 						// Detect the first instance of the word "link" if it exists and linkify it
 						console.log("===================================");
 						let line = (context.line as string);
-
+						console.log(context);
 						line=line.toLowerCase();
 						line = replaceAll(operatorsToBeRemoved,line);
 						console.log((line));
