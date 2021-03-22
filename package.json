@@ -123,6 +123,7 @@
 		"concurrently": "^6.0.0",
 		"cross-spawn": "^7.0.3",
 		"express": "^4.17.1",
+		"fs": "0.0.1-security",
 		"open": "^8.0.1",
 		"python-shell": "^2.0.3",
 		"request": "^2.88.2",

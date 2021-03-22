@@ -14,7 +14,6 @@ var operatorsToBeRemoved = {
 };
 
 export class ErrorMessageParser{
-
     javaVersionPattern: RegExp = new RegExp("((javac?)|(jdk)) ?(v(ersion)?)? ?1.([1-9])(.[\\d_]+)?");
     javaLangExceptionPattern: RegExp = new RegExp("java\\.lang\\.([a-zA-Z]+(Exception|Bounds|Error))");
     javaIOExceptionPattern: RegExp = new RegExp("java\\.io\\.([a-zA-Z]+(Exception|Error))");
@@ -44,9 +43,7 @@ export class ErrorMessageParser{
                 output+=line[idx];
             }
         }
-
         return output;
-
     }
 
     convertToArray(matchedKeywords:Set<string>){
@@ -75,7 +72,6 @@ export class ErrorMessageParser{
         let error = messages.get("ERROR");
         let warning = messages.get("WARNING");
         let information = messages.get("INFORMATION");
-
         let matchedKeywords:Set<string> =  new Set();
 
         matchedKeywords.add("COMPILE ERROR");

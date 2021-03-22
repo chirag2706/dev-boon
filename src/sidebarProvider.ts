@@ -13,7 +13,7 @@ import {description} from "./description";
 
   function getWebviewContent(x:number,pass_the_result:description[]) {
 
-    vscode.window.showInformationMessage("getWebviewContent function is called");
+    //vscode.window.showInformationMessage("getWebviewContent function is called");
 
     var stck:string;
     stck='';
@@ -32,13 +32,13 @@ import {description} from "./description";
 				c=pass_the_result[num].Description;
 				d=pass_the_result[num].Owner;
 				e=pass_the_result[num].Url;
-				stck+=`<div class="card" style="width:100%;max-width:180px;" >
+				stck+=`<div class="card" style="width:100%;max-width:180px;margin-bottom:5%;" >
         <img src="https://jessehouwing.net/content/images/size/w2000/2018/07/stackoverflow-1.png" class="card-img-top" alt="..."/>
-						<div class="card-body" style="padding:5% 5% 5% 5%;">
+						<div class="card-body" style="padding:3% 3% 3% 3%;">
 						<h5 class="card-title" ><p style="font-size:14px;">${b}</p></h3>
 						<p lass="card-text" style="font-size:12px;">${c}</p>
 						<p lass="card-text" style="font-size:12px;"><i>By ${d}<i></p>
-						<a href="${e}" style="max-width:100px;width:50%;font-size:12px;" class="btn btn-primary">Open</a>
+						<a href="${e}" style="width:100%;font-size:11px;" class="btn btn-outline-primary">Open</a>
 						</div>
 						</div>`;
 			}
@@ -51,13 +51,13 @@ import {description} from "./description";
 				c=pass_the_result[num].Description;
 				d=pass_the_result[num].Owner;
 				e=pass_the_result[num].Url;
-				stck+=`<div class="card" style="width:100%;max-width:200px;" >
+				stck+=`<div class="card" style="width:100%;max-width:1800px;margin-bottom:5%;" >
 						<img class="card-img-top"  src="${a}" alt="YOUTUBE" >
-						<div class="card-body">
-						<h3 class="card-title"><p style="font-size:18px;">${b}</p></h3>
-						<p lass="card-text" style="font-size:14px;">${c}</p>
-						<p lass="card-text" style="font-size:14px;">By ${d}</p>
-						<a href="${e}" style="max-width:100px;width:50%" class="btn btn-outline-info">Open</a>
+						<div class="card-body" style="padding:3% 3% 3% 3%;">
+						<h5 class="card-title" ><p style="font-size:14px;">${b}</p></h3>
+						<p lass="card-text" style="font-size:12px;">${c}</p>
+						<p lass="card-text" style="font-size:12px;"><i>By ${d}<i></p>
+						<a href="${e}" style="width:100%;font-size:11px;" class="btn btn-outline-primary">Open</a>
 						</div>
 						</div>`;
 			}
@@ -89,12 +89,12 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
   _doc?: vscode.TextDocument;
 
   constructor(private readonly _extensionUri: vscode.Uri) {
-    vscode.window.showInformationMessage("SidebarProvider constructor is called");
+    //vscode.window.showInformationMessage("SidebarProvider constructor is called");
     
   }
 
   public resolveWebviewView(webviewView: vscode.WebviewView) {
-    vscode.window.showErrorMessage("resolveWebviewView function is called");
+    //vscode.window.showErrorMessage("resolveWebviewView function is called");
     this._view = webviewView;
 
     webviewView.webview.options = {
@@ -113,14 +113,14 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
           if (!data.value) {
             return;
           }
-          vscode.window.showInformationMessage(data.value);
+          //vscode.window.showInformationMessage(data.value);
           break;
         }
         case "onError": {
           if (!data.value) {
             return;
           }
-          vscode.window.showErrorMessage(data.value);
+          //vscode.window.showErrorMessage(data.value);
           break;
         }
         
@@ -129,7 +129,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
   }
 
   public customResolveWebviewView(x:number,pass_the_result:description[]) {
-    vscode.window.showErrorMessage("customResolveWebviewView function is called");
+    //vscode.window.showErrorMessage("customResolveWebviewView function is called");
     // this._view = webviewView;
     if(this._view!==undefined){
       this._view.webview.options = {
@@ -148,33 +148,33 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
             if (!data.value) {
               return;
             }
-            vscode.window.showInformationMessage(data.value);
+           // vscode.window.showInformationMessage(data.value);
             break;
           }
           case "onError": {
             if (!data.value) {
               return;
             }
-            vscode.window.showErrorMessage(data.value);
+            //vscode.window.showErrorMessage(data.value);
             break;
           }
           
         }
       });
     }else{
-      vscode.window.showErrorMessage("Something went wrong while showing UI:(");
+      //vscode.window.showErrorMessage("Something went wrong while showing UI:(");
     }
     
   }
 
   public revive(panel: vscode.WebviewView) {
-    vscode.window.showInformationMessage("revive function is called");
+    //vscode.window.showInformationMessage("revive function is called");
     this._view = panel;
   }
 
   private _getHtmlForWebview(webview: vscode.Webview,x:number,pass_the_result:description[]) {
 
-    vscode.window.showInformationMessage("_getHtmlForWebview function is called");
+    //vscode.window.showInformationMessage("_getHtmlForWebview function is called");
 
     return getWebviewContent(x,pass_the_result);
   }
