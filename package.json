@@ -17,8 +17,8 @@
 	"activationEvents": [
 		"onCommand:dev-boon.STACKOVERFLOW_SEARCH_WITH_SELECTED_TEXT",
 		"onCommand:dev-boon.DEACTIVATE_EXTENSION",
-		"onCommand:dev-boon.STACKOVERFLOW_SEARCH_WITH_SELECTED_TEXT_USING_PROMPT",
 		"onCommand:dev-boon.YOUTUBE_SEARCH_WITH_SELECTED_TEXT",
+		"onCommand:dev-boon.CUSTOM_SEARCH",
 		"onCommand:dev-boon.YOUTUBE_SEARCH_WITH_SELECTED_TEXT_USING_PROMPT",
 		"onCommand:dev-boon.NLP_TO_CODE",
 		"onView:dev-boon-sidebar"
@@ -53,29 +53,24 @@
 				"title": "snippet query"
 			},
 			{
-				"command": "dev-boon.STACKOVERFLOW_SEARCH_WITH_SELECTED_TEXT",
-				"category": "dev-boon",
-				"title": "stackOverFlow Search without prompt(but only takes selected text)"
-			},
-			{
 				"command": "dev-boon.DEACTIVATE_EXTENSION",
 				"category": "dev-boon",
 				"title": "deactivate dev-boon extension"
 			},
 			{
-				"command": "dev-boon.STACKOVERFLOW_SEARCH_WITH_SELECTED_TEXT_USING_PROMPT",
+				"command": "dev-boon.STACKOVERFLOW_SEARCH_WITH_SELECTED_TEXT",
 				"category": "dev-boon",
-				"title": "stackOverFlow Search using prompt"
+				"title": "StackOverFlow Search"
 			},
 			{
 				"command": "dev-boon.YOUTUBE_SEARCH_WITH_SELECTED_TEXT",
 				"category": "dev-boon",
-				"title": "youTube Search without prompt(but only takes selected text)"
+				"title": "YouTube Search"
 			},
 			{
-				"command": "dev-boon.YOUTUBE_SEARCH_WITH_SELECTED_TEXT_USING_PROMPT",
+				"command": "dev-boon.CUSTOM_SEARCH",
 				"category": "dev-boon",
-				"title": "youTube Search using prompt"
+				"title": "Search using prompt"
 			}
 		],
 		"keybindings": [
@@ -85,23 +80,23 @@
 			},
 			{
 				"command": "dev-boon.STACKOVERFLOW_SEARCH_WITH_SELECTED_TEXT",
-				"key": "ctrl+h"
-			},
-			{
-				"command": "dev-boon.STACKOVERFLOW_SEARCH_WITH_SELECTED_TEXT_USING_PROMPT",
-				"key": "ctrl+a"
+				"key": "ctrl+shift+s"
 			},
 			{
 				"command": "dev-boon.YOUTUBE_SEARCH_WITH_SELECTED_TEXT",
-				"key": "ctrl+g"
-			},
-			{
-				"command": "dev-boon.YOUTUBE_SEARCH_WITH_SELECTED_TEXT_USING_PROMPT",
-				"key": "ctrl+f"
+				"key": "ctrl+shift+y"
 			},
 			{
 				"command": "dev-boon.DEACTIVATE_EXTENSION",
-				"key": "ctrl+d"
+				"key": "ctrl+shift+d"
+			},
+			{
+				"command": "dev-boon.CUSTOM_SEARCH",
+				"key": "ctrl+shift+q"
+			},
+			{
+				"command": "dev-boon.CODE_SUMMARY",
+				"key": "ctrl+shift+c"
 			}
 		]
 	},
