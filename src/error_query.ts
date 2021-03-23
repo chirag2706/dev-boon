@@ -1,7 +1,3 @@
-
-import {SidebarProvider} from './sidebarProvider';
-import {description} from "./description";
-
 var operatorsToBeRemoved = {
     "\'":0,
     "\"":1,
@@ -20,22 +16,40 @@ function replaceAll(operatorsToBeRemoved:Object ,line:string){
 
 export class error_query{
     async give_final_parsed_string(line:string){
+        //console.log(line);
+        // Java Arithmetic Exception , Div by zero
+        var Java_ArithmeticException = new RegExp("java.lang.ArithmeticException");
+        var Java_ArithmeticException_zero=new RegExp("zero");
+        var j1=Java_ArithmeticException.test(line);
+        var j2=Java_ArithmeticException_zero.test(line);
+        if(j1 && j2){
+            return "java.lang.ArithmeticException: / by zero";
+        }
+        if(j1){
+            return "java.lang.ArithmeticException:";
+        }
+
+        // Java Ayyay Index Out of Bounds
+        var Java_ArrayIndexOutOfBoundsException = new RegExp("java.lang.ArrayIndexOutOfBoundsException");
+        var j1=Java_ArrayIndexOutOfBoundsException.test(line);
+        if(j1){
+            return "java.lang.ArrayIndexOutOfBoundsException:";
+        }
+
         if(line.indexOf('java')!==-1){
             line=line.toLowerCase();
             line = replaceAll(operatorsToBeRemoved,line);
             var startIndex = line.indexOf('error');
             var checkIndex = line.indexOf('java');
             var exceptionIndex = line.indexOf('exception');
-            console.log(`startIndex is:${startIndex}`);
-            console.log(`checkIndex is:${checkIndex}`);
-            console.log(`exceptionIndex is:${exceptionIndex}`);
             var finalParsedString='none';
-            if((startIndex !== -1 && checkIndex!==-1)||(checkIndex !== -1 && exceptionIndex!== -1)){
-                finalParsedString = line.substr(checkIndex,line.length-checkIndex);
+            if((startIndex !== -1 )||(exceptionIndex!== -1)){
+                finalParsedString = line;
             }
             return finalParsedString;
         }
-        console.log(line);
+
+
         var Python_ModuleNotFoundError= new RegExp("ModuleNotFoundError"); // match[1]
         var Python_ImportError = new RegExp("ImportError"); // match[1]
 

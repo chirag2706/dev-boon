@@ -2,10 +2,19 @@ import * as request from "request-promise-native";
 import * as vscode from 'vscode';	
 import {SidebarProvider} from './sidebarProvider';
 import {description} from "./description";
+import {summary} from "./summary";
 import {ErrorMessageParser} from './model/errorQuery/ErrorMessageParser';
 import {ErrorMessage} from './model/errorQuery/ErrorMessage';
+import {difficult_query_queue} from './difficult_query_queue';
 import {error_query} from './error_query';
 import {QueryDocListener} from './model/nlpToCodeForJava/QueryDocListener';
+import { promises } from "node:fs";
+import {
+    IPCMessageReader, IPCMessageWriter, createConnection, IConnection, TextDocuments, TextDocument, 
+    Diagnostic, DiagnosticSeverity, InitializeResult, TextDocumentPositionParams, CompletionItem, 
+    CompletionItemKind
+} from 'vscode-languageserver';
+import { listenerCount } from "node:events";
 //// RUN THE FLASK LOCALLY ON PORT 6615
 var {spawn} = require('child_process');
 var j;
@@ -26,10 +35,9 @@ var python=spawn('python3',[path+'/src/Python/PythonScript1.py']);
 
 var sidebarProvider:any = undefined ;
 
-let open = require('open'); //this module is used to open browser such as google chrome
-
 let isExtensionActivated = 0; // 0 means that initially ,it is deactivated
 let queryUnderProcess = 0; // 0 means that api call is under process
+var terminal_array:string[]=new Array("Terminal");// Store terminal text so that we dont repeatedly search them
 
 var catSmiley = String.fromCodePoint(0X0001F638);
 const regex = /\[(.+?)\]/gm;
@@ -45,7 +53,7 @@ async function check(context: vscode.ExtensionContext):Promise<string | undefine
 			isExtensionActivated = 1;
 			vscode.commands.executeCommand("workbench.view.extension.dev-boon-sidebar-view");
 			vscode.window.showInformationMessage(`Your extension has been activated successfully ${catSmiley} with ${isExtensionActivated} `);
-			
+			difficult_query();// START DIFFICULT QUERY
 			await activate(context);
 		}else if(answer === "NO"){
 			//vscode.window.showErrorMessage("Sorry to hear that 😣");
@@ -58,7 +66,6 @@ async function check(context: vscode.ExtensionContext):Promise<string | undefine
 		return "";
 	}
 }
-var fs = require("fs");
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export async function activate(context: vscode.ExtensionContext) {
@@ -72,47 +79,51 @@ export async function activate(context: vscode.ExtensionContext) {
 			context.subscriptions.push(sideBar);
 		}
 		if(isExtensionActivated === 1){
-			if(queryUnderProcess === 0){
-				queryUnderProcess=1;
+			//Get the terminal text as links
 				(<any>vscode.window).registerTerminalLinkProvider({
 					provideTerminalLinks: async (context: any, token: vscode.CancellationToken) => {
-						// Detect the first instance of the word "link" if it exists and linkify it
-						let line = (context.line as string);
-						var send_to_error_query:error_query=new error_query();
-						var finalParsedString='';
-						var java_error=line.indexOf('java');
-						var python_error=line.indexOf('python');
-						finalParsedString=await send_to_error_query.give_final_parsed_string(line);
-						console.log(finalParsedString);
-						if(finalParsedString!=='none'){
-							let answer = await vscode.window.showInformationMessage(`Which content do u want to see? query is ${finalParsedString}`,"StackOverFlow","Youtube");
-							if(answer === "StackOverFlow"){
-								await runSearchingForStackOverFlowPosts(finalParsedString);
-							}
-							else if(answer === "Youtube"){
-								await runSearchingForYouTube(finalParsedString);
-							}
-							return [
-								{
-									java_error,
-									length: 'error'.length,
-									tooltip: 'Show a notification',
-									// You can return data in this object to access inside handleTerminalLink
-									data: 'Example data'
+						if(queryUnderProcess === 0){
+							queryUnderProcess=1;
+							let line = (context.line as string);
+							var check=1;
+							if(line.indexOf('java')!=-1){
+								if(line.indexOf('error')==-1 && line.indexOf('exception')==-1){
+									check=0;
 								}
-							];
+							}
+							for(var i=0;i<terminal_array.length;i++){
+								if(terminal_array[i]==line){
+									check=0;
+									break;
+								}
+							}
+							if(check){
+								terminal_array.push(line);
+								var send_to_error_query:error_query=new error_query();
+								var finalParsedString='';
+								finalParsedString=await send_to_error_query.give_final_parsed_string(line);
+								console.log(finalParsedString);
+								if(finalParsedString!=='none'){
+									runSearchingForYouTube(finalParsedString);
+									// let answer = await vscode.window.showInformationMessage(`Which content do u want to see? query is ${finalParsedString}`,"StackOverFlow","Youtube");
+									// if(answer === "StackOverFlow"){
+									// 	await runSearchingForStackOverFlowPosts(finalParsedString);
+									// }
+									// else if(answer === "Youtube"){
+									// 	await runSearchingForYouTube(finalParsedString);
+									// }
+								}
+								queryUnderProcess=0;
+								return [];
+							}
+							queryUnderProcess=0;
+							return [];
 						}
-						return [];
 					},
 					handleTerminalLink: (link: any) => {
 						//vscode.window.showInformationMessage(`Link activated (data = ${link.data})`);
 					}
-				}); 
-				queryUnderProcess=0;
-			}
-			else{
-				console.log("One query already in progress!!!");
-			}
+				});
 		}
 		let deactivateCommand = vscode.commands.registerCommand("dev-boon.DEACTIVATE_EXTENSION",()=>{
 			if(isExtensionActivated === 1){
@@ -122,6 +133,36 @@ export async function activate(context: vscode.ExtensionContext) {
 			}
 		});
 		context.subscriptions.push(deactivateCommand);
+		let CustomSearch = vscode.commands.registerCommand('dev-boon.CUSTOM_SEARCH', async () => {
+			if(isExtensionActivated === 1){
+				try {
+					custom_search();
+				}
+				catch (err) {
+					//vscode.window.showErrorMessage("Some Error occured while searching stackOverFlow posts 😣.Please try again");
+				}
+			}
+		});
+
+		
+
+		context.subscriptions.push(CustomSearch);
+
+		let Code_Summary = vscode.commands.registerCommand('dev-boon.CODE_SUMMARY', async () => {
+			if(isExtensionActivated === 1){
+				try {
+					code_summary();
+				}
+				catch (err) {
+					//vscode.window.showErrorMessage("Some Error occured while searching stackOverFlow posts 😣.Please try again");
+				}
+			}
+			else{
+				await check(context);
+			}
+		});
+
+		context.subscriptions.push(Code_Summary);
 
 		let NlpToCode = vscode.commands.registerCommand(`dev-boon.NLP_TO_CODE`,async ()=>{
 			try{
@@ -142,37 +183,14 @@ export async function activate(context: vscode.ExtensionContext) {
 		context.subscriptions.push(NlpToCode);
 
 
-		let stackOverFlowSearchBySelectingTextFromEditorWithPrompt = vscode.commands.registerCommand(`dev-boon.STACKOVERFLOW_SEARCH_WITH_SELECTED_TEXT_USING_PROMPT`,async ()=>{
-			try{
-				if(isExtensionActivated === 1){
-					let selectedText = getSelectedTextFromEditor();
-					
-					if(selectedText!==undefined){
-						let searchTerm = await vscode.window.showInputBox({
-							ignoreFocusOut: selectedText === '',
-							placeHolder: 'Please enter your Stackoverflow query',
-							// prompt: 'search for tooltip',
-							value: selectedText,
-							valueSelection: [0, selectedText.length + 1],
-						});
-						// if(queryUnderProcess === 0){
-							await runSearchingForStackOverFlowPosts(searchTerm!);
-						// }
-						
-					}
-				}else{
-					await check(context);
-				}
-			}catch(err){
-				//vscode.window.showErrorMessage("Something went wrong while searching for Stackoverflow posts 😣");
-			}
-		});
-
-		context.subscriptions.push(stackOverFlowSearchBySelectingTextFromEditorWithPrompt);
 
 		let stackOverFlowSearchBySelectingTextFromEditor = vscode.commands.registerCommand('dev-boon.STACKOVERFLOW_SEARCH_WITH_SELECTED_TEXT', async () => {
 			if(isExtensionActivated === 1){
 				try {
+					if(sidebarProvider!==null && sidebarProvider!==undefined){
+						var pass_the_result:description[]=new Array(1);
+						sidebarProvider.customResolveWebviewView(3,pass_the_result);
+					}
 					let selectedText = await getSelectedTextFromEditor();
 					
 
@@ -192,7 +210,8 @@ export async function activate(context: vscode.ExtensionContext) {
 				} catch (err) {
 					//vscode.window.showErrorMessage("Some Error occured while searching stackOverFlow posts 😣.Please try again");
 				}
-			}else{
+			}
+			else{
 				await check(context);
 			}
 
@@ -201,50 +220,27 @@ export async function activate(context: vscode.ExtensionContext) {
 		context.subscriptions.push(stackOverFlowSearchBySelectingTextFromEditor);
 
 
-		let youTubeSearchBySelectingTextFromEditorWithPrompt = vscode.commands.registerCommand(`dev-boon.YOUTUBE_SEARCH_WITH_SELECTED_TEXT_USING_PROMPT`,async ()=>{
-			try{
-				if(isExtensionActivated === 1){
-					let selectedText = getSelectedTextFromEditor();
-					if(selectedText!==undefined){
-						let searchTerm = await vscode.window.showInputBox({
-							ignoreFocusOut: selectedText === '',
-							placeHolder: 'Please enter your Youtube query',
-							value: selectedText,
-							valueSelection: [0, selectedText.length + 1],
-						});
-						
-						// if(queryUnderProcess === 0){
-							await runSearchingForYouTube(searchTerm!);
-						// }
-						
-					}
-				}else{
-					await check(context);
-				}
-			}catch(err){
-				//vscode.window.showErrorMessage("Something went wrong while searching for Youtube videos 😣");
-			}
-		});
-
-		context.subscriptions.push(youTubeSearchBySelectingTextFromEditorWithPrompt);
-
 		let youTubeSearchBySelectingTextFromEditor = vscode.commands.registerCommand('dev-boon.YOUTUBE_SEARCH_WITH_SELECTED_TEXT', async () => {
 			if(isExtensionActivated === 1){
 				try {
+					if(sidebarProvider!==null && sidebarProvider!==undefined){
+						var pass_the_result:description[]=new Array(1);
+						sidebarProvider.customResolveWebviewView(2,pass_the_result);
+					}
 					let selectedText = await getSelectedTextFromEditor();
 					if(selectedText!==undefined){
 						//vscode.window.showInformationMessage(`Working fine with ${isExtensionActivated}`);
 						// if(queryUnderProcess === 0){
 							await runSearchingForYouTube(selectedText);
 						// }
-						
 					}else{
 						//vscode.window.showErrorMessage("Something went Wrong 😣");
 					}
 				} catch (err) {
 					//vscode.window.showErrorMessage("Some Error occured while searching youTube videos 😣.Please try again");
 				}
-			}else{
+			}
+			else{
 				await check(context);
 			}
 
@@ -315,10 +311,8 @@ async function runSearchingForStackOverFlowPosts(selectedText:string): Promise<v
 	if(!selectedText || selectedText.trim() === ""){
 		return;
 	}
-
 	selectedText = selectedText.trim();
-	// queryUnderProcess = 1;
-    //vscode.window.showInformationMessage(`User initiated a stackoverflow search with [${selectedText}] query`);
+    vscode.window.showInformationMessage(`Initiated a StackOverFlow search with \"[${selectedText}]\" query`);
 
 	let tags: string[] = [];
 	let tagsMatch;
@@ -358,10 +352,6 @@ async function runSearchingForStackOverFlowPosts(selectedText:string): Promise<v
         json: true,
         gzip: true,
     };
-	// const questionsMeta = [
-    //     { title: `🔎 Search Stackoverflow: ${selectedText}`, url: stackoverflowSearchUrl },
-    //     { title: `🔎 Search Google: ${selectedText}`, url: googleSearchUrl },
-    // ];
     try {
         const searchResponse = await request.get(uriOptions);
 
@@ -390,7 +380,6 @@ async function runSearchingForStackOverFlowPosts(selectedText:string): Promise<v
     } catch (error) {
         //vscode.window.showErrorMessage(`Error : ${error.message}`);
     }
-	// queryUnderProcess = 0;
 }
 function getStringOutOfTagList(tags:string[]): string{
 	let result = "";
@@ -408,8 +397,7 @@ async function runSearchingForYouTube(selectedText:string): Promise<void>{
 		return;
 	}
 	selectedText = selectedText.trim();
-	//queryUnderProcess = 1;
-    //vscode.window.showInformationMessage(`User initiated a youTube search with [${selectedText}] query`);
+    vscode.window.showInformationMessage(`Initiated a YouTube Search with \"[${selectedText}]\" query`);
 	let tags: string[] = [];
 	let tagsMatch;
 	let updatedSelectedText = selectedText;
@@ -431,10 +419,6 @@ async function runSearchingForYouTube(selectedText:string): Promise<void>{
 	const youtube=`http://127.0.0.1:6615/YouTube/${encodedWebSearchTerm}`;
 	const youtubeSearchUrl=`https://www.youtube.com/results?search_query=${encodedWebSearchTerm}`;
     const googleSearchUrl = `http://127.0.0.1:dfb6615//YouTube_googleSearchUrl/${encodedWebSearchTerm}`;
-	// const questionsMeta = [
-    //     { title: `🔎 Search Youtube ${selectedText}`, url: youtubeSearchUrl },
-    //     { title: `🔎 Search Google: ${selectedText}`, url: googleSearchUrl },
-    // ];
 	const uriOptions = {
         uri: youtube,
         json: true,
@@ -465,5 +449,148 @@ async function runSearchingForYouTube(selectedText:string): Promise<void>{
     } catch (error) {
         //vscode.window.showErrorMessage(`Error is: ${error.message}`);
     }
-	//queryUnderProcess = 0;
+}
+async function custom_search(): Promise<void>{
+	let options: vscode.InputBoxOptions = {
+		prompt: "Label: ",
+		placeHolder: "Search..."
+	}
+	vscode.window.showInputBox(options).then(async value => {
+		if (!value) return;
+		var search_string_by_user = value;
+		let answer = await vscode.window.showInformationMessage(`Which content do u want to see? query is ${search_string_by_user}`,"StackOverFlow","Youtube");
+		if(answer === "StackOverFlow"){
+			await runSearchingForStackOverFlowPosts(search_string_by_user);
+		}
+		else if(answer === "Youtube"){
+			await runSearchingForYouTube(search_string_by_user);
+		}
+	});
+}
+
+
+async function code_summary(): Promise<void> {
+	var editor = vscode.window.activeTextEditor;
+	if (!editor) {
+		return; // No open text editor
+	}
+	var lines = editor.document;
+	var entire_code="";
+	for(var i=0;i<=lines.lineCount - 1;i++){
+		entire_code+=lines.lineAt(i).text.toString();
+		entire_code+="@NEWLINE@";
+	}
+	entire_code=entire_code.replace(/\//gi,"@BY@");
+	entire_code=entire_code.replace(/#/gi,"@HASH@");
+	const summ=`http://127.0.0.1:6615/Code_Summary/${entire_code}`;
+	const uriOptions = {
+        uri: summ,
+        json: true,
+        gzip: true,
+    };
+	var response = await request.get(uriOptions);
+	let sum = response.summary;
+	let x=new summary(sum);
+	if(sidebarProvider!==null && sidebarProvider!==undefined){
+		sidebarProvider.customResolveWebviewViewS(1,x);
+	}
+}
+async function terminal_capture(){
+	var terminal=vscode.window.activeTerminal;
+	vscode.commands.executeCommand('workbench.action.terminal.selectAll').then(() => {
+	  vscode.commands.executeCommand('workbench.action.terminal.copySelection').then(() => {
+		vscode.commands.executeCommand('workbench.action.terminal.clearSelection').then(() => {
+		  vscode.commands.executeCommand('workbench.action.files.newUntitledFile').then(() => {
+			vscode.commands.executeCommand('editor.action.clipboardPasteAction');
+			vscode.commands.executeCommand('editor.action.ctrl+shift+q');
+		  });
+		});
+	  });
+	});
+}
+
+
+
+var pre_line=0;
+var cur_line=0;
+var pre_line_text="";
+
+var count0=0;  // count  0 -> no action 
+var count_1=0; // count -1 -> deleted
+var count1=0;  // count  1 -> added
+var count2=0;  // count  2 -> new line
+
+var idle=0;
+
+
+
+var queue:difficult_query_queue[]=new Array();
+
+function difficult_query(){
+	var editor = vscode.window.activeTextEditor;
+	if(!editor){
+		return;
+	}
+	cur_line=editor.selection.active.line;
+	var cur_line_text=editor.document.lineAt(editor.selection.active.line).text;
+	if(queue.length==50){
+		var x=queue[0].OperationType;
+		if(x==-1){
+			count_1--;
+		}
+		else if(x==1){
+			count1--;
+		}
+		else if(x==2){
+			count2--;
+		}
+		else{
+			count0--;
+		}
+		queue.shift();
+	}
+	if(cur_line==pre_line){
+		if(cur_line_text!==pre_line_text){
+			if(cur_line_text.length>pre_line_text.length){
+				// ADDED
+				var node=new difficult_query_queue(1);
+				queue.push(node);
+				count1++;
+			}
+			else{
+				// DELETED
+				var node=new difficult_query_queue(-1);
+				queue.push(node);
+				count_1++;
+			}
+		}
+		else{
+			// DID NOTHING
+			var node=new difficult_query_queue(0);
+			queue.push(node);
+			count0++;
+		}
+	}
+	else{
+		// WENT TO NEW LINE
+		var node=new difficult_query_queue(2);
+		queue.push(node);
+		count2++;
+	}
+	if((count_1/count1)>0.65){
+		vscode.window.showInformationMessage("Looks Like You are Struck. Take help of our DEV-BOON extension to maximise your productivity.");
+	}
+	if(count0>=49){
+		idle++;
+		if(idle>250){
+			vscode.window.showInformationMessage("Looks Like You are Struck. Take help of our DEV-BOON extension to maximise your productivity.");
+			idle=0;
+		}
+	}
+	else{
+		idle=0;
+	}
+	setTimeout(difficult_query, 1000);
+	pre_line=cur_line;
+	pre_line_text=cur_line_text;
 }

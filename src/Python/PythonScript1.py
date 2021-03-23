@@ -67,6 +67,12 @@ class YouTube_googleSearchUrl(Resource):
         resp = requests.get(googleSearchUrl)        
         return resp.json()
 
+
+class Code_Summary(Resource):
+    def get(self,entire_code):
+        return jsonify({'summary':entire_code})
+
+
 class NlpToCodeForJava_googleSearchUrl(Resource):
     def get(self,key,cx,qry,num_urls):
         num_urls = str(num_urls)
@@ -121,12 +127,11 @@ class NlpToCodeForJava_snippet(Resource):
         
 
 
-
-
 api.add_resource(StackOverFlow_apiSearchUrl_Single,'/apiSearchUrl_Single/<encodedAPISearchTerm>')
 api.add_resource(StackOverFlow_apiSearchUrl,'/apiSearchUrl/<encodedAPISearchTerm>/<encodedTagsString>')
 api.add_resource(StackOverFlow_stackoverflowSearchUrl,'/stackoverflowSearchUrl/<encodedWebSearchTerm>')
 api.add_resource(StackOverFlow_googleSearchUrl,'/googleSearchUrl/<encodedWebSearchTerm>')
+
 
 
 api.add_resource(YouTube,'/YouTube/<encodedWebSearchTerm>')
@@ -136,6 +141,9 @@ api.add_resource(YouTube_googleSearchUrl,'/YouTube_googleSearchUrl/<encodedWebSe
 
 api.add_resource(NlpToCodeForJava_googleSearchUrl,"/NlpToCodeForJava_googleSearchUrl/<key>/<cx>/<qry>/<num_urls>")
 api.add_resource(NlpToCodeForJava_snippet,"/NlpToCodeForJava_snippet/<address>")
+
+api.add_resource(Code_Summary,'/Code_Summary/<entire_code>')
+
 
 if __name__ == '__main__':
      app.run(port='6615')
