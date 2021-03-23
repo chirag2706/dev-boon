@@ -131,7 +131,11 @@ export async function activate(context: vscode.ExtensionContext) {
 				}
 				catch (err) {
 					//vscode.window.showErrorMessage("Some Error occured while searching stackOverFlow posts 😣.Please try again");
+				}
+			}
+		});
 
+		context.subscriptions.push(CustomSearch);
 		let NlpToCode = vscode.commands.registerCommand(`dev-boon.NLP_TO_CODE`,async ()=>{
 			try{
 				if(isExtensionActivated === 1){
@@ -151,34 +155,7 @@ export async function activate(context: vscode.ExtensionContext) {
 		context.subscriptions.push(NlpToCode);
 
 
-		let stackOverFlowSearchBySelectingTextFromEditorWithPrompt = vscode.commands.registerCommand(`dev-boon.STACKOVERFLOW_SEARCH_WITH_SELECTED_TEXT_USING_PROMPT`,async ()=>{
-			try{
-				if(isExtensionActivated === 1){
-					let selectedText = getSelectedTextFromEditor();
-					
-					if(selectedText!==undefined){
-						let searchTerm = await vscode.window.showInputBox({
-							ignoreFocusOut: selectedText === '',
-							placeHolder: 'Please enter your Stackoverflow query',
-							// prompt: 'search for tooltip',
-							value: selectedText,
-							valueSelection: [0, selectedText.length + 1],
-						});
-						// if(queryUnderProcess === 0){
-							await runSearchingForStackOverFlowPosts(searchTerm!);
-						// }
-						
-					}
-				}else{
-					await check(context);
-				}
-			}
-			else{
-				await check(context);
-			}
 
-		});
-		context.subscriptions.push(CustomSearch);
 		let stackOverFlowSearchBySelectingTextFromEditor = vscode.commands.registerCommand('dev-boon.STACKOVERFLOW_SEARCH_WITH_SELECTED_TEXT', async () => {
 			if(isExtensionActivated === 1){
 				try {

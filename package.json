@@ -93,6 +93,10 @@
 			{
 				"command": "dev-boon.CUSTOM_SEARCH",
 				"key": "ctrl+shift+q"
+			},
+			{
+				"command": "dev-boon.CODE_SUMMARY",
+				"key": "ctrl+shift+c"
 			}
 		]
 	},
