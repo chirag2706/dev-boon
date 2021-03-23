@@ -102,7 +102,11 @@
 			},
 			{
 				"command": "dev-boon.CODE_SUMMARY",
+<<<<<<< HEAD
 				"key": "ctrl+shift+t"
+=======
+				"key": "ctrl+shift+c"
+>>>>>>> 4418ec518477174caddc03b093c2b8381c839343
 			}
 		]
 	},
