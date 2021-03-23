@@ -127,7 +127,7 @@ export async function activate(context: vscode.ExtensionContext) {
 			try{
 				if(isExtensionActivated === 1){
 					let docListener = new QueryDocListener();
-
+					console.log("inside NLP function");
 					await docListener.documentChanged();
 
 				}else{
