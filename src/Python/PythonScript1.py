@@ -66,6 +66,12 @@ class YouTube_googleSearchUrl(Resource):
         resp = requests.get(googleSearchUrl)        
         return resp.json()
 
+
+class Code_Summary(Resource):
+    def get(self,entire_code):
+        return jsonify({'summary':entire_code})
+
+
 class NplToCodeForJava_googleSearchUrl(Resource):
     def get(self,key,cx,qry,num_urls):
         num_urls = str(num_urls)
@@ -94,12 +100,11 @@ class NplToCodeForJava_googleSearchUrl(Resource):
 
 
 
-
-
 api.add_resource(StackOverFlow_apiSearchUrl_Single,'/apiSearchUrl_Single/<encodedAPISearchTerm>')
 api.add_resource(StackOverFlow_apiSearchUrl,'/apiSearchUrl/<encodedAPISearchTerm>/<encodedTagsString>')
 api.add_resource(StackOverFlow_stackoverflowSearchUrl,'/stackoverflowSearchUrl/<encodedWebSearchTerm>')
 api.add_resource(StackOverFlow_googleSearchUrl,'/googleSearchUrl/<encodedWebSearchTerm>')
+
 
 
 api.add_resource(YouTube,'/YouTube/<encodedWebSearchTerm>')
@@ -107,6 +112,8 @@ api.add_resource(YouTube_youtubeSearchUrl,'/YouTube_youtubeSearchUrl/<encodedWeb
 api.add_resource(YouTube_googleSearchUrl,'/YouTube_googleSearchUrl/<encodedWebSearchTerm>')
 
 
+
+api.add_resource(Code_Summary,'/Code_Summary/<entire_code>')
 api.add_resource(NplToCodeForJava_googleSearchUrl,"/NplToCodeForJava_googleSearchUrl/<key>/<cx>/<qry>/<num_urls>")
 
 

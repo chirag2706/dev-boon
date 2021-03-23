@@ -11,4 +11,4 @@ export class description{
       this.Owner=Owner;
       this.ThumbnailURL=ThumbnailUrl;
     }
-  };
+};
