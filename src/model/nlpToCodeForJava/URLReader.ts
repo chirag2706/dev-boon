@@ -26,7 +26,7 @@ export class URLReader{
     */
 
 
-    async getTopN(n:any):Promise<string[]>{
+    async getTopN(n:any,filePath:string):Promise<string[]>{
         let code:string = "";
         let author:string = "";
 
@@ -54,6 +54,14 @@ export class URLReader{
                 return top_n_snippets;
             }else{
                 top_n_snippets = res['snippets'];
+            }
+
+            for(let i=0;i<top_n_snippets.length;i++){
+                if(filePath === "java"){
+                    top_n_snippets[i] = "//"+top_n_snippets[i];
+                }else{
+                    top_n_snippets[i] = "#"+top_n_snippets[i];
+                }
             }
 
 

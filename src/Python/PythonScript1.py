@@ -102,7 +102,7 @@ class NlpToCodeForJava_snippet(Resource):
                 currentCodeSnippet = codeSnippet.get_text()
                 
                 # if(len(currentCodeSnippet)>0):
-                snippets.append("// snippet from " + stackoverflowUrl+" \n"+currentCodeSnippet + "\n")
+                snippets.append(" snippet from " + stackoverflowUrl+" \n"+currentCodeSnippet + "\n")
                 cnt+=1
 
                 if(cnt == 4):

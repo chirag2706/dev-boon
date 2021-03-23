@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import * as request from "request-promise-native";
+import * as fs from "fs"; 
 import {URLReader} from './URLReader';
 
 /**
@@ -18,12 +19,37 @@ export class Searcher{
     static key:string = "AIzaSyClq5H_Nd7RdVSIMaRPQhwpG5m_-68fWRU";
     static cx:string = "011454571462803403544:zvy2e2weyy8";
 
+    static activeFilePath:string = "";
+
 
     static findFileType():string{
 
         // vscode.window
 
-        return "java";
+        var currentlyOpenTabfilePath = vscode.window.activeTextEditor?.document.uri.fsPath;
+        if(currentlyOpenTabfilePath === undefined){
+            Searcher.activeFilePath = "";
+        }
+
+        console.log(`currentlyOpenTabfilePath is ${currentlyOpenTabfilePath}`);
+
+        if(currentlyOpenTabfilePath!== undefined && currentlyOpenTabfilePath.length >= 6){
+            let lang = currentlyOpenTabfilePath.substr(currentlyOpenTabfilePath.length-4);
+            if(lang === "java"){
+                Searcher.activeFilePath = "java";
+                return "java";
+            }
+        }
+        
+        if(currentlyOpenTabfilePath!== undefined && currentlyOpenTabfilePath.length >= 4){
+            let lang = currentlyOpenTabfilePath.substr(currentlyOpenTabfilePath.length-2);
+            if(lang === "py"){
+                Searcher.activeFilePath = "python";
+                return "python";
+            }
+        }
+
+        return "";
     }
 
 
@@ -41,7 +67,11 @@ export class Searcher{
         if(query.length === 0){
             return [];
         }
-        query = Searcher.setTargetLanguage(query,Searcher.findFileType());
+        query = await Searcher.setTargetLanguage(query,Searcher.findFileType());
+
+        if(query.length === 0){
+            return [];
+        }
 
         let urls:string[] = []; //array of urls
 
@@ -93,7 +123,7 @@ export class Searcher{
     
                 ur.openHTML(urls[i]);
     
-                let top_n_answers = await ur.getTopN(Searcher.NUM_ANSWERS_PER_URL);
+                let top_n_answers = await ur.getTopN(Searcher.NUM_ANSWERS_PER_URL,Searcher.activeFilePath);
                 console.log("inside getCodeSnippets function before processing,code looks like:");
                 console.log(top_n_answers);
                 if((await top_n_answers).length === 0){
@@ -156,6 +186,11 @@ export class Searcher{
 
 
     static setTargetLanguage(query:string,targetLang:string){
+
+        if(targetLang.length === 0){
+            return "";
+        }
+
         // let lang = "java";
         if(Searcher.contains(query," in ")){
             return query; 
