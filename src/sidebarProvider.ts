@@ -51,7 +51,7 @@ import {description} from "./description";
 				c=pass_the_result[num].Description;
 				d=pass_the_result[num].Owner;
 				e=pass_the_result[num].Url;
-				stck+=`<div class="card" style="width:100%;max-width:1800px;margin-bottom:5%;" >
+				stck+=`<div class="card" style="width:100%;max-width:180px;margin-bottom:5%;" >
 						<img class="card-img-top"  src="${a}" alt="YOUTUBE" >
 						<div class="card-body" style="padding:3% 3% 3% 3%;">
 						<h5 class="card-title" ><p style="font-size:14px;">${b}</p></h3>
@@ -76,11 +76,12 @@ import {description} from "./description";
     return `<!DOCTYPE html>
     <html>
       <head>
+      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous"
       </head>
       <body>
       <h2>DEV-BOON</h2>
-        
       </body>
+      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
     </html>`;
   }
 
@@ -179,3 +180,4 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
     return getWebviewContent(x,pass_the_result);
   }
 }
+
