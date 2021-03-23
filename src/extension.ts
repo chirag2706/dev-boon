@@ -2,6 +2,7 @@ import * as request from "request-promise-native";
 import * as vscode from 'vscode';	
 import {SidebarProvider} from './sidebarProvider';
 import {description} from "./description";
+import {summary} from "./summary";
 import {ErrorMessageParser} from './model/errorQuery/ErrorMessageParser';
 import {ErrorMessage} from './model/errorQuery/ErrorMessage';
 import {error_query} from './error_query';
@@ -124,6 +125,7 @@ export async function activate(context: vscode.ExtensionContext) {
 			}
 		});
 		context.subscriptions.push(deactivateCommand);
+
 		let CustomSearch = vscode.commands.registerCommand('dev-boon.CUSTOM_SEARCH', async () => {
 			if(isExtensionActivated === 1){
 				try {
@@ -133,9 +135,29 @@ export async function activate(context: vscode.ExtensionContext) {
 					//vscode.window.showErrorMessage("Some Error occured while searching stackOverFlow posts 😣.Please try again");
 				}
 			}
+			else{
+				await check(context);
+			}
 		});
 
 		context.subscriptions.push(CustomSearch);
+
+		let Code_Summary = vscode.commands.registerCommand('dev-boon.CODE_SUMMARY', async () => {
+			if(isExtensionActivated === 1){
+				try {
+					code_summary();
+				}
+				catch (err) {
+					//vscode.window.showErrorMessage("Some Error occured while searching stackOverFlow posts 😣.Please try again");
+				}
+			}
+			else{
+				await check(context);
+			}
+		});
+
+		context.subscriptions.push(Code_Summary);
+
 		let NlpToCode = vscode.commands.registerCommand(`dev-boon.NLP_TO_CODE`,async ()=>{
 			try{
 				if(isExtensionActivated === 1){
@@ -159,6 +181,10 @@ export async function activate(context: vscode.ExtensionContext) {
 		let stackOverFlowSearchBySelectingTextFromEditor = vscode.commands.registerCommand('dev-boon.STACKOVERFLOW_SEARCH_WITH_SELECTED_TEXT', async () => {
 			if(isExtensionActivated === 1){
 				try {
+					if(sidebarProvider!==null && sidebarProvider!==undefined){
+						var pass_the_result:description[]=new Array(1);
+						sidebarProvider.customResolveWebviewView(3,pass_the_result);
+					}
 					let selectedText = await getSelectedTextFromEditor();
 					
 
@@ -191,6 +217,10 @@ export async function activate(context: vscode.ExtensionContext) {
 		let youTubeSearchBySelectingTextFromEditor = vscode.commands.registerCommand('dev-boon.YOUTUBE_SEARCH_WITH_SELECTED_TEXT', async () => {
 			if(isExtensionActivated === 1){
 				try {
+					if(sidebarProvider!==null && sidebarProvider!==undefined){
+						var pass_the_result:description[]=new Array(1);
+						sidebarProvider.customResolveWebviewView(2,pass_the_result);
+					}
 					let selectedText = await getSelectedTextFromEditor();
 					if(selectedText!==undefined){
 						//vscode.window.showInformationMessage(`Working fine with ${isExtensionActivated}`);
@@ -204,7 +234,8 @@ export async function activate(context: vscode.ExtensionContext) {
 				} catch (err) {
 					//vscode.window.showErrorMessage("Some Error occured while searching youTube videos 😣.Please try again");
 				}
-			}else{
+			}
+			else{
 				await check(context);
 			}
 
@@ -432,7 +463,37 @@ async function custom_search(): Promise<void>{
 	});
 }
 
+
+async function code_summary(): Promise<void> {
+	var editor = vscode.window.activeTextEditor;
+	if (!editor) {
+		return; // No open text editor
+	}
+	var lines = editor.document;
+	var entire_code="";
+	for(var i=0;i<=editor.document.lineCount - 1;i++){
+		entire_code+=lines.lineAt(i).text.toString();
+		entire_code+=" ";
+	}
+	entire_code=entire_code.replace(/\//gi,"@BY@");
+	entire_code=entire_code.replace(/#/gi,"@HASH@");
+	console.log(entire_code);
+	console.log("*************************************************************************");
+	const summ=`http://127.0.0.1:6615/Code_Summary/${entire_code}`;
+	const uriOptions = {
+        uri: summ,
+        json: true,
+        gzip: true,
+    };
+	var response = await request.get(uriOptions);
+	let sum = response.summary;
+	let x=new summary(sum);
+	if(sidebarProvider!==null && sidebarProvider!==undefined){
+		sidebarProvider.customResolveWebviewViewS(1,x);
+	}
+}
 async function terminal_capture(){
+	var terminal=vscode.window.activeTerminal;
 	vscode.commands.executeCommand('workbench.action.terminal.selectAll').then(() => {
 	  vscode.commands.executeCommand('workbench.action.terminal.copySelection').then(() => {
 		vscode.commands.executeCommand('workbench.action.terminal.clearSelection').then(() => {
