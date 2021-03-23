@@ -473,7 +473,7 @@ async function code_summary(): Promise<void> {
 	var entire_code="";
 	for(var i=0;i<=editor.document.lineCount - 1;i++){
 		entire_code+=lines.lineAt(i).text.toString();
-		entire_code+=" ";
+		entire_code+="@NEWLINE@";
 	}
 	entire_code=entire_code.replace(/\//gi,"@BY@");
 	entire_code=entire_code.replace(/#/gi,"@HASH@");
