@@ -66,6 +66,35 @@ class YouTube_googleSearchUrl(Resource):
         resp = requests.get(googleSearchUrl)        
         return resp.json()
 
+class NplToCodeForJava_googleSearchUrl(Resource):
+    def get(self,key,cx,qry,num_urls):
+        num_urls = str(num_urls)
+        # The url is structured to do a custom search which only looks at StackOverflow sites.
+        googleSearchUrl = "https://www.googleapis.com/customsearch/v1?key=" + key + "&cx=" + cx + "&q="+ qry + "&alt=json" + "&num="+num_urls
+        resp = requests.get(googleSearchUrl)
+        output = resp.json()
+        finalOutput = dict()
+        finalOutput["output"] = output
+        urls = []
+        formatString = "\"link\": \""
+        try:
+            if(output.items and len(output.items)>0):
+                for i in output.items:
+                    q = i[q]
+                    if(formatString in q):
+                        link = q[q.index(formatString)+len(formatString):q.index("\",")]
+                        urls.append(link)
+
+        except:
+            print("Something went worng!!!")
+        
+        finalOutput["urls"] = urls
+
+        return finalOutput
+
+
+
+
 
 api.add_resource(StackOverFlow_apiSearchUrl_Single,'/apiSearchUrl_Single/<encodedAPISearchTerm>')
 api.add_resource(StackOverFlow_apiSearchUrl,'/apiSearchUrl/<encodedAPISearchTerm>/<encodedTagsString>')
@@ -78,7 +107,7 @@ api.add_resource(YouTube_youtubeSearchUrl,'/YouTube_youtubeSearchUrl/<encodedWeb
 api.add_resource(YouTube_googleSearchUrl,'/YouTube_googleSearchUrl/<encodedWebSearchTerm>')
 
 
-
+api.add_resource(NplToCodeForJava_googleSearchUrl,"/NplToCodeForJava_googleSearchUrl/<key>/<cx>/<qry>/<num_urls>")
 
 
 if __name__ == '__main__':

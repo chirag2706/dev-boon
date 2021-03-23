@@ -4,7 +4,8 @@ import {SidebarProvider} from './sidebarProvider';
 import {description} from "./description";
 import {ErrorMessageParser} from './model/errorQuery/ErrorMessageParser';
 import {ErrorMessage} from './model/errorQuery/ErrorMessage';
-import {error_query} from './error_query'
+import {error_query} from './error_query';
+import {QueryDocListener} from './model/nlpToCodeForJava/QueryDocListener';
 //// RUN THE FLASK LOCALLY ON PORT 6615
 var {spawn} = require('child_process');
 var j;
@@ -121,6 +122,26 @@ export async function activate(context: vscode.ExtensionContext) {
 			}
 		});
 		context.subscriptions.push(deactivateCommand);
+
+		let NlpToCode = vscode.commands.registerCommand(`dev-boon.NLP_TO_CODE`,async ()=>{
+			try{
+				if(isExtensionActivated === 1){
+					let docListener = new QueryDocListener();
+
+					await docListener.documentChanged();
+
+				}else{
+					await check(context);
+				}
+			}catch(err){
+				//vscode.window.showErrorMessage("Something went wrong while searching for Stackoverflow posts 😣");
+			}
+		});
+
+
+		context.subscriptions.push(NlpToCode);
+
+
 		let stackOverFlowSearchBySelectingTextFromEditorWithPrompt = vscode.commands.registerCommand(`dev-boon.STACKOVERFLOW_SEARCH_WITH_SELECTED_TEXT_USING_PROMPT`,async ()=>{
 			try{
 				if(isExtensionActivated === 1){

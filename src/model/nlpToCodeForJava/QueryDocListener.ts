@@ -2,6 +2,7 @@ import { get } from 'node:https';
 import { off } from 'node:process';
 import { start } from 'node:repl';
 import * as vscode from 'vscode';
+import {Searcher} from './Searcher';
 
 var operatorsToBeRemoved = {
     "[":0,
@@ -154,7 +155,55 @@ export class QueryDocListener{
 
         //offset means currentLine no of query
 
+        //Now Convert The Stack Overflow thread IDs to specific post URLs.
+        let result = Searcher.getThreads(query);
+        
+        // if(result.length === 0){
+        //     return -1;
+        // }
+
+
+        if(result.length === 0){
+            return -1;
+        }
+
+        let urls = [];
+
+        for(let i=0;i<result.length;i++){
+            if(i === Searcher.NUM_URLS){
+                break;
+            }
+            urls.push(result[i]);
+        }
+
+        let code = Searcher.getCodeSnippets(urls);
+        if(code === null || code === undefined||code.length === 0){
+            return -1;
+        }
+
+
+        // code = fixSpacing(code);
+
+        console.log("Final code output is: ");
+        console.log(code);
+
+    
+
     }
+
+    /* 
+		 * Function fixSpacing
+		 *   Given a list of code snippets, and a fixed offset (spacing) for where the code snippet insertion starts,
+		 *     add the fixed offset to each line of each code snippet.
+		 *   Essentially, this function fixes alignment issues when inserting code snippets at an offset.
+		 *   
+		 *   Inputs: Vector<String> queries - vector of different code snippets to insert into the document.
+		 *   		 String spacing - Offset of query to be applied to each code snippet.
+		 *   
+		 *   Retuns: Vector<String> - vector of code snippets with fixed offset.
+	*/
+
+
 
 
     /*
