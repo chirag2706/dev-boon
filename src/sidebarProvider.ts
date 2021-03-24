@@ -24,7 +24,7 @@ import {summary} from "./summary"
     var c:string;
     var d:string;
     var e:string;
-	if(x==0 || x==1 || x==2 || x==3 || x==4 || x==5){
+	if(x==0 || x==1 || x==2 || x==3 || x==4 || x==5 || x==6){
 		if(x==0){
       		stck='<h4>StackOverFlow</h4>';
 			if(pass_the_result.length==0){
@@ -91,10 +91,16 @@ import {summary} from "./summary"
 			stck='<h3>StackOverFlow</h3>';
 			stck+=`No Results Found ...`
 		}
-		else{
+		else if(x==5){
 			stck='<h3>YOUTUBE</h3>';
 			stck+=`No Results Found ...`;
 		}
+    else{
+      stck='<h3>Generating an Automatic Code Snippet</h3>';
+      stck+=`<button class="buttonload">
+			<i class="fa fa-refresh fa-spin"></i>Loading
+		  </button>`
+    }
 		return `<!DOCTYPE html>
 		<html>
 		<head>
@@ -272,7 +278,7 @@ function getWebviewContentS(x:number,pass_the_result:summary){
 			</head>
 			<body>
 			<h2>DEV-BOON</h2>
-			<h4 style="font-size:17px;">Code Summary:</h4>
+			<h4 style="font-size:17px;"></h4>
 			<p style="font-size:14px">${pass_the_result.Summary}<p>
 			</body>
 			<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>

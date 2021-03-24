@@ -82,7 +82,7 @@
 		"keybindings": [
 			{
 				"command": "dev-boon.NLP_TO_CODE",
-				"key": "ctrl+q"
+				"key": "ctrl+shift+n"
 			},
 			{
 				"command": "dev-boon.STACKOVERFLOW_SEARCH_WITH_SELECTED_TEXT",
