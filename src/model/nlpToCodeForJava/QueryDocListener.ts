@@ -14,7 +14,8 @@ var operatorsToBeRemoved = {
     ":":6,
     ";":7,
     "\'":8,
-    "\"":9
+    "\"":9,
+    "?":10
 };
 
 /**
@@ -145,47 +146,80 @@ export class QueryDocListener{
 		 *   String line - the text in the current line that contains the query.
 	*/
 
-    executeQuery(query:string,offset:any){
-        let out = query.match("[abcdefghijklmnopqrstuvwxyz ]*");
-        if(out!==null && out.length === 0){
-            return -1;
-        }else if(out === null){
-            return -1;
-        }
-
-        //offset means currentLine no of query
-
-        //Now Convert The Stack Overflow thread IDs to specific post URLs.
-        let result = Searcher.getThreads(query);
-        
-        // if(result.length === 0){
-        //     return -1;
-        // }
-
-
-        if(result.length === 0){
-            return -1;
-        }
-
-        let urls = [];
-
-        for(let i=0;i<result.length;i++){
-            if(i === Searcher.NUM_URLS){
-                break;
+    async executeQuery(query:string,offset:any){
+        try{
+            let out = query.match("[abcdefghijklmnopqrstuvwxyz ]*");
+            if(out!==null && out.length === 0){
+                return -1;
+            }else if(out === null){
+                return -1;
             }
-            urls.push(result[i]);
+    
+            //offset means currentLine no of query
+    
+            //Now Convert The Stack Overflow thread IDs to specific post URLs.
+            let result = Searcher.getThreads(query);
+            
+            // if(result.length === 0){
+            //     return -1;
+            // }
+    
+    
+            if((await result).length === 0){
+                return -1;
+            }
+    
+            let urls = [];
+    
+            for(let i=0;i<(await result).length;i++){
+                if(i === Searcher.NUM_URLS){
+                    break;
+                }
+                urls.push((await result)[i]);
+            }
+    
+            let code = await Searcher.getCodeSnippets(urls);
+            if(code === null || code === undefined||code.length === 0){
+                return -1;
+            }
+    
+    
+            // code = fixSpacing(code);
+    
+            console.log("Final code output is: ");
+            console.log(code);
+    
+            //now ,we need to print that code on offset+1 line number
+            let activeEditor = vscode.window.activeTextEditor;
+
+            if(activeEditor){
+                const selection = activeEditor.selection;
+                
+                //edits only if something is selected in editor
+                //can be improved by finding current location of cursor
+
+                // activeEditor.selections
+                // check if there is no selection
+                if (activeEditor.selection.isEmpty) {
+                    // the Position object gives you the line and character where the cursor is
+                    const position = activeEditor.selection.active;
+                    activeEditor.edit(editBuilder=>{
+                        editBuilder.replace(position,code[0][0]);
+                    });
+                }else{
+                    activeEditor.edit(editBuilder=>{
+                        editBuilder.replace(selection,code[0][0]);
+                    });
+                }
+                
+            }
+
+
+    
+        }catch(err){
+            vscode.window.showErrorMessage("Something went wrong while executing query");
         }
 
-        let code = Searcher.getCodeSnippets(urls);
-        if(code === null || code === undefined||code.length === 0){
-            return -1;
-        }
-
-
-        // code = fixSpacing(code);
-
-        console.log("Final code output is: ");
-        console.log(code);
 
     
 

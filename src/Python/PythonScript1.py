@@ -1,10 +1,11 @@
 from flask import Flask, request,redirect,jsonify
 from flask_restful import Resource, Api
-from json import dumps
+from json import *
 import requests
 # from apiclient.discovery import build
 from googleapiclient.discovery import build
 from pyyoutube import Api as API_YOUTUBE
+from bs4 import BeautifulSoup
 
 
 app = Flask(__name__)
@@ -72,32 +73,58 @@ class Code_Summary(Resource):
         return jsonify({'summary':entire_code})
 
 
-class NplToCodeForJava_googleSearchUrl(Resource):
+class NlpToCodeForJava_googleSearchUrl(Resource):
     def get(self,key,cx,qry,num_urls):
         num_urls = str(num_urls)
         # The url is structured to do a custom search which only looks at StackOverflow sites.
         googleSearchUrl = "https://www.googleapis.com/customsearch/v1?key=" + key + "&cx=" + cx + "&q="+ qry + "&alt=json" + "&num="+num_urls
         resp = requests.get(googleSearchUrl)
         output = resp.json()
-        finalOutput = dict()
-        finalOutput["output"] = output
-        urls = []
-        formatString = "\"link\": \""
-        try:
-            if(output.items and len(output.items)>0):
-                for i in output.items:
-                    q = i[q]
-                    if(formatString in q):
-                        link = q[q.index(formatString)+len(formatString):q.index("\",")]
-                        urls.append(link)
-
-        except:
-            print("Something went worng!!!")
         
-        finalOutput["urls"] = urls
 
-        return finalOutput
+        return output
 
+
+class NlpToCodeForJava_snippet(Resource):
+    def get(self,address):
+        try:
+            stackoverflowUrl = "https://"+self.replaceAll(address,"$",'/')
+            resp = requests.get(stackoverflowUrl)
+
+            snippets = []
+
+            soup = BeautifulSoup(resp.content, 'html.parser')
+            arrayOfCodeSnippets = (soup.find_all('code'))
+            cnt = 0  # keeps track of current length of snippets array
+
+            #considering only first n most relevant posts
+            for codeSnippet in arrayOfCodeSnippets:
+                currentCodeSnippet = codeSnippet.get_text()
+                
+                # if(len(currentCodeSnippet)>0):
+                snippets.append(" snippet from " + stackoverflowUrl+" \n"+currentCodeSnippet + "\n")
+                cnt+=1
+
+                if(cnt == 4):
+                    break
+
+            return {"snippets":snippets}
+            
+        except:
+            return {"snippets":[]}
+
+
+
+    def replaceAll(self,query,text,format):
+        out = ""
+
+        for i in query:
+            if(i == text):
+                out+=format
+            else:
+                out+=i
+        return out
+        
 
 
 api.add_resource(StackOverFlow_apiSearchUrl_Single,'/apiSearchUrl_Single/<encodedAPISearchTerm>')
@@ -112,9 +139,10 @@ api.add_resource(YouTube_youtubeSearchUrl,'/YouTube_youtubeSearchUrl/<encodedWeb
 api.add_resource(YouTube_googleSearchUrl,'/YouTube_googleSearchUrl/<encodedWebSearchTerm>')
 
 
+api.add_resource(NlpToCodeForJava_googleSearchUrl,"/NlpToCodeForJava_googleSearchUrl/<key>/<cx>/<qry>/<num_urls>")
+api.add_resource(NlpToCodeForJava_snippet,"/NlpToCodeForJava_snippet/<address>")
 
 api.add_resource(Code_Summary,'/Code_Summary/<entire_code>')
-api.add_resource(NplToCodeForJava_googleSearchUrl,"/NplToCodeForJava_googleSearchUrl/<key>/<cx>/<qry>/<num_urls>")
 
 
 if __name__ == '__main__':

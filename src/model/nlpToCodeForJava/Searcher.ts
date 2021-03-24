@@ -1,5 +1,6 @@
 import * as vscode from 'vscode';
 import * as request from "request-promise-native";
+import * as fs from "fs"; 
 import {URLReader} from './URLReader';
 
 /**
@@ -18,6 +19,39 @@ export class Searcher{
     static key:string = "AIzaSyClq5H_Nd7RdVSIMaRPQhwpG5m_-68fWRU";
     static cx:string = "011454571462803403544:zvy2e2weyy8";
 
+    static activeFilePath:string = "";
+
+
+    static findFileType():string{
+
+        // vscode.window
+
+        var currentlyOpenTabfilePath = vscode.window.activeTextEditor?.document.uri.fsPath;
+        if(currentlyOpenTabfilePath === undefined){
+            Searcher.activeFilePath = "";
+        }
+
+        console.log(`currentlyOpenTabfilePath is ${currentlyOpenTabfilePath}`);
+
+        if(currentlyOpenTabfilePath!== undefined && currentlyOpenTabfilePath.length >= 6){
+            let lang = currentlyOpenTabfilePath.substr(currentlyOpenTabfilePath.length-4);
+            if(lang === "java"){
+                Searcher.activeFilePath = "java";
+                return "java";
+            }
+        }
+        
+        if(currentlyOpenTabfilePath!== undefined && currentlyOpenTabfilePath.length >= 4){
+            let lang = currentlyOpenTabfilePath.substr(currentlyOpenTabfilePath.length-2);
+            if(lang === "py"){
+                Searcher.activeFilePath = "python";
+                return "python";
+            }
+        }
+
+        return "";
+    }
+
 
     /*
 	 * Function getThreads
@@ -29,34 +63,40 @@ export class Searcher{
 	 */
 
 
-    static getThreads(query:string):string[]{
+    static async getThreads(query:string):Promise<string[]>{
         if(query.length === 0){
             return [];
         }
-        query = Searcher.setTargetLanguage(query);
+        query = await Searcher.setTargetLanguage(query,Searcher.findFileType());
 
-        let urls = []; //array of urls
+        if(query.length === 0){
+            return [];
+        }
+
+        let urls:string[] = []; //array of urls
 
         let qry = query;
 
         qry = Searcher.replaceAll(qry, " ", "%20");
         let url = null;
         try{        
-            url = `http://127.0.0.1:6615/NplToCodeForJava_googleSearchUrl/${this.key}/${this.cx}/${qry}/${this.NUM_URLS}`;
+            url = `http://127.0.0.1:6615/NlpToCodeForJava_googleSearchUrl/${this.key}/${this.cx}/${qry}/${this.NUM_URLS}`;
             const uriOptions = {
                 uri: url,
                 json: true,
                 gzip: true,
             };
 
-            const res = request.get(uriOptions);
-            console.log(res);
+            const searchResponse = await request.get(uriOptions);
+            console.log(searchResponse);
 
-            // const searchResponse = res['output'];
-            // urls = res['urls'];
+            for(let i=0;i<searchResponse.items.length;i++){
+                urls.push(searchResponse.items[i].link);
+            }
 
-            return [];
+            console.log(urls);
 
+            return urls;
 
         }catch(err){
             vscode.window.showErrorMessage("Something went wrong while searching for query");
@@ -73,27 +113,38 @@ export class Searcher{
 	 *   Returns: Vector<String> - vector of top code snippets from each given url.
 	 */
 
-    static getCodeSnippets(urls:string[]){
-        let code:string[] = [];
+    static async  getCodeSnippets(urls:string[]){
+        try{
+            let code:any = [];
 
-        for(let i=0;i<urls.length;i++){
-            // Create a new url and open using jsoup so we can do easy queries on the results (formats code for us nicely at cost of time).
-	        let ur:URLReader = new URLReader();
-
-            ur.openHTML(urls[i]);
-
-            let top_n_answers = ur.getTopN(Searcher.NUM_ANSWERS_PER_URL);
-            if(top_n_answers.length === 0){
-                vscode.window.showErrorMessage(`Code snippet not found from url: ${urls[i]}`);
-            }else{
-                for(let j = 0;j<top_n_answers.length;j++){
-                    code.push(top_n_answers[j]);
+            for(let i=0;i<urls.length;i++){
+                // Create a new url and open using soup so we can do easy queries on the results (formats code for us nicely at cost of time).
+                let ur:URLReader = new URLReader();
+    
+                ur.openHTML(urls[i]);
+    
+                let top_n_answers = await ur.getTopN(Searcher.NUM_ANSWERS_PER_URL,Searcher.activeFilePath);
+                console.log("inside getCodeSnippets function before processing,code looks like:");
+                console.log(top_n_answers);
+                if((await top_n_answers).length === 0){
+                    vscode.window.showErrorMessage(`Code snippet not found from url: ${urls[i]}`);
+                }else{
+                    code.push(top_n_answers);
                 }
+    
             }
+    
+            console.log("inside getCodeSnippets function after processing,code looks like:");
+            console.log(code);
+    
+            console.log(typeof code[0]);
+            return code;
 
+        }catch(err){
+            vscode.window.showErrorMessage("Something went wrong while getting code snippets");
+            return [[]];
         }
 
-        return code;
 
     }
 
@@ -134,13 +185,18 @@ export class Searcher{
 	 */
 
 
-    static setTargetLanguage(query:string){
-        let lang = "java";
+    static setTargetLanguage(query:string,targetLang:string){
+
+        if(targetLang.length === 0){
+            return "";
+        }
+
+        // let lang = "java";
         if(Searcher.contains(query," in ")){
             return query; 
         }
 
-        return query + " in " + lang;
+        return query + " in " + targetLang;
     }
 
 

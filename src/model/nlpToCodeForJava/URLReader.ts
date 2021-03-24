@@ -26,7 +26,7 @@ export class URLReader{
     */
 
 
-    getTopN(n:any):string[]{
+    async getTopN(n:any,filePath:string):Promise<string[]>{
         let code:string = "";
         let author:string = "";
 
@@ -34,14 +34,44 @@ export class URLReader{
         let top_n_snippets:string[] = [];
         let url = null;
         try{
+
+            let modifiedText = URLReader.replaceAll(URLReader.address.substr(8),'/',"$");
+
+            url = `http://127.0.0.1:6615/NlpToCodeForJava_snippet/${modifiedText}`;
             let uriOptions = {
-                uri: URLReader.address,
+                uri: url,
                 json: true,
                 gzip: true,
             };
 
-            const res =  request.get(uriOptions);
-            console.log(res);
+            let res =  await request.get(uriOptions);
+            
+
+
+            
+
+            if(res.length === 0){
+                return top_n_snippets;
+            }else{
+                top_n_snippets = res['snippets'];
+            }
+
+            for(let i=0;i<top_n_snippets.length;i++){
+                if(filePath === "java"){
+                    top_n_snippets[i] = "//"+top_n_snippets[i];
+                }else{
+                    top_n_snippets[i] = "#"+top_n_snippets[i];
+                }
+            }
+
+
+            console.log(`typeof top_n_snippets is:${typeof top_n_snippets}`);
+
+
+
+            return top_n_snippets;
+
+
 
             
 
@@ -99,6 +129,8 @@ export class URLReader{
         post = URLReader.replaceAll(post,"&;amp;", "&");
         post = URLReader.replaceAll(post,"&amp;", "&");
         post = URLReader.replaceAll(post,"&amp", "&");
+
+        return post;
 
     }
 

@@ -142,21 +142,12 @@ export async function activate(context: vscode.ExtensionContext) {
 					//vscode.window.showErrorMessage("Some Error occured while searching stackOverFlow posts 😣.Please try again");
 				}
 			}
-		});
-
-		let CustomSearch = vscode.commands.registerCommand('dev-boon.CUSTOM_SEARCH', async () => {
-			if(isExtensionActivated === 1){
-				try {
-					custom_search();
-				}
-				catch (err) {
-					//vscode.window.showErrorMessage("Some Error occured while searching stackOverFlow posts 😣.Please try again");
-				}
-			}
 			else{
 				await check(context);
 			}
 		});
+
+		
 
 		context.subscriptions.push(CustomSearch);
 
@@ -180,7 +171,7 @@ export async function activate(context: vscode.ExtensionContext) {
 			try{
 				if(isExtensionActivated === 1){
 					let docListener = new QueryDocListener();
-
+					console.log("inside NLP function");
 					await docListener.documentChanged();
 
 				}else{
