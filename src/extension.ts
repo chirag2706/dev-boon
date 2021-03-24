@@ -165,11 +165,16 @@ export async function activate(context: vscode.ExtensionContext) {
 				await check(context);
 			}
 		});
-
-		
-
 		context.subscriptions.push(CustomSearch);
-
+		let Activate_Extension = vscode.commands.registerCommand('dev-boon.ACTIVATE_EXTENSION', async () => {
+			if(isExtensionActivated === 1){
+				// Do nothing
+			}
+			else{
+				await check(context);
+			}
+		});
+		context.subscriptions.push(Activate_Extension);
 		let Code_Summary = vscode.commands.registerCommand('dev-boon.CODE_SUMMARY', async () => {
 			if(isExtensionActivated === 1){
 				try {
@@ -376,8 +381,9 @@ async function runSearchingForStackOverFlowPosts(selectedText:string): Promise<v
         gzip: true,
     };
     try {
-        const searchResponse = await request.get(uriOptions);
 		console.log("Reached here...");
+        const searchResponse = await request.get(uriOptions);
+		console.log("Completed here...");
 		//vscode.window.showInformationMessage(`stack api has responded with ${searchResponse}`);
 		console.log(searchResponse);
 		let test = getLatestErrorMessageFromTerminal();

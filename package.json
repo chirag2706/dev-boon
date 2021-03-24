@@ -17,6 +17,7 @@
 	"activationEvents": [
 		"onCommand:dev-boon.STACKOVERFLOW_SEARCH_WITH_SELECTED_TEXT",
 		"onCommand:dev-boon.DEACTIVATE_EXTENSION",
+		"onCommand:dev-boon.ACTIVATE_EXTENSION",
 		"onCommand:dev-boon.YOUTUBE_SEARCH_WITH_SELECTED_TEXT",
 		"onCommand:dev-boon.CUSTOM_SEARCH",
 		"onCommand:dev-boon.YOUTUBE_SEARCH_WITH_SELECTED_TEXT_USING_PROMPT",
@@ -55,6 +56,11 @@
 			},
 			{
 				"command": "dev-boon.DEACTIVATE_EXTENSION",
+				"category": "dev-boon",
+				"title": "deactivate dev-boon extension"
+			},
+			{
+				"command": "dev-boon.ACTIVATE_EXTENSION",
 				"category": "dev-boon",
 				"title": "deactivate dev-boon extension"
 			},
@@ -103,6 +109,10 @@
 			{
 				"command": "dev-boon.CODE_SUMMARY",
 				"key": "ctrl+shift+c"
+			},
+			{
+				"command": "dev-boon.ACTIVATE_EXTENSION",
+				"key": "ctrl+shift+a"
 			}
 		]
 	},
