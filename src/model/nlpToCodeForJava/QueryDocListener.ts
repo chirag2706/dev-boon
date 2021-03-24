@@ -3,6 +3,10 @@ import { off } from 'node:process';
 import { start } from 'node:repl';
 import * as vscode from 'vscode';
 import {Searcher} from './Searcher';
+import {SidebarProvider} from '../../sidebarProvider';
+import {description} from "../../description";
+import {summary} from "../../summary";
+import * as extension from '../../extension'
 
 var operatorsToBeRemoved = {
     "[":0,
@@ -211,12 +215,10 @@ export class QueryDocListener{
                         editBuilder.replace(selection,code[0][0]);
                     });
                 }
-                
             }
-
-
-    
-        }catch(err){
+            extension.show_dev_boon_side_bar(1);
+        }
+        catch(err){
             vscode.window.showErrorMessage("Something went wrong while executing query");
         }
 
@@ -250,6 +252,7 @@ export class QueryDocListener{
 	*/
 
     documentChanged(){
+        extension.show_dev_boon_side_bar(0);
         // This is the part of the code where we format the event (encounter a ? xxx ? this will format and isolate
 		// query in 'line' and search for code snippets using query.
         let selectedText=this.getSelectedTextFromEditor();
@@ -266,11 +269,5 @@ export class QueryDocListener{
                 this.executeQuery(query,offset);
             }
         }
-
-
-
-
     }
-
-
 };

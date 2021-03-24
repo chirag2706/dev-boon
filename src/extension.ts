@@ -15,6 +15,7 @@ import {
     CompletionItemKind
 } from 'vscode-languageserver';
 import { listenerCount } from "node:events";
+import { Console } from "node:console";
 //// RUN THE FLASK LOCALLY ON PORT 6615
 var {spawn} = require('child_process');
 var j;
@@ -27,6 +28,7 @@ for(var i=__dirname.length;i>=0;i--){
 var path=__dirname.slice(0,j);
 // STOP THE FLASK SERVER IF RUNNING ON PORT 6615
 var stop_running_server=spawn('fuser',['-n','tcp','-k','6615']);
+
 
 //START FLASK ON PORT 6615
 var python=spawn('python3',[path+'/src/Python/PythonScript1.py']);
@@ -66,6 +68,23 @@ async function check(context: vscode.ExtensionContext):Promise<string | undefine
 		return "";
 	}
 }
+
+export async function show_dev_boon_side_bar(x:number){
+	if(x==1){
+		if(sidebarProvider!==null && sidebarProvider!==undefined){
+			var pass_the_result:description[]=new Array(1);
+			sidebarProvider.customResolveWebviewView(10,pass_the_result);
+		}
+	}
+	else{
+		if(sidebarProvider!==null && sidebarProvider!==undefined){
+			var pass_the_result:description[]=new Array(1);
+			sidebarProvider.customResolveWebviewView(6,pass_the_result);
+		}
+	}
+	
+}
+
 // this method is called when your extension is activated
 // your extension is activated the very first time the command is executed
 export async function activate(context: vscode.ExtensionContext) {
@@ -173,11 +192,12 @@ export async function activate(context: vscode.ExtensionContext) {
 					let docListener = new QueryDocListener();
 					console.log("inside NLP function");
 					await docListener.documentChanged();
-
-				}else{
+				}
+				else{
 					await check(context);
 				}
-			}catch(err){
+			}
+			catch(err){
 				//vscode.window.showErrorMessage("Something went wrong while searching for Stackoverflow posts 😣");
 			}
 		});
@@ -378,7 +398,6 @@ async function runSearchingForStackOverFlowPosts(selectedText:string): Promise<v
 			if(sidebarProvider!==null && sidebarProvider!==undefined){
 				sidebarProvider.customResolveWebviewView(0,pass_the_result);
 			}
-
         }
     } catch (error) {
         //vscode.window.showErrorMessage(`Error : ${error.message}`);
@@ -512,8 +531,6 @@ async function terminal_capture(){
 	});
 }
 
-
-
 var pre_line=0;
 var cur_line=0;
 var pre_line_text="";
@@ -525,7 +542,7 @@ var count2=0;  // count  2 -> new line
 
 var idle=0;
 
-
+var show=0;
 
 var queue:difficult_query_queue[]=new Array();
 
@@ -581,11 +598,26 @@ function difficult_query(){
 		count2++;
 	}
 	if((count_1/count1)>0.65){
-		vscode.window.showInformationMessage("Looks Like You are Struck. Take help of our DEV-BOON extension to maximise your productivity.");
+		if(show==0){
+			if(sidebarProvider!==null && sidebarProvider!==undefined){
+				let x=new summary("Looks like You are struck.Please take the help of our Extension");
+				sidebarProvider.customResolveWebviewViewS(1,x);
+			}
+			show=1;
+		}
+	}
+	else{
+		if(show==1){
+			if(sidebarProvider!==null && sidebarProvider!==undefined){
+				var pass_the_result:description[]=new Array(10);
+				sidebarProvider.customResolveWebviewView(10,pass_the_result);
+			}
+			show=0;
+		}
 	}
 	if(count0>=49){
 		idle++;
-		if(idle>250){
+		if(idle%300==0){
 			vscode.window.showInformationMessage("Looks Like You are Struck. Take help of our DEV-BOON extension to maximise your productivity.");
 			idle=0;
 		}

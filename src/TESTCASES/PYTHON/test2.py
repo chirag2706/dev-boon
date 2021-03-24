@@ -1,4 +1,7 @@
 # division by zero error
 print(1/0)
-print("HELLO")
-pranav pr vdfvfdvdfefvneikfnv ekv edv dkfv dfkv dfk vdkdkvdfscvdsdkcskdddddddddddddddddddddddddddddddddd
+def add_two_numbers(a,b):
+    return a+b
+
+
+#?Add linked list?
