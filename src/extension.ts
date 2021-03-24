@@ -16,6 +16,7 @@ import {
 } from 'vscode-languageserver';
 import { listenerCount } from "node:events";
 import { Console } from "node:console";
+
 //// RUN THE FLASK LOCALLY ON PORT 6615
 var {spawn} = require('child_process');
 var j;
@@ -169,12 +170,14 @@ export async function activate(context: vscode.ExtensionContext) {
 		let Activate_Extension = vscode.commands.registerCommand('dev-boon.ACTIVATE_EXTENSION', async () => {
 			if(isExtensionActivated === 1){
 				// Do nothing
+				vscode.window.showInformationMessage("Extension is already Activated...");
 			}
 			else{
 				await check(context);
 			}
 		});
 		context.subscriptions.push(Activate_Extension);
+
 		let Code_Summary = vscode.commands.registerCommand('dev-boon.CODE_SUMMARY', async () => {
 			if(isExtensionActivated === 1){
 				try {
@@ -190,6 +193,26 @@ export async function activate(context: vscode.ExtensionContext) {
 		});
 
 		context.subscriptions.push(Code_Summary);
+
+
+		let Error_Query = vscode.commands.registerCommand('dev-boon.ERROR_QUERY', async () => {
+			if(isExtensionActivated === 1){
+				try {
+					terminal_capture();
+				}
+				catch (err) {
+					//vscode.window.showErrorMessage("Some Error occured while searching stackOverFlow posts 😣.Please try again");
+				}
+			}
+			else{
+				await check(context);
+			}
+		});
+
+		context.subscriptions.push(Error_Query);
+
+
+
 
 		let NlpToCode = vscode.commands.registerCommand(`dev-boon.NLP_TO_CODE`,async ()=>{
 			try{
@@ -522,17 +545,23 @@ async function code_summary(): Promise<void> {
 		sidebarProvider.customResolveWebviewViewS(1,x);
 	}
 }
+
+var terminal_data=""
+
 async function terminal_capture(){
-	var terminal=vscode.window.activeTerminal;
-	vscode.commands.executeCommand('workbench.action.terminal.selectAll').then(() => {
-	  vscode.commands.executeCommand('workbench.action.terminal.copySelection').then(() => {
-		vscode.commands.executeCommand('workbench.action.terminal.clearSelection').then(() => {
-		  vscode.commands.executeCommand('workbench.action.files.newUntitledFile').then(() => {
-			vscode.commands.executeCommand('editor.action.clipboardPasteAction');
-		  });
+	await vscode.commands.executeCommand('workbench.action.terminal.selectAll').then(async () => {
+	  await vscode.commands.executeCommand('workbench.action.terminal.copySelection').then(async () => {
+		await vscode.commands.executeCommand('workbench.action.terminal.clearSelection').then(async () => {
+			await vscode.env.clipboard.readText().then((text)=>{
+				terminal_data=text;
+			});
 		});
 	  });
 	});
+
+	console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+	console.log(terminal_data);
+	console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&");
 }
 
 var pre_line=0;
@@ -551,6 +580,7 @@ var show=0;
 var queue:difficult_query_queue[]=new Array();
 
 function difficult_query(){
+	var terminal=vscode.window.activeTerminal;
 	var editor = vscode.window.activeTextEditor;
 	if(!editor){
 		return;
