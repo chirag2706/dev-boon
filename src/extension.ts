@@ -98,53 +98,53 @@ export async function activate(context: vscode.ExtensionContext) {
 			);
 			context.subscriptions.push(sideBar);
 		}
-		if(isExtensionActivated === 1){
-			//Get the terminal text as links
-				(<any>vscode.window).registerTerminalLinkProvider({
-					provideTerminalLinks: async (context: any, token: vscode.CancellationToken) => {
-						if(queryUnderProcess === 0){
-							queryUnderProcess=1;
-							let line = (context.line as string);
-							var check=1;
-							if(line.indexOf('java')!=-1){
-								if(line.indexOf('error')==-1 && line.indexOf('exception')==-1){
-									check=0;
-								}
-							}
-							for(var i=0;i<terminal_array.length;i++){
-								if(terminal_array[i]==line){
-									check=0;
-									break;
-								}
-							}
-							if(check){
-								terminal_array.push(line);
-								var send_to_error_query:error_query=new error_query();
-								var finalParsedString='';
-								finalParsedString=await send_to_error_query.give_final_parsed_string(line);
-								console.log(finalParsedString);
-								if(finalParsedString!=='none'){
-									runSearchingForYouTube(finalParsedString);
-									// let answer = await vscode.window.showInformationMessage(`Which content do u want to see? query is ${finalParsedString}`,"StackOverFlow","Youtube");
-									// if(answer === "StackOverFlow"){
-									// 	await runSearchingForStackOverFlowPosts(finalParsedString);
-									// }
-									// else if(answer === "Youtube"){
-									// 	await runSearchingForYouTube(finalParsedString);
-									// }
-								}
-								queryUnderProcess=0;
-								return [];
-							}
-							queryUnderProcess=0;
-							return [];
-						}
-					},
-					handleTerminalLink: (link: any) => {
-						//vscode.window.showInformationMessage(`Link activated (data = ${link.data})`);
-					}
-				});
-		}
+		// if(isExtensionActivated === 1){
+		// 	//Get the terminal text as links
+		// 		(<any>vscode.window).registerTerminalLinkProvider({
+		// 			provideTerminalLinks: async (context: any, token: vscode.CancellationToken) => {
+		// 				if(queryUnderProcess === 0){
+		// 					queryUnderProcess=1;
+		// 					let line = (context.line as string);
+							// var check=1;
+							// if(line.indexOf('java')!=-1){
+							// 	if(line.indexOf('error')==-1 && line.indexOf('exception')==-1){
+							// 		check=0;
+							// 	}
+							// }
+							// for(var i=0;i<terminal_array.length;i++){
+							// 	if(terminal_array[i]==line){
+							// 		check=0;
+							// 		break;
+							// 	}
+							// }
+							// if(check){
+							// 	// terminal_array.push(line);
+							// 	var send_to_error_query:error_query=new error_query();
+							// 	var finalParsedString='';
+							// 	finalParsedString=await send_to_error_query.give_final_parsed_string(line);
+							// 	console.log(finalParsedString);
+							// 	if(finalParsedString!=='none'){
+							// 		runSearchingForYouTube(finalParsedString);
+							// 		// let answer = await vscode.window.showInformationMessage(`Which content do u want to see? query is ${finalParsedString}`,"StackOverFlow","Youtube");
+							// 		// if(answer === "StackOverFlow"){
+							// 		// 	await runSearchingForStackOverFlowPosts(finalParsedString);
+							// 		// }
+							// 		// else if(answer === "Youtube"){
+							// 		// 	await runSearchingForYouTube(finalParsedString);
+							// 		// }
+							// 	}
+								// queryUnderProcess=0;
+		// 						return [];
+		// 					}
+		// 					queryUnderProcess=0;
+		// 					return [];
+		// 				}
+		// 			},
+		// 			handleTerminalLink: (link: any) => {
+		// 				//vscode.window.showInformationMessage(`Link activated (data = ${link.data})`);
+		// 			}
+		// 		});
+		// }
 		let deactivateCommand = vscode.commands.registerCommand("dev-boon.DEACTIVATE_EXTENSION",()=>{
 			if(isExtensionActivated === 1){
 				deactivate(context);
@@ -191,6 +191,9 @@ export async function activate(context: vscode.ExtensionContext) {
 				await check(context);
 			}
 		});
+
+
+		
 
 		context.subscriptions.push(Code_Summary);
 
@@ -546,7 +549,7 @@ async function code_summary(): Promise<void> {
 	}
 }
 
-var terminal_data=""
+var terminal_data="";
 
 async function terminal_capture(){
 	await vscode.commands.executeCommand('workbench.action.terminal.selectAll').then(async () => {
@@ -555,11 +558,59 @@ async function terminal_capture(){
 			await vscode.env.clipboard.readText().then((text)=>{
 				terminal_data=text;
 			});
+			
 		});
 	  });
 	});
 
-	console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+	
+	let line:string = "";
+	for(let i = 0;i<terminal_data.length;i++){
+		
+		if(terminal_data[i] === " "){
+			// console.log("yes");
+			line = line.trim();
+			console.log(line);
+			var check=1;
+			if(line.length === 0){
+				continue;
+			}
+			if(line.indexOf('java')!=-1){
+				if(line.indexOf('error')==-1 && line.indexOf('exception')==-1){
+					check=0;
+				}
+			}
+			// for(var j=0;j<terminal_array.length;j++){
+			// 	if(terminal_array[j]==line){
+			// 		check=0;
+			// 		break;
+			// 	}
+			// }
+			if(check){
+				terminal_array.push(line);
+				var send_to_error_query:error_query=new error_query();
+				var finalParsedString='';
+				finalParsedString=await send_to_error_query.give_final_parsed_string(line);
+				console.log(finalParsedString);
+				if(finalParsedString!=='none'){
+					await runSearchingForYouTube(finalParsedString);
+					// let answer = await vscode.window.showInformationMessage(`Which content do u want to see? query is ${finalParsedString}`,"StackOverFlow","Youtube");
+					// if(answer === "StackOverFlow"){
+					// 	await runSearchingForStackOverFlowPosts(finalParsedString);
+					// }
+					// else if(answer === "Youtube"){
+					// 	await runSearchingForYouTube(finalParsedString);
+					// }
+				}
+			line = "";
+		}
+	}else{
+		// console.log("bye");
+		line+=terminal_data[i];
+	}
+}
+
+console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&");
 	console.log(terminal_data);
 	console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&");
 }
