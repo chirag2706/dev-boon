@@ -4,3 +4,5 @@ def add_two_numbers(a,b):
     return a+b
 
 #?Insert a table into SQL?
+
+#?Add linked list?
