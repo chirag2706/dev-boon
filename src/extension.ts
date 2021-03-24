@@ -16,6 +16,7 @@ import {
 } from 'vscode-languageserver';
 import { listenerCount } from "node:events";
 import { Console } from "node:console";
+
 //// RUN THE FLASK LOCALLY ON PORT 6615
 var {spawn} = require('child_process');
 var j;
@@ -165,10 +166,17 @@ export async function activate(context: vscode.ExtensionContext) {
 				await check(context);
 			}
 		});
-
-		
-
 		context.subscriptions.push(CustomSearch);
+		let Activate_Extension = vscode.commands.registerCommand('dev-boon.ACTIVATE_EXTENSION', async () => {
+			if(isExtensionActivated === 1){
+				// Do nothing
+				vscode.window.showInformationMessage("Extension is already Activated...");
+			}
+			else{
+				await check(context);
+			}
+		});
+		context.subscriptions.push(Activate_Extension);
 
 		let Code_Summary = vscode.commands.registerCommand('dev-boon.CODE_SUMMARY', async () => {
 			if(isExtensionActivated === 1){
@@ -185,6 +193,26 @@ export async function activate(context: vscode.ExtensionContext) {
 		});
 
 		context.subscriptions.push(Code_Summary);
+
+
+		let Error_Query = vscode.commands.registerCommand('dev-boon.ERROR_QUERY', async () => {
+			if(isExtensionActivated === 1){
+				try {
+					terminal_capture();
+				}
+				catch (err) {
+					//vscode.window.showErrorMessage("Some Error occured while searching stackOverFlow posts 😣.Please try again");
+				}
+			}
+			else{
+				await check(context);
+			}
+		});
+
+		context.subscriptions.push(Error_Query);
+
+
+
 
 		let NlpToCode = vscode.commands.registerCommand(`dev-boon.NLP_TO_CODE`,async ()=>{
 			try{
@@ -376,8 +404,9 @@ async function runSearchingForStackOverFlowPosts(selectedText:string): Promise<v
         gzip: true,
     };
     try {
+		console.log("Reached here...");
         const searchResponse = await request.get(uriOptions);
-
+		console.log("Completed here...");
 		//vscode.window.showInformationMessage(`stack api has responded with ${searchResponse}`);
 		console.log(searchResponse);
 		let test = getLatestErrorMessageFromTerminal();
@@ -390,16 +419,15 @@ async function runSearchingForStackOverFlowPosts(selectedText:string): Promise<v
 					count=count+1;
 				}
             });
-
 			if(sidebarProvider === undefined || sidebarProvider === null){
 				//vscode.window.showErrorMessage(`sidebarProvider is ${sidebarProvider} inside stack search`);
 			}
-
 			if(sidebarProvider!==null && sidebarProvider!==undefined){
 				sidebarProvider.customResolveWebviewView(0,pass_the_result);
 			}
         }
-    } catch (error) {
+    } 
+	catch (error) {
         //vscode.window.showErrorMessage(`Error : ${error.message}`);
     }
 }
@@ -517,18 +545,23 @@ async function code_summary(): Promise<void> {
 		sidebarProvider.customResolveWebviewViewS(1,x);
 	}
 }
+
+var terminal_data=""
+
 async function terminal_capture(){
-	var terminal=vscode.window.activeTerminal;
-	vscode.commands.executeCommand('workbench.action.terminal.selectAll').then(() => {
-	  vscode.commands.executeCommand('workbench.action.terminal.copySelection').then(() => {
-		vscode.commands.executeCommand('workbench.action.terminal.clearSelection').then(() => {
-		  vscode.commands.executeCommand('workbench.action.files.newUntitledFile').then(() => {
-			vscode.commands.executeCommand('editor.action.clipboardPasteAction');
-			vscode.commands.executeCommand('editor.action.ctrl+shift+q');
-		  });
+	await vscode.commands.executeCommand('workbench.action.terminal.selectAll').then(async () => {
+	  await vscode.commands.executeCommand('workbench.action.terminal.copySelection').then(async () => {
+		await vscode.commands.executeCommand('workbench.action.terminal.clearSelection').then(async () => {
+			await vscode.env.clipboard.readText().then((text)=>{
+				terminal_data=text;
+			});
 		});
 	  });
 	});
+
+	console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&");
+	console.log(terminal_data);
+	console.log("&&&&&&&&&&&&&&&&&&&&&&&&&&&");
 }
 
 var pre_line=0;
@@ -547,6 +580,7 @@ var show=0;
 var queue:difficult_query_queue[]=new Array();
 
 function difficult_query(){
+	var terminal=vscode.window.activeTerminal;
 	var editor = vscode.window.activeTextEditor;
 	if(!editor){
 		return;

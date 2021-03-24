@@ -78,13 +78,13 @@ import {summary} from "./summary"
 		else if(x==2){
 			stck='<h3>YOUTUBE</h3>';
 			stck+=`<button class="buttonload">
-			<i class="fa fa-refresh fa-spin"></i>Loading
+			<i class="fa fa-refresh fa-spin"></i>
 		  </button>`
 		}
 		else if(x==3){
 			stck='<h3>StackOverFlow</h3>';
 			stck+=`<button class="buttonload">
-			<i class="fa fa-refresh fa-spin"></i>Loading
+			<i class="fa fa-refresh fa-spin"></i>
 		  </button>`
 		}
 		else if(x==4){
@@ -98,7 +98,7 @@ import {summary} from "./summary"
     else{
       stck='<h3>Generating an Automatic Code Snippet</h3>';
       stck+=`<button class="buttonload">
-			<i class="fa fa-refresh fa-spin"></i>Loading
+			<i class="fa fa-refresh fa-spin"></i>
 		  </button>`
     }
 		return `<!DOCTYPE html>
@@ -106,13 +106,15 @@ import {summary} from "./summary"
 		<head>
 		<style>
 			.buttonload {
-				background-color: #4CAF50; /* Green background */
+        text-align: center;
+				background-color: blue; 
 				border: none; /* Remove borders */
 				color: white; /* White text */
 				padding: 12px 16px; /* Some padding */
 				font-size: 16px; /* Set a font size */
-				width:100%;
-				margin:auto auto uto auto;
+        max-width:160px;
+        width: 100%;
+        margin-top:100px;
 			}
 		</style>
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
