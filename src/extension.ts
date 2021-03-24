@@ -377,7 +377,7 @@ async function runSearchingForStackOverFlowPosts(selectedText:string): Promise<v
     };
     try {
         const searchResponse = await request.get(uriOptions);
-
+		console.log("Reached here...");
 		//vscode.window.showInformationMessage(`stack api has responded with ${searchResponse}`);
 		console.log(searchResponse);
 		let test = getLatestErrorMessageFromTerminal();
@@ -390,16 +390,15 @@ async function runSearchingForStackOverFlowPosts(selectedText:string): Promise<v
 					count=count+1;
 				}
             });
-
 			if(sidebarProvider === undefined || sidebarProvider === null){
 				//vscode.window.showErrorMessage(`sidebarProvider is ${sidebarProvider} inside stack search`);
 			}
-
 			if(sidebarProvider!==null && sidebarProvider!==undefined){
 				sidebarProvider.customResolveWebviewView(0,pass_the_result);
 			}
         }
-    } catch (error) {
+    } 
+	catch (error) {
         //vscode.window.showErrorMessage(`Error : ${error.message}`);
     }
 }
@@ -524,7 +523,6 @@ async function terminal_capture(){
 		vscode.commands.executeCommand('workbench.action.terminal.clearSelection').then(() => {
 		  vscode.commands.executeCommand('workbench.action.files.newUntitledFile').then(() => {
 			vscode.commands.executeCommand('editor.action.clipboardPasteAction');
-			vscode.commands.executeCommand('editor.action.ctrl+shift+q');
 		  });
 		});
 	  });
