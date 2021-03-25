@@ -457,12 +457,25 @@ async function runSearchingForStackOverFlowPosts(selectedText:string): Promise<v
         }
     } 
 	catch (error) {
-        //vscode.window.showErrorMessage(`ErrorIPCMessageReader
-	};
-	//vscode.window.showInformationMessage(`Resultant string is: ${result}`);
-	// return result;
-
+		var pass_the_result:description[]=new Array(10);
+        if(sidebarProvider!==null && sidebarProvider!==undefined){
+			sidebarProvider.customResolveWebviewView(4,pass_the_result);
+		}
+    }
 }
+// function getStringOutOfTagList(tags:string[]): string{
+// 	let result = "";
+
+// 	tags.forEach((str)=>{
+// 		result+=str;
+// 		result+=" ";
+// 	});
+//         //vscode.window.showErrorMessage(`ErrorIPCMessageReader
+// 	};
+// 	//vscode.window.showInformationMessage(`Resultant string is: ${result}`);
+// 	// return result;
+
+// }
 async function runSearchingForYouTube(selectedText:string): Promise<void>{
 	if(!selectedText || selectedText.trim() === ""){
 		return;
@@ -488,8 +501,8 @@ async function runSearchingForYouTube(selectedText:string): Promise<void>{
     }
     const encodedWebSearchTerm = encodeURIComponent(selectedText);
 	const youtube=`http://127.0.0.1:6615/YouTube/${encodedWebSearchTerm}`;
-	const youtubeSearchUrl=`https://www.youtube.com/results?search_query=${encodedWebSearchTerm}`;
-    const googleSearchUrl = `http://127.0.0.1:dfb6615//YouTube_googleSearchUrl/${encodedWebSearchTerm}`;
+	const youtubeSearchUrl=`http://127.0.0.1:6615/YouTube_youtubeSearchUrl/${encodedWebSearchTerm}`;
+    const googleSearchUrl = `http://127.0.0.1:6615/YouTube_googleSearchUrl/${encodedWebSearchTerm}`;
 	const uriOptions = {
         uri: youtube,
         json: true,
@@ -523,7 +536,10 @@ async function runSearchingForYouTube(selectedText:string): Promise<void>{
 			}
         }
     } catch (error) {
-        //vscode.window.showErrorMessage(`Error is: ${error.message}`);
+        var pass_the_result:description[]=new Array(10);
+        if(sidebarProvider!==null && sidebarProvider!==undefined){
+			sidebarProvider.customResolveWebviewView(5,pass_the_result);
+		}
     }
 }
 async function custom_search(): Promise<void>{
@@ -534,7 +550,7 @@ async function custom_search(): Promise<void>{
 	vscode.window.showInputBox(options).then(async value => {
 		if (!value) return;
 		var search_string_by_user = value;
-		let answer = await vscode.window.showInformationMessage(`Which content do u want to see? query is ${search_string_by_user}`,"StackOverFlow","Youtube");
+		let answer = await vscode.window.showInformationMessage(`Which content do u want to see? query is ${search_string_by_user}`,"Youtube","StackOverFlow");
 		if(answer === "StackOverFlow"){
 			await runSearchingForStackOverFlowPosts(search_string_by_user);
 		}
@@ -630,7 +646,13 @@ async function terminal_capture(){
 				finalParsedString=await send_to_error_query.give_final_parsed_string(line);
 				console.log(finalParsedString);
 				if(finalParsedString!=='none'){
-					await runSearchingForYouTube(finalParsedString);
+					let answer = await vscode.window.showInformationMessage(`Which content do u want to see? query is ${finalParsedString}`,"Youtube","StackOverFlow");
+					if(answer === "StackOverFlow"){
+						await runSearchingForStackOverFlowPosts(finalParsedString);
+					}
+					else if(answer === "Youtube"){
+						await runSearchingForYouTube(finalParsedString);
+					}
 					// let answer = await vscode.window.showInformationMessage(`Which content do u want to see? query is ${finalParsedString}`,"StackOverFlow","Youtube");
 					// if(answer === "StackOverFlow"){
 					// 	await runSearchingForStackOverFlowPosts(finalParsedString);
@@ -641,7 +663,8 @@ async function terminal_capture(){
 				}
 			line = "";
 		}
-	}else{
+	}
+	else{
 		// console.log("bye");
 		line+=terminal_data[i];
 	}
@@ -717,9 +740,9 @@ function difficult_query(){
 		// WENT TO NEW LINE
 		var node=new difficult_query_queue(2);
 		queue.push(node);
-		count2++;
+		count2++;	
 	}
-	if((count_1/count1)>0.65){
+	if((count_1/count1)>0.65 && (count_1+count1>=40)){
 		if(show==0){
 			if(sidebarProvider!==null && sidebarProvider!==undefined){
 				let x=new summary("Looks like You are struck.Please take the help of our Extension");
