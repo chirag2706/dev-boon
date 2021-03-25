@@ -26,9 +26,8 @@ import {summary} from "./summary"
     var e:string;
 	if(x==0 || x==1 || x==2 || x==3 || x==4 || x==5 || x==6){
 		if(x==0){
-      		stck='<div><h4>StackOverFlow</h4></div>';
+      		stck='<div style="max-width:220px;margin-bottom:30px;"><img src="https://logos-download.com/wp-content/uploads/2019/01/Stack_Overflow_Logo-700x283.png" alt="StackOverFlow"/></div>';
 			if(pass_the_result.length==0){
-				stck='<div><h3>StackOverFlow</h3></div>';
 				stck+=`<div>No Results Found ...</div>`;
 			}
 			else{
@@ -51,9 +50,8 @@ import {summary} from "./summary"
 			}
 		}
 		else if(x==1){
-			stck='<div><h3>YOUTUBE</h3></div>';
+			stck='<div style="max-width:200px;"><img src="https://1000logos.net/wp-content/uploads/2017/05/Youtube-Logo-500x313.png" alt="YOUTUBE"></div>';
 			if(pass_the_result.length==0){
-				stck='<div><h3>YOUTUBE</h3></div>';
 				stck+=`<div>No Results Found ...</div>`;
 			}
 			else{
@@ -76,23 +74,23 @@ import {summary} from "./summary"
 			}
 		}
 		else if(x==2){
-			stck='<div><h3>YOUTUBE</h3></div>';
+			stck='<div style="max-width:200px;"><img src="https://1000logos.net/wp-content/uploads/2017/05/Youtube-Logo-500x313.png" alt="YOUTUBE"></div>';
 			stck+=`<button class="buttonload">
 			<i class="fa fa-refresh fa-spin"></i>
 		  </button>`;
 		}
 		else if(x==3){
-			stck='<div><h3>StackOverFlow</h3></div>';
+			stck='<div style="max-width:220px;margin-bottom:30px;"><img src="https://logos-download.com/wp-content/uploads/2019/01/Stack_Overflow_Logo-700x283.png" alt="StackOverFlow"/></div>'
 			stck+=`<button class="buttonload">
 			<i class="fa fa-refresh fa-spin"></i>
 		  </button>`;
 		}
 		else if(x==4){
-			stck='<div><h3>StackOverFlow</h3></div>';
+			stck='<div style="max-width:220px;margin-bottom:30px;"><img src="https://logos-download.com/wp-content/uploads/2019/01/Stack_Overflow_Logo-700x283.png" alt="StackOverFlow"/></div>'
 			stck+=`<div>No Results Found ...</div>`;
 		}
 		else if(x==5){
-			stck='<div><h3>YOUTUBE</h3></div>';
+			stck='<div style="max-width:200px;"><img src="https://1000logos.net/wp-content/uploads/2017/05/Youtube-Logo-500x313.png" alt="YOUTUBE"></div>';
 			stck+=`<div>No Results Found ...</div>`;
 		}
     else{
@@ -107,15 +105,13 @@ import {summary} from "./summary"
 		<style>
 			.buttonload {
         text-align: center;
-				background-color: blue; 
+				background-color: white;
 				border: none; /* Remove borders */
-				color: white; /* White text */
+				color: black; /* White text */
 				padding: 12px 16px; /* Some padding */
-				font-size: 16px; /* Set a font size */
-        max-width:1000px;
+				font-size: 30px; /* Set a font size */
+        max-width:100px;
         width: 100%;
-        margin-top:100px;
-        
 			}
 
       .testing {
