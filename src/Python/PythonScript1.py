@@ -6,10 +6,10 @@ import requests
 from googleapiclient.discovery import build
 from pyyoutube import Api as API_YOUTUBE
 from bs4 import BeautifulSoup
-from nltk.corpus import stopwords
-from nltk.cluster.util import cosine_distance
-import numpy as np
-import networkx as nx
+# from nltk.corpus import stopwords
+# from nltk.cluster.util import cosine_distance
+# import numpy as np
+# import networkx as nx
 
 app = Flask(__name__)
 api = Api(app)

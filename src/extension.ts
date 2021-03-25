@@ -40,6 +40,7 @@ var sidebarProvider:any = undefined ;
 
 let isExtensionActivated = 0; // 0 means that initially ,it is deactivated
 let queryUnderProcess = 0; // 0 means that api call is under process
+let searchText:string|undefined = "";
 var terminal_array:string[]=new Array("Terminal");// Store terminal text so that we dont repeatedly search them
 
 var catSmiley = String.fromCodePoint(0X0001F638);
@@ -234,7 +235,32 @@ export async function activate(context: vscode.ExtensionContext) {
 		});
 
 
+
+		
 		context.subscriptions.push(NlpToCode);
+
+		let EnterCommand = vscode.commands.registerCommand(`dev-boon.ENTER`,async ()=>{
+			try{
+				if(isExtensionActivated === 1){
+					// let docListener = new QueryDocListener();
+					// console.log("inside NLP function");
+					// await docListener.documentChanged();
+					custom_search();
+					
+				}
+				else{
+					await check(context);
+				}
+			}
+			catch(err){
+				//vscode.window.showErrorMessage("Something went wrong while searching for Stackoverflow posts 😣");
+			}
+		});
+
+
+
+
+		context.subscriptions.push(EnterCommand);
 
 
 
@@ -431,18 +457,10 @@ async function runSearchingForStackOverFlowPosts(selectedText:string): Promise<v
         }
     } 
 	catch (error) {
-        //vscode.window.showErrorMessage(`Error : ${error.message}`);
-    }
-}
-function getStringOutOfTagList(tags:string[]): string{
-	let result = "";
-
-	tags.forEach((str)=>{
-		result+=str;
-		result+=" ";
-	});
+        //vscode.window.showErrorMessage(`ErrorIPCMessageReader
+	};
 	//vscode.window.showInformationMessage(`Resultant string is: ${result}`);
-	return result;
+	// return result;
 
 }
 async function runSearchingForYouTube(selectedText:string): Promise<void>{
@@ -477,7 +495,12 @@ async function runSearchingForYouTube(selectedText:string): Promise<void>{
         json: true,
         gzip: true,
     };
+
+	// await terminal_capture();
+	
     try {
+
+		console.log(searchText);
 		var response = await request.get(uriOptions);
 		let videoList = response.items;
 		console.log(videoList[0]);
@@ -521,6 +544,18 @@ async function custom_search(): Promise<void>{
 	});
 }
 
+// async function custom_search1(): Promise<void>{
+// 	let options: vscode.InputBoxOptions = {
+// 		prompt: "Label: ",
+// 		placeHolder: "Search..."
+// 	}
+// 	vscode.window.showInputBox(options).then(async value => {
+// 		searchText = value;
+// 		console.log("chiggi");
+// 		console.log(searchText);
+// 	});
+// }
+
 
 async function code_summary(): Promise<void> {
 	var editor = vscode.window.activeTextEditor;
@@ -560,6 +595,8 @@ async function terminal_capture(){
 			});
 			
 		});
+
+
 	  });
 	});
 
