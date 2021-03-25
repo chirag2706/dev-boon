@@ -14,7 +14,6 @@ import {
     Diagnostic, DiagnosticSeverity, InitializeResult, TextDocumentPositionParams, CompletionItem, 
     CompletionItemKind
 } from 'vscode-languageserver';
-import { listenerCount } from "node:events";
 import { Console } from "node:console";
 
 //// RUN THE FLASK LOCALLY ON PORT 6615
@@ -233,10 +232,6 @@ export async function activate(context: vscode.ExtensionContext) {
 				//vscode.window.showErrorMessage("Something went wrong while searching for Stackoverflow posts 😣");
 			}
 		});
-
-
-
-		
 		context.subscriptions.push(NlpToCode);
 
 		let EnterCommand = vscode.commands.registerCommand(`dev-boon.ENTER`,async ()=>{
@@ -256,14 +251,7 @@ export async function activate(context: vscode.ExtensionContext) {
 				//vscode.window.showErrorMessage("Something went wrong while searching for Stackoverflow posts 😣");
 			}
 		});
-
-
-
-
 		context.subscriptions.push(EnterCommand);
-
-
-
 		let stackOverFlowSearchBySelectingTextFromEditor = vscode.commands.registerCommand('dev-boon.STACKOVERFLOW_SEARCH_WITH_SELECTED_TEXT', async () => {
 			if(isExtensionActivated === 1){
 				try {
@@ -296,10 +284,7 @@ export async function activate(context: vscode.ExtensionContext) {
 			}
 
 		});
-
 		context.subscriptions.push(stackOverFlowSearchBySelectingTextFromEditor);
-
-
 		let youTubeSearchBySelectingTextFromEditor = vscode.commands.registerCommand('dev-boon.YOUTUBE_SEARCH_WITH_SELECTED_TEXT', async () => {
 			if(isExtensionActivated === 1){
 				try {
@@ -323,9 +308,7 @@ export async function activate(context: vscode.ExtensionContext) {
 			else{
 				await check(context);
 			}
-
 		});
-
 		context.subscriptions.push(youTubeSearchBySelectingTextFromEditor);
 }
 
@@ -521,7 +504,6 @@ async function runSearchingForYouTube(selectedText:string): Promise<void>{
         json: true,
         gzip: true,
     };
-
 	// await terminal_capture();
 	
     try {
