@@ -433,6 +433,13 @@ async function runSearchingForStackOverFlowPosts(selectedText:string): Promise<v
         gzip: true,
     };
     try {
+
+		var emptyArray:description[]=new Array(10);
+
+		if(sidebarProvider!==null && sidebarProvider!==undefined){
+			sidebarProvider.customResolveWebviewView(3,emptyArray);
+		}
+
 		console.log("Reached here...");
         const searchResponse = await request.get(uriOptions);
 		console.log("Completed here...");
@@ -518,7 +525,11 @@ async function runSearchingForYouTube(selectedText:string): Promise<void>{
 	// await terminal_capture();
 	
     try {
+		var emptyArray:description[]=new Array(10);
 
+		if(sidebarProvider!==null && sidebarProvider!==undefined){
+			sidebarProvider.customResolveWebviewView(2,emptyArray);
+		}
 		console.log(searchText);
 		var response = await request.get(uriOptions);
 		let videoList = response.items;
