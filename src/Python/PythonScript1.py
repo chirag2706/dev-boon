@@ -6,10 +6,10 @@ import requests
 from googleapiclient.discovery import build
 from pyyoutube import Api as API_YOUTUBE
 from bs4 import BeautifulSoup
-from nltk.corpus import stopwords
-from nltk.cluster.util import cosine_distance
-import numpy as np
-
+# from nltk.corpus import stopwords
+# from nltk.cluster.util import cosine_distance
+# import numpy as np
+# import networkx as nx
 
 app = Flask(__name__)
 api = Api(app)
@@ -97,18 +97,28 @@ class NlpToCodeForJava_snippet(Resource):
             snippets = []
 
             soup = BeautifulSoup(resp.content, 'html.parser')
-            arrayOfCodeSnippets = (soup.find_all('code'))
+
+            
+
+            arrayOfCodeSnippets = (soup.find_all(id="answers")[0].find_all('code'))
+            print("###################arrayOfCodeSnippets#########################")
+            print(arrayOfCodeSnippets)
             cnt = 0  # keeps track of current length of snippets array
+
+            if(len(arrayOfCodeSnippets) == 0):
+                arrayOfCodeSnippets = (soup.find_all('code'))
+                print("###################arrayOfCodeSnippetsWithoutAnswers#########################")
+                print(arrayOfCodeSnippets)
 
             #considering only first n most relevant posts
             for codeSnippet in arrayOfCodeSnippets:
                 currentCodeSnippet = codeSnippet.get_text()
-                
+                    
                 # if(len(currentCodeSnippet)>0):
                 snippets.append(" snippet from " + stackoverflowUrl+" \n"+currentCodeSnippet + "\n")
                 cnt+=1
 
-                if(cnt == 4):
+                if(cnt == 5):
                     break
 
             return {"snippets":snippets}

@@ -192,6 +192,8 @@ export class QueryDocListener{
     
             console.log("Final code output is: ");
             console.log(code);
+
+            let mostValidSnippet = await QueryDocListener.logic(code);
     
             //now ,we need to print that code on offset+1 line number
             let activeEditor = vscode.window.activeTextEditor;
@@ -208,11 +210,11 @@ export class QueryDocListener{
                     // the Position object gives you the line and character where the cursor is
                     const position = activeEditor.selection.active;
                     activeEditor.edit(editBuilder=>{
-                        editBuilder.replace(position,code[0][0]);
+                        editBuilder.replace(position,mostValidSnippet);
                     });
                 }else{
                     activeEditor.edit(editBuilder=>{
-                        editBuilder.replace(selection,code[0][0]);
+                        editBuilder.replace(selection,mostValidSnippet);
                     });
                 }
             }
@@ -224,6 +226,25 @@ export class QueryDocListener{
 
 
     
+
+    }
+
+
+    static logic(code:string[][]){
+        let mostValidSnippet:string = "";
+
+        let currLen:number = 0;
+
+        for(let i=0;i<code.length;i++){
+            for(let j=0;j<code[i].length;j++){
+                if((code[i][j].length)>currLen){
+                    mostValidSnippet = code[i][j];
+                    currLen = code[i][j].length;
+                }
+            }
+        }
+
+        return mostValidSnippet;
 
     }
 
