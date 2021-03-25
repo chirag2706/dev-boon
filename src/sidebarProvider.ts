@@ -304,10 +304,25 @@ function getWebviewContentS(x:number,pass_the_result:summary){
 	return `<!DOCTYPE html>
 			<html>
 			<head>
+
+      <style>
+      .testing {
+        display: flex;
+        
+        flex-direction: column;
+        align-items:center;
+        justify-content: center;
+      }
+      
+      </style>
+
 			<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous"
 			</head>
 			<body>
-			<h2>DEV-BOON</h2>
+      <div class = "testing" >
+        <div><h2>DEV-BOON</h2></div>
+      </div>
+			
 			<h4 style="font-size:17px;"></h4>
 			<p style="font-size:14px">${pass_the_result.Summary}<p>
 			</body>
