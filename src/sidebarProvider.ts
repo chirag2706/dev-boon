@@ -26,10 +26,10 @@ import {summary} from "./summary"
     var e:string;
 	if(x==0 || x==1 || x==2 || x==3 || x==4 || x==5 || x==6){
 		if(x==0){
-      		stck='<h4>StackOverFlow</h4>';
+      		stck='<div><h4>StackOverFlow</h4></div>';
 			if(pass_the_result.length==0){
-				stck='<h3>StackOverFlow</h3>';
-				stck+=`No Results Found ...`;
+				stck='<div><h3>StackOverFlow</h3></div>';
+				stck+=`<div>No Results Found ...</div>`;
 			}
 			else{
 				for(num=0;num<min(10,pass_the_result.length);num++){
@@ -38,7 +38,7 @@ import {summary} from "./summary"
 					c=pass_the_result[num].Description;
 					d=pass_the_result[num].Owner;
 					e=pass_the_result[num].Url;
-					stck+=`<div class="card" style="width:100%;max-width:180px;margin-bottom:5%;" >
+					stck+=`<div><div class="card" style="width:100%;max-width:180px;margin-bottom:5%;" >
 							<img src="https://jessehouwing.net/content/images/size/w2000/2018/07/stackoverflow-1.png" class="card-img-top" alt="..."/>
 							<div class="card-body" style="padding:3% 3% 3% 3%;">
 							<h5 class="card-title" ><p style="font-size:14px;">${b}</p></h3>
@@ -46,15 +46,15 @@ import {summary} from "./summary"
 							<p lass="card-text" style="font-size:12px;"><i>By ${d}<i></p>
 							<a href="${e}" style="width:100%;font-size:11px;" class="btn btn-outline-primary">Open</a>
 							</div>
-							</div>`;
+							</div></div>`;
 				}
 			}
 		}
 		else if(x==1){
-			stck='<h3>YOUTUBE</h3>';
+			stck='<div><h3>YOUTUBE</h3></div>';
 			if(pass_the_result.length==0){
-				stck='<h3>YOUTUBE</h3>';
-				stck+=`No Results Found ...`
+				stck='<div><h3>YOUTUBE</h3></div>';
+				stck+=`<div>No Results Found ...</div>`;
 			}
 			else{
 				for(num=0;num<min(5,pass_the_result.length);num++){
@@ -63,7 +63,7 @@ import {summary} from "./summary"
 					c=pass_the_result[num].Description;
 					d=pass_the_result[num].Owner;
 					e=pass_the_result[num].Url;
-					stck+=`<div class="card" style="width:100%;max-width:180px;margin-bottom:5%;" >
+					stck+=`<div><div class="card" style="width:100%;max-width:180px;margin-bottom:5%;" >
 							<img class="card-img-top"  src="${a}" alt="YOUTUBE" >
 							<div class="card-body" style="padding:3% 3% 3% 3%;">
 							<h5 class="card-title" ><p style="font-size:14px;">${b}</p></h3>
@@ -71,35 +71,35 @@ import {summary} from "./summary"
 							<p lass="card-text" style="font-size:12px;"><i>By ${d}<i></p>
 							<a href="${e}" style="width:100%;font-size:11px;" class="btn btn-outline-primary">Open</a>
 							</div>
-							</div>`;
+							</div></div>`;
 				}
 			}
 		}
 		else if(x==2){
-			stck='<h3>YOUTUBE</h3>';
+			stck='<div><h3>YOUTUBE</h3></div>';
 			stck+=`<button class="buttonload">
 			<i class="fa fa-refresh fa-spin"></i>
-		  </button>`
+		  </button>`;
 		}
 		else if(x==3){
-			stck='<h3>StackOverFlow</h3>';
+			stck='<div><h3>StackOverFlow</h3></div>';
 			stck+=`<button class="buttonload">
 			<i class="fa fa-refresh fa-spin"></i>
-		  </button>`
+		  </button>`;
 		}
 		else if(x==4){
-			stck='<h3>StackOverFlow</h3>';
-			stck+=`No Results Found ...`
+			stck='<div><h3>StackOverFlow</h3></div>';
+			stck+=`<div>No Results Found ...</div>`;
 		}
 		else if(x==5){
-			stck='<h3>YOUTUBE</h3>';
-			stck+=`No Results Found ...`;
+			stck='<div><h3>YOUTUBE</h3></div>';
+			stck+=`<div>No Results Found ...</div>`;
 		}
     else{
-      stck='<h3>Generating an Automatic Code Snippet</h3>';
+      stck='<div><h3>Generating an Automatic Code Snippet</h3></div>';
       stck+=`<button class="buttonload">
 			<i class="fa fa-refresh fa-spin"></i>
-		  </button>`
+		  </button>`;
     }
 		return `<!DOCTYPE html>
 		<html>
@@ -112,16 +112,34 @@ import {summary} from "./summary"
 				color: white; /* White text */
 				padding: 12px 16px; /* Some padding */
 				font-size: 16px; /* Set a font size */
-        max-width:160px;
+        max-width:1000px;
         width: 100%;
         margin-top:100px;
+        
 			}
+
+      .testing {
+        display: flex;
+        
+        flex-direction: column;
+        align-items:center;
+        justify-content: center;
+      }
+
+      .align {
+        text-align: center;
+        margin-top: 50vh;
+      }
+
 		</style>
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous"
 		</head>
-		<body>
-			${stck}
+		<body >
+      <div class = "testing">
+        ${stck}
+      </div>
+			
 		</body>
 		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
 		</html>`;
@@ -129,10 +147,24 @@ import {summary} from "./summary"
     return `<!DOCTYPE html>
     <html>
       <head>
+
+      <style>
+      .testing {
+        display: flex;
+        
+        flex-direction: column;
+        align-items:center;
+        justify-content: center;
+      }
+      
+      </style>
+
       <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous"
       </head>
       <body>
-      <h2>DEV-BOON</h2>
+      <div class = "testing" >
+        <div><h2>DEV-BOON</h2></div>
+      </div>
       </body>
       <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
     </html>`;
