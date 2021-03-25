@@ -455,6 +455,12 @@ async function runSearchingForStackOverFlowPosts(selectedText:string): Promise<v
 				sidebarProvider.customResolveWebviewView(0,pass_the_result);
 			}
         }
+		else{
+			var pass_the_result:description[]=new Array(10);
+        if(sidebarProvider!==null && sidebarProvider!==undefined){
+			sidebarProvider.customResolveWebviewView(4,pass_the_result);
+		}
+		}
     } 
 	catch (error) {
 		var pass_the_result:description[]=new Array(10);
@@ -535,7 +541,14 @@ async function runSearchingForYouTube(selectedText:string): Promise<void>{
 				sidebarProvider.customResolveWebviewView(1,pass_the_result);
 			}
         }
-    } catch (error) {
+		else{
+			var pass_the_result:description[]=new Array(10);
+			if(sidebarProvider!==null && sidebarProvider!==undefined){
+				sidebarProvider.customResolveWebviewView(5,pass_the_result);
+			}
+		}
+    }
+	 catch (error) {
         var pass_the_result:description[]=new Array(10);
         if(sidebarProvider!==null && sidebarProvider!==undefined){
 			sidebarProvider.customResolveWebviewView(5,pass_the_result);
