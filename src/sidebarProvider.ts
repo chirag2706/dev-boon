@@ -94,7 +94,7 @@ import {summary} from "./summary"
 			stck+=`<div>No Results Found ...</div>`;
 		}
     else{
-      stck='<div><h3>Generating an Automatic Code Snippet</h3></div>';
+      stck='<div style="max-width:200px;"><img src="https://i.ibb.co/z7Bt1tN/bcg-white-dev-boon.png" alt="DEV BOON"></div><div><h3>Automatically generating a Code Snippet ...</h3></div>';
       stck+=`<button class="buttonload">
 			<i class="fa fa-refresh fa-spin"></i>
 		  </button>`;
@@ -121,12 +121,10 @@ import {summary} from "./summary"
         align-items:center;
         justify-content: center;
       }
-
       .align {
         text-align: center;
         margin-top: 50vh;
       }
-
 		</style>
 		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
         <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous"
@@ -141,31 +139,28 @@ import {summary} from "./summary"
 		</html>`;
 	}
     return `<!DOCTYPE html>
-    <html>
-      <head>
-
-      <style>
-      .testing {
-        display: flex;
-        
-        flex-direction: column;
-        align-items:center;
-        justify-content: center;
-      }
-      
-      </style>
-
-      <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous"
-      </head>
-      <body>
-      <div class = "testing" >
-        <div><h2>DEV-BOON</h2></div>
-      </div>
-      </body>
-      <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
-    </html>`;
-  }
-
+	<html>
+	<head>
+	<style>
+		.testing{
+		display: flex;
+		flex-direction: column;
+		align-items:center;
+		justify-content: center;
+		}
+	</style>
+	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous"
+	</head>
+	<body>
+	<div class = "testing" >
+	<div style="max-width:200px;"><img src="https://i.ibb.co/z7Bt1tN/bcg-white-dev-boon.png" alt="DEV BOON"></div>
+	</div>
+	</body>
+	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+	</html>`;
+}
+//https://i.ibb.co/XFHsytD/dev-boon-logo.png
+//https://i.ibb.co/z7Bt1tN/bcg-white-dev-boon.png
 export class SidebarProvider implements vscode.WebviewViewProvider {
   _view?: vscode.WebviewView;
   _doc?: vscode.TextDocument;
@@ -320,9 +315,8 @@ function getWebviewContentS(x:number,pass_the_result:summary){
 			</head>
 			<body>
       <div class = "testing" >
-        <div><h2>DEV-BOON</h2></div>
+	  <div style="max-width:200px;"><img src="https://i.ibb.co/z7Bt1tN/bcg-white-dev-boon.png" alt="DEV BOON"></div>
       </div>
-			
 			<h4 style="font-size:17px;"></h4>
 			<p style="font-size:14px">${pass_the_result.Summary}<p>
 			</body>
