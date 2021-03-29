@@ -80,7 +80,7 @@ export class Searcher{
         qry = Searcher.replaceAll(qry, " ", "%20");
         let url = null;
         try{        
-            url = `http://127.0.0.1:6615/NlpToCodeForJava_googleSearchUrl/${this.key}/${this.cx}/${qry}/${this.NUM_URLS}`;
+            url = `http://127.0.0.1:6615/NlpToCode_googleSearchUrl/${this.key}/${this.cx}/${qry}/${this.NUM_URLS}`;
             const uriOptions = {
                 uri: url,
                 json: true,

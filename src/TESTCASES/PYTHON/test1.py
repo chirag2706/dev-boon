@@ -30,6 +30,3 @@ def quick_sort_recursive(lst, start, end):
                                           # you don't need to return the list
                                           # it's modified in place
 
-
-
-print(result)

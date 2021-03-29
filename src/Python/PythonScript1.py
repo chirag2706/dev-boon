@@ -76,7 +76,7 @@ class Code_Summary(Resource):
         return jsonify({'summary':entire_code})
 
 
-class NlpToCodeForJava_googleSearchUrl(Resource):
+class NlpToCode_googleSearchUrl(Resource):
     def get(self,key,cx,qry,num_urls):
         num_urls = str(num_urls)
         # The url is structured to do a custom search which only looks at StackOverflow sites.
@@ -88,7 +88,7 @@ class NlpToCodeForJava_googleSearchUrl(Resource):
         return output
 
 
-class NlpToCodeForJava_snippet(Resource):
+class NlpToCode_snippet(Resource):
     def get(self,address):
         try:
             stackoverflowUrl = "https://"+self.replaceAll(address,"$",'/')
@@ -152,8 +152,8 @@ api.add_resource(YouTube_youtubeSearchUrl,'/YouTube_youtubeSearchUrl/<encodedWeb
 api.add_resource(YouTube_googleSearchUrl,'/YouTube_googleSearchUrl/<encodedWebSearchTerm>')
 
 
-api.add_resource(NlpToCodeForJava_googleSearchUrl,"/NlpToCodeForJava_googleSearchUrl/<key>/<cx>/<qry>/<num_urls>")
-api.add_resource(NlpToCodeForJava_snippet,"/NlpToCodeForJava_snippet/<address>")
+api.add_resource(NlpToCode_googleSearchUrl,"/NlpToCode_googleSearchUrl/<key>/<cx>/<qry>/<num_urls>")
+api.add_resource(NlpToCode_snippet,"/NlpToCode_snippet/<address>")
 
 api.add_resource(Code_Summary,'/Code_Summary/<entire_code>')
 
