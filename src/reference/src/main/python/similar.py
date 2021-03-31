@@ -1,10 +1,5 @@
 #!/usr/bin/env python3
 
-
-#this is the main algorithm and crux(working logic) of snippet query recommendation
-#code logic is working but still needs to be attached to our existing snippet query working model
-#Don't make any changes in this code nor even try to run this python file as it will not run without few things
-
 import argparse
 import json
 import logging
@@ -1046,7 +1041,7 @@ def setup(records_file):
 
 logging.basicConfig(level=logging.DEBUG)
 options = parse_args()
-# print(options)
+print(options)
 setup(options.corpus)
 
 (vectorizer, counter_matrix, records) = load_all(
