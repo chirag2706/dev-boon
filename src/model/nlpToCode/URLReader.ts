@@ -37,7 +37,7 @@ export class URLReader{
 
             let modifiedText = URLReader.replaceAll(URLReader.address.substr(8),'/',"$");
 
-            url = `http://127.0.0.1:6615/NlpToCodeForJava_snippet/${modifiedText}`;
+            url = `http://127.0.0.1:6615/NlpToCode_snippet/${modifiedText}`;
             let uriOptions = {
                 uri: url,
                 json: true,

@@ -7,7 +7,7 @@ import {ErrorMessageParser} from './model/errorQuery/ErrorMessageParser';
 import {ErrorMessage} from './model/errorQuery/ErrorMessage';
 import {difficult_query_queue} from './difficult_query_queue';
 import {error_query} from './error_query';
-import {QueryDocListener} from './model/nlpToCodeForJava/QueryDocListener';
+import {QueryDocListener} from './model/nlpToCode/QueryDocListener';
 import { promises } from "node:fs";
 import {
     IPCMessageReader, IPCMessageWriter, createConnection, IConnection, TextDocuments, TextDocument, 
@@ -98,53 +98,8 @@ export async function activate(context: vscode.ExtensionContext) {
 			);
 			context.subscriptions.push(sideBar);
 		}
-		// if(isExtensionActivated === 1){
-		// 	//Get the terminal text as links
-		// 		(<any>vscode.window).registerTerminalLinkProvider({
-		// 			provideTerminalLinks: async (context: any, token: vscode.CancellationToken) => {
-		// 				if(queryUnderProcess === 0){
-		// 					queryUnderProcess=1;
-		// 					let line = (context.line as string);
-							// var check=1;
-							// if(line.indexOf('java')!=-1){
-							// 	if(line.indexOf('error')==-1 && line.indexOf('exception')==-1){
-							// 		check=0;
-							// 	}
-							// }
-							// for(var i=0;i<terminal_array.length;i++){
-							// 	if(terminal_array[i]==line){
-							// 		check=0;
-							// 		break;
-							// 	}
-							// }
-							// if(check){
-							// 	// terminal_array.push(line);
-							// 	var send_to_error_query:error_query=new error_query();
-							// 	var finalParsedString='';
-							// 	finalParsedString=await send_to_error_query.give_final_parsed_string(line);
-							// 	console.log(finalParsedString);
-							// 	if(finalParsedString!=='none'){
-							// 		runSearchingForYouTube(finalParsedString);
-							// 		// let answer = await vscode.window.showInformationMessage(`Which content do u want to see? query is ${finalParsedString}`,"StackOverFlow","Youtube");
-							// 		// if(answer === "StackOverFlow"){
-							// 		// 	await runSearchingForStackOverFlowPosts(finalParsedString);
-							// 		// }
-							// 		// else if(answer === "Youtube"){
-							// 		// 	await runSearchingForYouTube(finalParsedString);
-							// 		// }
-							// 	}
-								// queryUnderProcess=0;
-		// 						return [];
-		// 					}
-		// 					queryUnderProcess=0;
-		// 					return [];
-		// 				}
-		// 			},
-		// 			handleTerminalLink: (link: any) => {
-		// 				//vscode.window.showInformationMessage(`Link activated (data = ${link.data})`);
-		// 			}
-		// 		});
-		// }
+		
+		
 		let deactivateCommand = vscode.commands.registerCommand("dev-boon.DEACTIVATE_EXTENSION",()=>{
 			if(isExtensionActivated === 1){
 				deactivate(context);
@@ -447,9 +402,9 @@ async function runSearchingForStackOverFlowPosts(selectedText:string): Promise<v
         }
 		else{
 			var pass_the_result:description[]=new Array(10);
-        if(sidebarProvider!==null && sidebarProvider!==undefined){
-			sidebarProvider.customResolveWebviewView(4,pass_the_result);
-		}
+			if(sidebarProvider!==null && sidebarProvider!==undefined){
+				sidebarProvider.customResolveWebviewView(4,pass_the_result);
+			}
 		}
     } 
 	catch (error) {
@@ -565,18 +520,6 @@ async function custom_search(): Promise<void>{
 		}
 	});
 }
-
-// async function custom_search1(): Promise<void>{
-// 	let options: vscode.InputBoxOptions = {
-// 		prompt: "Label: ",
-// 		placeHolder: "Search..."
-// 	}
-// 	vscode.window.showInputBox(options).then(async value => {
-// 		searchText = value;
-// 		console.log("chiggi");
-// 		console.log(searchText);
-// 	});
-// }
 
 
 async function code_summary(): Promise<void> {
