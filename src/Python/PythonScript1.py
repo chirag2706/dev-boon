@@ -137,7 +137,57 @@ class NlpToCode_snippet(Resource):
             else:
                 out+=i
         return out
-        
+
+
+class NlpToCode_snippetGFG(Resource):
+    def get(self,address):
+        try:
+            # gfgUrl = "https://"+self.replaceAll(address,"$",'/')
+            gfgUrl = "https://www.geeksforgeeks.org/copy-elements-of-vector-to-java-arraylist/"
+            resp = requests.get(gfgUrl)
+            snippets = []
+
+            soup = BeautifulSoup(resp.content, 'html.parser')
+
+            arrayOfCodeSnippets = soup.find_all("td",class_="code")
+
+
+            print("########################")
+            
+
+
+            for codeSnippet in arrayOfCodeSnippets:
+                currentSnippet = ""
+                codeSnippetsInsideDiv = codeSnippet.find_all("div",class_="line")
+
+                for i in codeSnippetsInsideDiv:
+                    codeSnippetsInsideCode = i.find_all("code")
+                    line = ""
+
+                    for j in codeSnippetsInsideCode:
+                        line+=j.get_text(strip=True)+" "
+                    currentSnippet+=line+"\n"   
+                # currentSnippet=self.replaceAll(currentSnippet,"\xa0"," ")
+                # currentCodeSnippet = currentCodeSnippet.replace(u'\xa0', u' ')
+                snippets.append(currentSnippet)
+
+                # flag = codeSnippet.find_all("code")
+                # for i in flag:
+
+                #     # flag = x.find_all("code")
+                #     # snippet = ""
+                #     # line = ""
+                #     # for i in flag:
+                #     #     line+=i.get_text()+" "
+                #     # snippet+=line+"\n"
+                #     # snippets.append(snippet)
+            print(snippets)
+            return {"snippets":[]}
+
+        except:
+            return {"snippets":["some error occured"]}
+
+    
 
 
 api.add_resource(StackOverFlow_apiSearchUrl_Single,'/apiSearchUrl_Single/<encodedAPISearchTerm>')
@@ -154,8 +204,11 @@ api.add_resource(YouTube_googleSearchUrl,'/YouTube_googleSearchUrl/<encodedWebSe
 
 api.add_resource(NlpToCode_googleSearchUrl,"/NlpToCode_googleSearchUrl/<key>/<cx>/<qry>/<num_urls>")
 api.add_resource(NlpToCode_snippet,"/NlpToCode_snippet/<address>")
+api.add_resource(NlpToCode_snippetGFG,"/NlpToCode_snippetGFG/<address>")
 
 api.add_resource(Code_Summary,'/Code_Summary/<entire_code>')
+
+
 
 
 if __name__ == '__main__':
