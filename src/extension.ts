@@ -16,6 +16,30 @@ import {
 } from 'vscode-languageserver';
 import { listenerCount } from "node:events";
 import { Console } from "node:console";
+import * as ChildProcess from 'child_process';
+import * as FS from 'fs';
+import { DateTime } from 'luxon';
+import * as Net from 'net';
+import * as Path from 'path';
+import { LanguageClientOptions, StreamInfo } from 'vscode-languageclient';
+import { SonarLintExtendedLanguageClient } from './client';
+import { Commands } from './commands';
+import {
+	hideSecurityHotspot,
+	HotspotsCodeActionProvider,
+	hotspotsCollection,
+	showHotspotDescription,
+	showSecurityHotspot
+  } from './hotspots';
+  import { getJavaConfig, installClasspathListener } from './java';
+  import { LocationTreeItem, navigateToLocation, SecondaryLocationsTree } from './locations';
+  import * as protocol from './protocol';
+  import { installManagedJre, JAVA_HOME_CONFIG, RequirementsData, resolveRequirements } from './requirements';
+  import { computeRuleDescPanelContent } from './rulepanel';
+  import { AllRulesTreeDataProvider, ConfigLevel, Rule, RuleNode } from './rules';
+  import { code2ProtocolConverter, protocol2CodeConverter } from './uri';
+  import * as util from './util';
+
 
 //// RUN THE FLASK LOCALLY ON PORT 6615
 var {spawn} = require('child_process');
@@ -45,6 +69,12 @@ var terminal_array:string[]=new Array("Terminal");// Store terminal text so that
 
 var catSmiley = String.fromCodePoint(0X0001F638);
 const regex = /\[(.+?)\]/gm;
+
+const DOCUMENT_SELECTOR = [
+	{ scheme: 'file', language: 'java' },
+	{ scheme: 'file', language: 'python' },
+];
+
 
 async function check(context: vscode.ExtensionContext):Promise<string | undefined>{
 	try{

@@ -167,22 +167,11 @@ class NlpToCode_snippetGFG(Resource):
                     for j in codeSnippetsInsideCode:
                         line+=j.get_text(strip=True)+" "
                     currentSnippet+=line+"\n"   
-                # currentSnippet=self.replaceAll(currentSnippet,"\xa0"," ")
-                # currentCodeSnippet = currentCodeSnippet.replace(u'\xa0', u' ')
+
                 snippets.append(currentSnippet)
 
-                # flag = codeSnippet.find_all("code")
-                # for i in flag:
-
-                #     # flag = x.find_all("code")
-                #     # snippet = ""
-                #     # line = ""
-                #     # for i in flag:
-                #     #     line+=i.get_text()+" "
-                #     # snippet+=line+"\n"
-                #     # snippets.append(snippet)
             print(snippets)
-            return {"snippets":[]}
+            return {"snippets":snippets}
 
         except:
             return {"snippets":["some error occured"]}
