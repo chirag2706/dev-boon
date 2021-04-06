@@ -162,6 +162,7 @@
 		"cross-spawn": "^7.0.3",
 		"express": "^4.17.1",
 		"fs": "0.0.1-security",
+		"java-ast": "^0.3.0",
 		"luxon": "^1.26.0",
 		"navigator": "^1.0.1",
 		"open": "^8.0.1",
@@ -171,9 +172,11 @@
 		"rollup": "^2.40.0",
 		"rollup-plugin-svelte": "^7.1.0",
 		"rollup-plugin-terser": "^7.0.2",
+		"sonarqube-scanner": "^2.8.0",
 		"svelte": "^3.35.0",
 		"svelte-check": "^1.2.1",
 		"svelte-preprocess": "^4.6.9",
+		"univac": "0.0.8",
 		"vscode-languageserver": "^3.3.0"
 	}
 }

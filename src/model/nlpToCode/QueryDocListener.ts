@@ -6,7 +6,7 @@ import {Searcher} from './Searcher';
 import {SidebarProvider} from '../../sidebarProvider';
 import {description} from "../../description";
 import {summary} from "../../summary";
-import * as extension from '../../extension'
+import * as extension from '../../extension';
 
 var operatorsToBeRemoved = {
     "[":0,
@@ -29,6 +29,25 @@ var operatorsToBeRemoved = {
  */
 
 export class QueryDocListener{
+
+    //insertion contexts depending on user's cursor
+	//some features would need to be tackled differently depending on context
+	//we mostly just handle inserting inside a function for now
+
+    //we are inside a function
+	static FUNCTION:number = 0;
+
+    //we are inside a function and it is main
+	static MAIN:number = 1;
+	
+	//we are inside a class but not a function
+	static CLASS:number = 2;
+	
+	//we are not within a class
+	static OUTSIDE:number = 3;
+
+    static queryString:string = "";
+	
     
 
     //function which parses editor and gives only that text which is currently selected
@@ -186,6 +205,9 @@ export class QueryDocListener{
             if(code === null || code === undefined||code.length === 0){
                 return -1;
             }
+
+
+
     
     
             // code = fixSpacing(code);
@@ -248,18 +270,6 @@ export class QueryDocListener{
 
     }
 
-    /* 
-		 * Function fixSpacing
-		 *   Given a list of code snippets, and a fixed offset (spacing) for where the code snippet insertion starts,
-		 *     add the fixed offset to each line of each code snippet.
-		 *   Essentially, this function fixes alignment issues when inserting code snippets at an offset.
-		 *   
-		 *   Inputs: Vector<String> queries - vector of different code snippets to insert into the document.
-		 *   		 String spacing - Offset of query to be applied to each code snippet.
-		 *   
-		 *   Retuns: Vector<String> - vector of code snippets with fixed offset.
-	*/
-
 
 
 
@@ -285,10 +295,15 @@ export class QueryDocListener{
         if(insertion!==undefined&&insertion.length>2){
             let array = this.extractQueryFromInsertion(insertion,offset);
             let query = array[0];
+            QueryDocListener.queryString = query;
             offset = array[1];
             if(query.length>0){
                 this.executeQuery(query,offset);
             }
         }
     }
+
+
+
+
 };
