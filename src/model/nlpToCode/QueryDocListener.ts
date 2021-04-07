@@ -216,6 +216,9 @@ export class QueryDocListener{
             console.log(code);
 
             let mostValidSnippet = await QueryDocListener.logic(code);
+
+            console.log("most Valid snippet is:");
+            console.log(mostValidSnippet);
     
             //now ,we need to print that code on offset+1 line number
             let activeEditor = vscode.window.activeTextEditor;
@@ -243,7 +246,7 @@ export class QueryDocListener{
             extension.show_dev_boon_side_bar(1);
         }
         catch(err){
-            vscode.window.showErrorMessage("Something went wrong while executing query");
+            vscode.window.showErrorMessage(err.message);
         }
 
 
@@ -253,7 +256,10 @@ export class QueryDocListener{
 
 
     static logic(code:string[][]){
-        let mostValidSnippet:string = "";
+        let mostValidSnippet:any = "";
+
+        let codeIndex:any = [];
+
         //now we will be using COSOMO software sizing algorithm
 
 
@@ -261,16 +267,16 @@ export class QueryDocListener{
          * This algorithm was implemented in Release 1 of this tool
          */
         
-        /*let currLen:number = 0;
+        /*let currLen:number = 0;*/
 
         for(let i=0;i<code.length;i++){
             for(let j=0;j<code[i].length;j++){
-                if((code[i][j].length)>currLen){
-                    mostValidSnippet = code[i][j];
-                    currLen = code[i][j].length;
-                }
+                codeIndex.push([-1,code[i][j]]);
             }
-        }*/
+        }
+
+        console.log("codeIndex is");
+        console.log(codeIndex);
 
         
         /**
@@ -305,38 +311,42 @@ export class QueryDocListener{
 
         let currentCodeQuality = -1;
 
-        for(let i=0;i<code.length;i++){
-            for(let j=0;j<code[i].length;j++){
-                currLen = code[i][j].length;
 
-
-                if(currLen>=2 && currLen<=50){
-                    modelType = 0;
-                }else if(currLen>50 && currLen <=300){
-                    modelType = 1;
-                }else if(currLen>300){
-                    modelType = 2;
-                }else{
-                    continue;
-                }
-
-
-                effort  = tableOfCoefficients[modelType][0]*(Math.pow(currLen,tableOfCoefficients[modelType][1]));
-                time = tableOfCoefficients[modelType][2]*(Math.pow(effort,tableOfCoefficients[modelType][3]));
-
-                currentCodeQuality = effort/time;
-
-                if(currentCodeQuality>codeQuality){
-                    codeQuality = currentCodeQuality;
-                    mostValidSnippet = code[i][j];
-                }
-
-
-
+        for(let i=0;i<codeIndex.length;i++){
+            
+            currLen = codeIndex[i][1].length;
+            
+            
+            if(currLen>=2 && currLen<=50){
+                modelType = 0;
+            }else if(currLen>50 && currLen <=300){
+                modelType = 1;
+            }else if(currLen>300){
+                modelType = 2;
+            }else{
+            
+                continue;
             }
+
+
+            effort  = tableOfCoefficients[modelType][0]*(Math.pow(currLen,tableOfCoefficients[modelType][1]));
+            time = tableOfCoefficients[modelType][2]*(Math.pow(effort,tableOfCoefficients[modelType][3]));
+
+            currentCodeQuality = effort/time;
+            
+            codeIndex[i][0] = currentCodeQuality;
+
         }
+        
+        //now sort the elements of codeIndex and take mean of it
+        codeIndex.sort(function(a, b){return (a[0]-b[0])});
 
 
+        console.log("After sorting:");
+        console.log(codeIndex);
+
+        
+        mostValidSnippet = codeIndex[Math.floor(codeIndex.length-1)][1];
 
         return mostValidSnippet;
 
