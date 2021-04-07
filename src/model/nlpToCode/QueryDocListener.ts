@@ -254,8 +254,14 @@ export class QueryDocListener{
 
     static logic(code:string[][]){
         let mostValidSnippet:string = "";
+        //now we will be using COSOMO software sizing algorithm
 
-        let currLen:number = 0;
+
+        /**
+         * This algorithm was implemented in Release 1 of this tool
+         */
+        
+        /*let currLen:number = 0;
 
         for(let i=0;i<code.length;i++){
             for(let j=0;j<code[i].length;j++){
@@ -264,9 +270,76 @@ export class QueryDocListener{
                     currLen = code[i][j].length;
                 }
             }
+        }*/
+
+        
+        /**
+         * This algorithm was implemented in Release 2 of this tool
+         *  
+         * logic: We will be differentiating our code based on 3 different models and all these models are regression models
+         * 
+         * The three models are :
+         * 1.)Organic model
+         * 2.)Semi-detached model
+         * 3.)Embedded model
+         * 
+         * some coefficients are decided for three different types of models based on regression model.
+         * Each model will use 4 coefficients inorder to find quality of code snippet
+         * 
+         * Actual thought process: Code snippets will be first sorted based on upvotes(fetched from stackoverflow website and people votes)
+         * After minimizing the number of code snippets,we will be analyzing each snippet based on COCOMO model to determine best code snippet  
+         * 
+         */
+
+        let tableOfCoefficients = [[2.4,1.05,2.5,0.38],[3.0,1.12,2.5,0.35],[3.6,1.20,2.5,0.32]]; //these are parameters which ahve been calculated from regression model
+
+        let currLen:number = 0;
+
+        //indicates type of model
+        let modelType:number = 0;
+
+        let effort = 0;
+        let time = 0;
+
+        let codeQuality = 0;
+
+        let currentCodeQuality = -1;
+
+        for(let i=0;i<code.length;i++){
+            for(let j=0;j<code[i].length;j++){
+                currLen = code[i][j].length;
+
+
+                if(currLen>=2 && currLen<=50){
+                    modelType = 0;
+                }else if(currLen>50 && currLen <=300){
+                    modelType = 1;
+                }else if(currLen>300){
+                    modelType = 2;
+                }else{
+                    continue;
+                }
+
+
+                effort  = tableOfCoefficients[modelType][0]*(Math.pow(currLen,tableOfCoefficients[modelType][1]));
+                time = tableOfCoefficients[modelType][2]*(Math.pow(effort,tableOfCoefficients[modelType][3]));
+
+                currentCodeQuality = effort/time;
+
+                if(currentCodeQuality>codeQuality){
+                    codeQuality = currentCodeQuality;
+                    mostValidSnippet = code[i][j];
+                }
+
+
+
+            }
         }
 
+
+
         return mostValidSnippet;
+
 
     }
 
