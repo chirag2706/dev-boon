@@ -26,12 +26,12 @@ class InteractWithGptModel():
     # load fine-tunned model from path
 
     def load_model(self):
-        self.model = AutoModelWithLMHead.from_pretrained("congcongwang/gpt2_medium_fine_tuned_coder")
+        self.model = AutoModelWithLMHead.from_pretrained("chirag2706/gpt2_code_generation_model")
 
     #load tokenizer from path
 
     def load_tokenizer(self):
-        self.tokenizer = AutoTokenizer.from_pretrained("congcongwang/gpt2_medium_fine_tuned_coder")
+        self.tokenizer = AutoTokenizer.from_pretrained("chirag2706/gpt2_code_generation_model")
 
     #set language ,either python or java as for now the fine-tunned model supports two programming languages, namely, python and java
     def set_lang(self,lang):
