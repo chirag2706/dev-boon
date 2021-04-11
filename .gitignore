@@ -3,4 +3,7 @@ dist
 node_modules
 .vscode-test/
 *.vsix
-src/completionQuery/dataset/model
+src/completionQuery/model
+src/completionQuery/dataset/Java
+src/completionQuery/dataset/Python
+src/completionQuery/dataset/source_code
