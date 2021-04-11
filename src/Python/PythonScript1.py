@@ -6,10 +6,22 @@ import requests
 from googleapiclient.discovery import build
 from pyyoutube import Api as API_YOUTUBE
 from bs4 import BeautifulSoup
-# from nltk.corpus import stopwords
-# from nltk.cluster.util import cosine_distance
-# import numpy as np
-# import networkx as nx
+
+# completionQuery interaction class
+from interact import InteractWithGptModel 
+
+#model_path indicates path where model is trained
+model_path = "completionQuery/model/gpt2_medium_fine_tuned_coder"
+max_length = 128
+temperature = 0.7
+use_cuda = False #for now,we have used CPU to train models,Now, we will try to train much bigger models with more parameters and bigger dataset inorder to imporvise our model either using CUDA or some cloud service
+gptModelInteractionWithExtension = InteractWithGptModel(model_path,max_length,temperature,use_cuda,None,None)
+
+gptModelInteractionWithExtension.load_tokenizer()
+gptModelInteractionWithExtension.load_model()
+
+
+
 
 app = Flask(__name__)
 api = Api(app)
@@ -176,6 +188,31 @@ class NlpToCode_snippetGFG(Resource):
         except:
             return {"snippets":["some error occured"]}
 
+
+# completion query is basically a advanced and much more intelligent snippet query which tries to complete code just by function names
+class CompletionQuery(Resource):
+    def get(self,lang,query):
+        try:
+            print("Query inside CompletionQuery is:")
+            print(query)
+            #lang must be either python or java as models are right now trained on python and java only
+
+            gptModelInteractionWithExtension.set_lang(lang)
+            gptModelInteractionWithExtension.set_query(query)        
+
+            output = gptModelInteractionWithExtension.generate_output()
+
+            print("====================INSIDE COMPLETIONQUERY API CALL========================")
+
+            print(output)
+
+            return {"snippets":output}
+        except:
+            return {"snippets":"Some error occured in completion query"}
+            
+
+
+
     
 
 
@@ -196,6 +233,8 @@ api.add_resource(NlpToCode_snippet,"/NlpToCode_snippet/<address>")
 api.add_resource(NlpToCode_snippetGFG,"/NlpToCode_snippetGFG/<address>")
 
 api.add_resource(Code_Summary,'/Code_Summary/<entire_code>')
+
+api.add_resource(CompletionQuery,"/CompletionQuery/<lang>/<query>")
 
 
 
