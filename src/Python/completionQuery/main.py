@@ -21,6 +21,7 @@ if __name__ == '__main__':
     tokenizer = GPT2Tokenizer.from_pretrained(args.model_path)
 
     model.eval()
+    print(args.use_cuda)
     if args.use_cuda:
         model.to("cuda")
 

@@ -203,6 +203,28 @@ export async function activate(context: vscode.ExtensionContext) {
 		context.subscriptions.push(Error_Query);
 
 
+		let completionQuery = vscode.commands.registerCommand(`dev-boon.COMPLETION_QUERY`,async ()=>{
+			try{
+				if(isExtensionActivated === 1){
+					let docListener = new QueryDocListener();
+					console.log("inside COMPLETION");
+					await docListener.completionQuery();
+				}
+				else{
+					await check(context);
+				}
+			}
+			catch(err){
+				vscode.window.showErrorMessage("Something went wrong while searching for Stackoverflow posts 😣");
+			}
+		});
+
+
+
+		
+		context.subscriptions.push(completionQuery);
+
+
 
 
 		let NlpToCode = vscode.commands.registerCommand(`dev-boon.NLP_TO_CODE`,async ()=>{

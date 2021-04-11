@@ -7,6 +7,7 @@ import {SidebarProvider} from '../../sidebarProvider';
 import {description} from "../../description";
 import {summary} from "../../summary";
 import * as extension from '../../extension';
+import * as request from "request-promise-native";
 
 var operatorsToBeRemoved = {
     "[":0,
@@ -219,30 +220,10 @@ export class QueryDocListener{
 
             console.log("most Valid snippet is:");
             console.log(mostValidSnippet);
+
+            QueryDocListener.writeOnVscodeEditor(mostValidSnippet);
     
-            //now ,we need to print that code on offset+1 line number
-            let activeEditor = vscode.window.activeTextEditor;
-
-            if(activeEditor){
-                const selection = activeEditor.selection;
-                
-                //edits only if something is selected in editor
-                //can be improved by finding current location of cursor
-
-                // activeEditor.selections
-                // check if there is no selection
-                if (activeEditor.selection.isEmpty) {
-                    // the Position object gives you the line and character where the cursor is
-                    const position = activeEditor.selection.active;
-                    activeEditor.edit(editBuilder=>{
-                        editBuilder.replace(position,mostValidSnippet);
-                    });
-                }else{
-                    activeEditor.edit(editBuilder=>{
-                        editBuilder.replace(selection,mostValidSnippet);
-                    });
-                }
-            }
+            
             extension.show_dev_boon_side_bar(1);
         }
         catch(err){
@@ -252,6 +233,32 @@ export class QueryDocListener{
 
     
 
+    }
+
+    static writeOnVscodeEditor(mostValidSnippet:string){
+        //now ,we need to print that code on offset+1 line number
+        let activeEditor = vscode.window.activeTextEditor;
+
+        if(activeEditor){
+            const selection = activeEditor.selection;
+            
+            //edits only if something is selected in editor
+            //can be improved by finding current location of cursor
+
+            // activeEditor.selections
+            // check if there is no selection
+            if (activeEditor.selection.isEmpty) {
+                // the Position object gives you the line and character where the cursor is
+                const position = activeEditor.selection.active;
+                activeEditor.edit(editBuilder=>{
+                    editBuilder.replace(position,mostValidSnippet);
+                });
+            }else{
+                activeEditor.edit(editBuilder=>{
+                    editBuilder.replace(selection,mostValidSnippet);
+                });
+            }
+        }
     }
 
 
@@ -385,6 +392,44 @@ export class QueryDocListener{
             }
         }
     }
+
+
+
+    /*
+		 * Function completionQuery
+		 *   Function that helps to interact with GPT-2 model inorder to complete code
+		 *   
+		 
+	*/
+
+
+    async completionQuery(){
+        extension.show_dev_boon_side_bar(0);
+        
+        let selectedText=await this.getSelectedTextFromEditor(); //query
+        console.log("selectedText is");
+        console.log(selectedText);
+        let lang = await Searcher.findFileType(); //file type 
+        if(lang !== "python" && lang!== "java"){
+            vscode.window.showErrorMessage("Completion Query works only on python and java code snippets");
+            return "";
+        }
+        let url = `http://127.0.0.1:6615//CompletionQuery/${lang}/${selectedText[0]}`;
+        const uriOptions = {
+            uri: url,
+            json: true,
+            gzip: true,
+        };
+
+        const searchResponse = await request.get(uriOptions);
+        console.log(searchResponse);
+
+        await QueryDocListener.writeOnVscodeEditor(searchResponse["snippets"]);
+
+        extension.show_dev_boon_side_bar(1);
+        
+    }
+
 
 
 

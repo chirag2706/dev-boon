@@ -24,6 +24,7 @@
 		"onCommand:dev-boon.NLP_TO_CODE",
 		"onCommand:dev-boon.CODE_SUMMARY",
 		"onCommand:dev-boon.ERROR_QUERY",
+		"onCommand:dev-boon.COMPLETION_QUERY",
 		"onView:dev-boon-sidebar"
 	],
 	"main": "./out/extension.js",
@@ -50,6 +51,11 @@
 			]
 		},
 		"commands": [
+			{
+				"command": "dev-boon.COMPLETION_QUERY",
+				"category": "dev-boon",
+				"title": "completion query"
+			},
 			{
 				"command": "dev-boon.NLP_TO_CODE",
 				"category": "dev-boon",
@@ -92,6 +98,10 @@
 			}
 		],
 		"keybindings": [
+			{
+				"command": "dev-boon.COMPLETION_QUERY",
+				"key": "ctrl+shift+w"
+			},
 			{
 				"command": "dev-boon.NLP_TO_CODE",
 				"key": "ctrl+shift+n"

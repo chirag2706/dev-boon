@@ -1,5 +1,5 @@
-from transformers import GPT2LMHeadModel, GPT2Tokenizer
-
+# from transformers import GPT2LMHeadModel, GPT2Tokenizer
+from transformers import AutoTokenizer,AutoModelWithLMHead
 class InteractWithGptModel():
     def __init__(self,model_path,max_length,temperature,use_cuda,lang,query):
         self.model_path = model_path
@@ -26,13 +26,12 @@ class InteractWithGptModel():
     # load fine-tunned model from path
 
     def load_model(self):
-        self.model = GPT2LMHeadModel.from_pretrained(self.model_path)
-        self.model.eval()
+        self.model = AutoModelWithLMHead.from_pretrained("congcongwang/gpt2_medium_fine_tuned_coder")
 
     #load tokenizer from path
 
     def load_tokenizer(self):
-        self.tokenizer = GPT2Tokenizer.from_pretrained(self.model_path)
+        self.tokenizer = AutoTokenizer.from_pretrained("congcongwang/gpt2_medium_fine_tuned_coder")
 
     #set language ,either python or java as for now the fine-tunned model supports two programming languages, namely, python and java
     def set_lang(self,lang):
