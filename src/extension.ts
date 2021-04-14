@@ -468,6 +468,97 @@ async function runSearchingForStackOverFlowPosts(selectedText:string): Promise<v
 		}
     }
 }
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+async function _runSearchingForStackOverFlowPosts(selectedText:string): Promise<void>{
+	if(!selectedText || selectedText.trim() === ""){
+		return;
+	}
+	selectedText = selectedText.trim();
+    vscode.window.showInformationMessage(`Initiated a StackOverFlow search with \"[${selectedText}]\" query`);
+
+	let tags: string[] = [];
+	let tagsMatch;
+	let updatedSelectedText = selectedText;
+
+	while ((tagsMatch = regex.exec(updatedSelectedText)) !== null) {
+        // This is necessary to avoid infinite loops with zero-width matches
+        if (tagsMatch.index === regex.lastIndex) {
+            regex.lastIndex++;
+        }
+        
+        // The result can be accessed through the `m`-variable.
+        tagsMatch.forEach((match, groupIndex) => {
+            if(groupIndex === 0) { // full match without group for replace
+                updatedSelectedText = updatedSelectedText.replace(match, "").trim();
+            } else if(groupIndex === 1) { // not a full match
+                tags.push(match);
+            }
+        }); 
+		console.log(tags);
+    }
+    var encodedTagsString = encodeURIComponent(tags.join(';'));
+    const encodedAPISearchTerm = encodeURIComponent(updatedSelectedText);
+    const encodedWebSearchTerm = encodeURIComponent(selectedText);
+	console.log(encodedTagsString);
+	var apiSearchUrl;
+	if(encodedTagsString.length>0){
+    	apiSearchUrl = `http://127.0.0.1:6615/apiSearchUrl/${encodedAPISearchTerm}/${encodedTagsString}`;
+	}
+	else{
+		apiSearchUrl = `http://127.0.0.1:6615/apiSearchUrl_Single/${encodedAPISearchTerm}`
+	}
+	const stackoverflowSearchUrl = `http://127.0.0.1:6615/stackoverflowSearchUrl/${encodedWebSearchTerm}`;
+    const googleSearchUrl = `http://127.0.0.1:6615/googleSearchUrl/${encodedWebSearchTerm}`;
+    const uriOptions = {
+        uri: apiSearchUrl,
+        json: true,
+        gzip: true,
+    };
+    try {
+
+		var emptyArray:description[]=new Array(10);
+
+		if(sidebarProvider!==null && sidebarProvider!==undefined){
+			sidebarProvider.customResolveWebviewView(3,emptyArray);
+		}
+
+		console.log("Reached here...");
+        const searchResponse = await request.get(uriOptions);
+		console.log("Completed here...");
+		//vscode.window.showInformationMessage(`stack api has responded with ${searchResponse}`);
+		console.log(searchResponse);
+		let test = getLatestErrorMessageFromTerminal();
+        if (searchResponse.items && searchResponse.items.length > 0) {
+            var pass_the_result:description[]=new Array(10);
+			var count:number=0;
+            searchResponse.items.forEach((q: any, i: any) => {
+				if(count<10){
+					pass_the_result[count]=new description(q.title,q.tags.join(','),q.owner.display_name,q.link,"");
+					count=count+1;
+				}
+            });
+			if(sidebarProvider === undefined || sidebarProvider === null){
+				//vscode.window.showErrorMessage(`sidebarProvider is ${sidebarProvider} inside stack search`);
+			}
+			if(sidebarProvider!==null && sidebarProvider!==undefined){
+				sidebarProvider.customResolveWebviewView(0,pass_the_result);
+			}
+        }
+		else{
+			var pass_the_result:description[]=new Array(10);
+			if(sidebarProvider!==null && sidebarProvider!==undefined){
+				sidebarProvider.customResolveWebviewView(4,pass_the_result);
+			}
+		}
+    } 
+	catch (error) {
+		var pass_the_result:description[]=new Array(10);
+        if(sidebarProvider!==null && sidebarProvider!==undefined){
+			sidebarProvider.customResolveWebviewView(4,pass_the_result);
+		}
+    }
+}
+////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 // function getStringOutOfTagList(tags:string[]): string{
 // 	let result = "";
 
