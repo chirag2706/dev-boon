@@ -2,6 +2,8 @@ from googlesearch import search
 import requests
 from bs4 import BeautifulSoup
 from textblob import TextBlob
+import statistics
+
 
 
 query = "TypeError: search() got multiple values for argument 'tld'"
@@ -403,11 +405,52 @@ for link in req_links:
     all_details={}
 
 
-
+tim={}   #20
+view={} #100
+NumAns={} #20
+VotC={}  #100
+AuthRep={} #20
+score={}
 ################################################3
 #Select 3 questions to show in order
 
-for i in range(len(everything)):
-    
 
-    
+for i in range(len(everything)):
+    tim[i]=everything[i]["time_passed"]
+    view[i]=everything[i]["Viewed"]
+    NumAns[i]=everything[i]["NumAnswers"]
+    VotC[i]=everything[i]["VoteCount"]
+    AuthRep[i]=everything[i]["AuthorReputationScore"]
+    score[i]=0
+
+
+tim=dict(sorted(tim.items(), key=lambda item: item[1]))
+view=dict(sorted(view.items(), key=lambda item: item[1]))
+NumAns=dict(sorted(NumAns.items(), key=lambda item: item[1]))
+VotC=dict(sorted(VotC.items(), key=lambda item: item[1]))
+AuthRep=dict(sorted(AuthRep.items(), key=lambda item: item[1]))
+s=0
+for k in tim.keys():
+    score[k]+=s
+    s+=20
+s=0
+for k in view.keys():
+    score[k]+=s
+    s+=100
+s=0
+for k in NumAns.keys():
+    score[k]+=s
+    s+=20
+s=0
+for k in VotC.keys():
+    score[k]+=s
+    s+=100
+s=0
+for k in AuthRep.keys():
+    score[k]+=s
+    s+=20
+score=dict(sorted(score.items(), key=lambda item: item[1]))
+
+
+
+
