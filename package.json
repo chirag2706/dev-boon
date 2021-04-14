@@ -24,6 +24,7 @@
 		"onCommand:dev-boon.NLP_TO_CODE",
 		"onCommand:dev-boon.CODE_SUMMARY",
 		"onCommand:dev-boon.ERROR_QUERY",
+		"onCommand:dev-boon.COMPLETION_QUERY",
 		"onView:dev-boon-sidebar"
 	],
 	"main": "./out/extension.js",
@@ -50,6 +51,11 @@
 			]
 		},
 		"commands": [
+			{
+				"command": "dev-boon.COMPLETION_QUERY",
+				"category": "dev-boon",
+				"title": "completion query"
+			},
 			{
 				"command": "dev-boon.NLP_TO_CODE",
 				"category": "dev-boon",
@@ -92,6 +98,10 @@
 			}
 		],
 		"keybindings": [
+			{
+				"command": "dev-boon.COMPLETION_QUERY",
+				"key": "ctrl+shift+w"
+			},
 			{
 				"command": "dev-boon.NLP_TO_CODE",
 				"key": "ctrl+shift+n"
@@ -136,6 +146,7 @@
 	},
 	"devDependencies": {
 		"@types/glob": "^7.1.3",
+		"@types/luxon": "^1.26.2",
 		"@types/mocha": "^8.0.4",
 		"@types/node": "^12.11.7",
 		"@types/request-promise-native": "^1.0.17",
@@ -146,6 +157,7 @@
 		"glob": "^7.1.6",
 		"mocha": "^8.2.1",
 		"typescript": "^4.1.3",
+		"vscode-languageclient": "^7.0.0",
 		"vscode-test": "^1.5.0"
 	},
 	"dependencies": {
@@ -153,6 +165,8 @@
 		"@rollup/plugin-node-resolve": "^11.2.0",
 		"@rollup/plugin-typescript": "^8.2.0",
 		"@tsconfig/svelte": "^1.0.10",
+		"@types/antlr4": "^4.7.2",
+		"antlr4": "^4.9.2",
 		"axios": "^0.21.1",
 		"bootstrap": "^5.0.0-beta2",
 		"child-process": "^1.0.2",
@@ -160,6 +174,9 @@
 		"cross-spawn": "^7.0.3",
 		"express": "^4.17.1",
 		"fs": "0.0.1-security",
+		"java": "^0.12.1",
+		"java-ast": "^0.3.0",
+		"luxon": "^1.26.0",
 		"navigator": "^1.0.1",
 		"open": "^8.0.1",
 		"python-shell": "^2.0.3",
@@ -168,9 +185,11 @@
 		"rollup": "^2.40.0",
 		"rollup-plugin-svelte": "^7.1.0",
 		"rollup-plugin-terser": "^7.0.2",
+		"sonarqube-scanner": "^2.8.0",
 		"svelte": "^3.35.0",
 		"svelte-check": "^1.2.1",
 		"svelte-preprocess": "^4.6.9",
+		"univac": "0.0.8",
 		"vscode-languageserver": "^3.3.0"
 	}
 }

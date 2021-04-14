@@ -16,6 +16,8 @@ import {
 } from 'vscode-languageserver';
 import { Console } from "node:console";
 
+
+
 //// RUN THE FLASK LOCALLY ON PORT 6615
 var {spawn} = require('child_process');
 var j;
@@ -44,6 +46,36 @@ var terminal_array:string[]=new Array("Terminal");// Store terminal text so that
 
 var catSmiley = String.fromCodePoint(0X0001F638);
 const regex = /\[(.+?)\]/gm;
+
+
+
+
+export function toUrl(filePath: string) {
+	let pathName = Path.resolve(filePath).replace(/\\/g, '/');
+  
+	// Windows drive letter must be prefixed with a slash
+	if (pathName[0] !== '/') {
+	  pathName = '/' + pathName;
+	}
+  
+	return encodeURI('file://' + pathName);
+}
+
+
+function resolveInAnyWorkspaceFolder(tsdkPathSetting: any) {
+	if (Path.isAbsolute(tsdkPathSetting)) {
+	  return FS.existsSync(tsdkPathSetting) ? tsdkPathSetting : undefined;
+	}
+	for (const folder of vscode.workspace.workspaceFolders || []) {
+	  const configuredTsPath = Path.join(folder.uri.fsPath, tsdkPathSetting);
+	  if (FS.existsSync(configuredTsPath)) {
+		return configuredTsPath;
+	  }
+	}
+	return undefined;
+  }
+
+
 
 async function check(context: vscode.ExtensionContext):Promise<string | undefined>{
 	try{
@@ -168,6 +200,28 @@ export async function activate(context: vscode.ExtensionContext) {
 		});
 
 		context.subscriptions.push(Error_Query);
+
+
+		let completionQuery = vscode.commands.registerCommand(`dev-boon.COMPLETION_QUERY`,async ()=>{
+			try{
+				if(isExtensionActivated === 1){
+					let docListener = new QueryDocListener();
+					console.log("inside COMPLETION");
+					await docListener.completionQuery();
+				}
+				else{
+					await check(context);
+				}
+			}
+			catch(err){
+				vscode.window.showErrorMessage("Something went wrong while searching for Stackoverflow posts 😣");
+			}
+		});
+
+
+
+		
+		context.subscriptions.push(completionQuery);
 
 
 

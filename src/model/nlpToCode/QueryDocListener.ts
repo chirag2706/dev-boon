@@ -6,7 +6,8 @@ import {Searcher} from './Searcher';
 import {SidebarProvider} from '../../sidebarProvider';
 import {description} from "../../description";
 import {summary} from "../../summary";
-import * as extension from '../../extension'
+import * as extension from '../../extension';
+import * as request from "request-promise-native";
 
 var operatorsToBeRemoved = {
     "[":0,
@@ -29,6 +30,25 @@ var operatorsToBeRemoved = {
  */
 
 export class QueryDocListener{
+
+    //insertion contexts depending on user's cursor
+	//some features would need to be tackled differently depending on context
+	//we mostly just handle inserting inside a function for now
+
+    //we are inside a function
+	static FUNCTION:number = 0;
+
+    //we are inside a function and it is main
+	static MAIN:number = 1;
+	
+	//we are inside a class but not a function
+	static CLASS:number = 2;
+	
+	//we are not within a class
+	static OUTSIDE:number = 3;
+
+    static queryString:string = "";
+	
     
 
     //function which parses editor and gives only that text which is currently selected
@@ -186,6 +206,9 @@ export class QueryDocListener{
             if(code === null || code === undefined||code.length === 0){
                 return -1;
             }
+
+
+
     
     
             // code = fixSpacing(code);
@@ -194,71 +217,148 @@ export class QueryDocListener{
             console.log(code);
 
             let mostValidSnippet = await QueryDocListener.logic(code);
+
+            console.log("most Valid snippet is:");
+            console.log(mostValidSnippet);
+
+            QueryDocListener.writeOnVscodeEditor(mostValidSnippet);
     
-            //now ,we need to print that code on offset+1 line number
-            let activeEditor = vscode.window.activeTextEditor;
-
-            if(activeEditor){
-                const selection = activeEditor.selection;
-                
-                //edits only if something is selected in editor
-                //can be improved by finding current location of cursor
-
-                // activeEditor.selections
-                // check if there is no selection
-                if (activeEditor.selection.isEmpty) {
-                    // the Position object gives you the line and character where the cursor is
-                    const position = activeEditor.selection.active;
-                    activeEditor.edit(editBuilder=>{
-                        editBuilder.replace(position,mostValidSnippet);
-                    });
-                }else{
-                    activeEditor.edit(editBuilder=>{
-                        editBuilder.replace(selection,mostValidSnippet);
-                    });
-                }
-            }
+            
             extension.show_dev_boon_side_bar(1);
         }
         catch(err){
-            vscode.window.showErrorMessage("Something went wrong while executing query");
+            vscode.window.showErrorMessage(err.message);
         }
 
 
     
 
+    }
+
+    static writeOnVscodeEditor(mostValidSnippet:string){
+        //now ,we need to print that code on offset+1 line number
+        let activeEditor = vscode.window.activeTextEditor;
+
+        if(activeEditor){
+            const selection = activeEditor.selection;
+            
+            //edits only if something is selected in editor
+            //can be improved by finding current location of cursor
+
+            // activeEditor.selections
+            // check if there is no selection
+            if (activeEditor.selection.isEmpty) {
+                // the Position object gives you the line and character where the cursor is
+                const position = activeEditor.selection.active;
+                activeEditor.edit(editBuilder=>{
+                    editBuilder.replace(position,mostValidSnippet);
+                });
+            }else{
+                activeEditor.edit(editBuilder=>{
+                    editBuilder.replace(selection,mostValidSnippet);
+                });
+            }
+        }
     }
 
 
     static logic(code:string[][]){
-        let mostValidSnippet:string = "";
+        let mostValidSnippet:any = "";
 
-        let currLen:number = 0;
+        let codeIndex:any = [];
+
+        //now we will be using COSOMO software sizing algorithm
+
+
+        /**
+         * This algorithm was implemented in Release 1 of this tool
+         */
+        
+        /*let currLen:number = 0;*/
 
         for(let i=0;i<code.length;i++){
             for(let j=0;j<code[i].length;j++){
-                if((code[i][j].length)>currLen){
-                    mostValidSnippet = code[i][j];
-                    currLen = code[i][j].length;
-                }
+                codeIndex.push([-1,code[i][j]]);
             }
         }
 
+        console.log("codeIndex is");
+        console.log(codeIndex);
+
+        
+        /**
+         * This algorithm was implemented in Release 2 of this tool
+         *  
+         * logic: We will be differentiating our code based on 3 different models and all these models are regression models
+         * 
+         * The three models are :
+         * 1.)Organic model
+         * 2.)Semi-detached model
+         * 3.)Embedded model
+         * 
+         * some coefficients are decided for three different types of models based on regression model.
+         * Each model will use 4 coefficients inorder to find quality of code snippet
+         * 
+         * Actual thought process: Code snippets will be first sorted based on upvotes(fetched from stackoverflow website and people votes)
+         * After minimizing the number of code snippets,we will be analyzing each snippet based on COCOMO model to determine best code snippet  
+         * 
+         */
+
+        let tableOfCoefficients = [[2.4,1.05,2.5,0.38],[3.0,1.12,2.5,0.35],[3.6,1.20,2.5,0.32]]; //these are parameters which ahve been calculated from regression model
+
+        let currLen:number = 0;
+
+        //indicates type of model
+        let modelType:number = 0;
+
+        let effort = 0;
+        let time = 0;
+
+        let codeQuality = 0;
+
+        let currentCodeQuality = -1;
+
+
+        for(let i=0;i<codeIndex.length;i++){
+            
+            currLen = codeIndex[i][1].length;
+            
+            
+            if(currLen>=2 && currLen<=50){
+                modelType = 0;
+            }else if(currLen>50 && currLen <=300){
+                modelType = 1;
+            }else if(currLen>300){
+                modelType = 2;
+            }else{
+            
+                continue;
+            }
+
+
+            effort  = tableOfCoefficients[modelType][0]*(Math.pow(currLen,tableOfCoefficients[modelType][1]));
+            time = tableOfCoefficients[modelType][2]*(Math.pow(effort,tableOfCoefficients[modelType][3]));
+
+            currentCodeQuality = effort/time;
+            
+            codeIndex[i][0] = currentCodeQuality;
+
+        }
+        
+        //now sort the elements of codeIndex and take mean of it
+        codeIndex.sort(function(a, b){return (a[0]-b[0])});
+
+
+        console.log("After sorting:");
+        console.log(codeIndex);
+
+        
+        mostValidSnippet = codeIndex[Math.floor(codeIndex.length-1)][1];
+
         return mostValidSnippet;
 
-    }
 
-    /* 
-		 * Function fixSpacing
-		 *   Given a list of code snippets, and a fixed offset (spacing) for where the code snippet insertion starts,
-		 *     add the fixed offset to each line of each code snippet.
-		 *   Essentially, this function fixes alignment issues when inserting code snippets at an offset.
-		 *   
-		 *   Inputs: Vector<String> queries - vector of different code snippets to insert into the document.
-		 *   		 String spacing - Offset of query to be applied to each code snippet.
-		 *   
-		 *   Retuns: Vector<String> - vector of code snippets with fixed offset.
-	*/
+    }
 
 
 
@@ -285,10 +385,53 @@ export class QueryDocListener{
         if(insertion!==undefined&&insertion.length>2){
             let array = this.extractQueryFromInsertion(insertion,offset);
             let query = array[0];
+            QueryDocListener.queryString = query;
             offset = array[1];
             if(query.length>0){
                 this.executeQuery(query,offset);
             }
         }
     }
+
+
+
+    /*
+		 * Function completionQuery
+		 *   Function that helps to interact with GPT-2 model inorder to complete code
+		 *   
+		 
+	*/
+
+
+    async completionQuery(){
+        extension.show_dev_boon_side_bar(0);
+        
+        let selectedText=await this.getSelectedTextFromEditor(); //query
+        console.log("selectedText is");
+        console.log(selectedText);
+        let lang = await Searcher.findFileType(); //file type 
+        if(lang !== "python" && lang!== "java"){
+            vscode.window.showErrorMessage("Completion Query works only on python and java code snippets");
+            return "";
+        }
+        let url = `http://127.0.0.1:6615//CompletionQuery/${lang}/${selectedText[0]}`;
+        const uriOptions = {
+            uri: url,
+            json: true,
+            gzip: true,
+        };
+
+        const searchResponse = await request.get(uriOptions);
+        console.log(searchResponse);
+
+        await QueryDocListener.writeOnVscodeEditor(searchResponse["snippets"]);
+
+        extension.show_dev_boon_side_bar(1);
+        
+    }
+
+
+
+
+
 };
