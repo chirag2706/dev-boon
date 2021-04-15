@@ -48,6 +48,12 @@ export class QueryDocListener{
 	static OUTSIDE:number = 3;
 
     static queryString:string = "";
+
+    type: string;
+
+    constructor(type:string){
+        this.type = type;
+    }
 	
     
 
@@ -182,7 +188,7 @@ export class QueryDocListener{
             //offset means currentLine no of query
     
             //Now Convert The Stack Overflow thread IDs to specific post URLs.
-            let result = Searcher.getThreads(query);
+            let result = Searcher.getThreads(query,this.type);
             
             // if(result.length === 0){
             //     return -1;
@@ -202,7 +208,7 @@ export class QueryDocListener{
                 urls.push((await result)[i]);
             }
     
-            let code = await Searcher.getCodeSnippets(urls);
+            let code = await Searcher.getCodeSnippets(urls,this.type);
             if(code === null || code === undefined||code.length === 0){
                 return -1;
             }

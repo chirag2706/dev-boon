@@ -44,8 +44,8 @@ export class Searcher{
         if(currentlyOpenTabfilePath!== undefined && currentlyOpenTabfilePath.length >= 4){
             let lang = currentlyOpenTabfilePath.substr(currentlyOpenTabfilePath.length-2);
             if(lang === "py"){
-                Searcher.activeFilePath = "python";
-                return "python";
+                Searcher.activeFilePath = "python3";
+                return "python3";
             }
         }
 
@@ -63,7 +63,7 @@ export class Searcher{
 	 */
 
 
-    static async getThreads(query:string):Promise<string[]>{
+    static async getThreads(query:string,type:string):Promise<string[]>{
         if(query.length === 0){
             return [];
         }
@@ -77,7 +77,17 @@ export class Searcher{
 
         let qry = query;
 
+
+
         qry = Searcher.replaceAll(qry, " ", "%20");
+
+        if(type === "geeksForgeeks"){
+            this.cx = "546cdf07893198cb9";
+        }else{
+            this.cx = "011454571462803403544:zvy2e2weyy8";
+        }
+        console.log("final query is:");
+        console.log(qry);
         let url = null;
         try{        
             url = `http://127.0.0.1:6615/NlpToCode_googleSearchUrl/${this.key}/${this.cx}/${qry}/${this.NUM_URLS}`;
@@ -113,17 +123,17 @@ export class Searcher{
 	 *   Returns: Vector<String> - vector of top code snippets from each given url.
 	 */
 
-    static async  getCodeSnippets(urls:string[]){
+    static async  getCodeSnippets(urls:string[],type:string){
         try{
             let code:any = [];
 
             for(let i=0;i<urls.length;i++){
                 // Create a new url and open using soup so we can do easy queries on the results (formats code for us nicely at cost of time).
                 let ur:URLReader = new URLReader();
-    
+                console.log(urls[i]);
                 ur.openHTML(urls[i]);
     
-                let top_n_answers = await ur.getTopN(Searcher.NUM_ANSWERS_PER_URL,Searcher.activeFilePath);
+                let top_n_answers = await ur.getTopN(Searcher.NUM_ANSWERS_PER_URL,Searcher.activeFilePath,type);
                 console.log("inside getCodeSnippets function before processing,code looks like:");
                 console.log(top_n_answers);
                 if((await top_n_answers).length === 0){

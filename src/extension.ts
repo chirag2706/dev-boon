@@ -206,7 +206,7 @@ export async function activate(context: vscode.ExtensionContext) {
 		let completionQuery = vscode.commands.registerCommand(`dev-boon.COMPLETION_QUERY`,async ()=>{
 			try{
 				if(isExtensionActivated === 1){
-					let docListener = new QueryDocListener();
+					let docListener = new QueryDocListener("");
 					console.log("inside COMPLETION");
 					await docListener.completionQuery();
 				}
@@ -230,7 +230,12 @@ export async function activate(context: vscode.ExtensionContext) {
 		let NlpToCode = vscode.commands.registerCommand(`dev-boon.NLP_TO_CODE`,async ()=>{
 			try{
 				if(isExtensionActivated === 1){
-					let docListener = new QueryDocListener();
+					let answer:string|undefined = await vscode.window.showInformationMessage(`Which website codeSnippets you prefer`,"stackOverFlow","geeksForgeeks");
+					if((answer === undefined) || (answer!=="stackOverFlow" && answer!=="geeksForgeeks")){
+						vscode.window.showErrorMessage("Somthing went wrong!!!😣");
+						return;
+					}
+					let docListener = new QueryDocListener(answer);
 					console.log("inside NLP function");
 					await docListener.documentChanged();
 				}
