@@ -26,7 +26,7 @@ export class URLReader{
     */
 
 
-    async getTopN(n:any,filePath:string):Promise<string[]>{
+    async getTopN(n:any,filePath:string,type:string):Promise<string[]>{
         let code:string = "";
         let author:string = "";
 
@@ -37,7 +37,12 @@ export class URLReader{
 
             let modifiedText = URLReader.replaceAll(URLReader.address.substr(8),'/',"$");
 
-            url = `http://127.0.0.1:6615/NlpToCode_snippet/${modifiedText}`;
+            if(type === "stackOverFlow"){
+                url = `http://127.0.0.1:6615/NlpToCode_snippet/${modifiedText}`;
+            }else{
+                url = `http://127.0.0.1:6615/NlpToCode_snippetGFG/${modifiedText}/${filePath}`;
+            }
+            
             let uriOptions = {
                 uri: url,
                 json: true,
@@ -45,11 +50,6 @@ export class URLReader{
             };
 
             let res =  await request.get(uriOptions);
-            
-
-
-            
-
             if(res.length === 0){
                 return top_n_snippets;
             }else{
@@ -63,18 +63,7 @@ export class URLReader{
                     top_n_snippets[i] = "#"+top_n_snippets[i];
                 }
             }
-
-
-            console.log(`typeof top_n_snippets is:${typeof top_n_snippets}`);
-
-
-
             return top_n_snippets;
-
-
-
-            
-
         }catch(err){
             console.log("Some bug occured in getTopN function");
         }

@@ -98,7 +98,7 @@ class NlpToCode_googleSearchUrl(Resource):
         googleSearchUrl = "https://www.googleapis.com/customsearch/v1?key=" + key + "&cx=" + cx + "&q="+ qry + "&alt=json" + "&num="+num_urls
         resp = requests.get(googleSearchUrl)
         output = resp.json()
-        
+
 
         return output
 
@@ -118,7 +118,6 @@ class NlpToCode_snippet(Resource):
             arrayOfCodeSnippets = (soup.find_all(id="answers")[0].find_all('code'))
             print("###################arrayOfCodeSnippets#########################")
             print(arrayOfCodeSnippets)
-            cnt = 0  # keeps track of current length of snippets array
 
             if(len(arrayOfCodeSnippets) == 0):
                 arrayOfCodeSnippets = (soup.find_all('code'))
@@ -131,10 +130,8 @@ class NlpToCode_snippet(Resource):
                     
                 # if(len(currentCodeSnippet)>0):
                 snippets.append(" snippet from " + stackoverflowUrl+" \n"+currentCodeSnippet + "\n")
-                cnt+=1
 
-                if(cnt == 5):
-                    break
+                
 
             return {"snippets":snippets}
             
@@ -155,41 +152,85 @@ class NlpToCode_snippet(Resource):
 
 
 class NlpToCode_snippetGFG(Resource):
-    def get(self,address):
+    def get(self,address,langType):
         try:
             # gfgUrl = "https://"+self.replaceAll(address,"$",'/')
-            gfgUrl = "https://www.geeksforgeeks.org/copy-elements-of-vector-to-java-arraylist/"
+            gfgUrl = "https://"+self.replaceAll(address,"$",'/')
             resp = requests.get(gfgUrl)
             snippets = []
 
             soup = BeautifulSoup(resp.content, 'html.parser')
 
+            #assuming that length of arrayOfCodeSnippets and languageTypes is same
             arrayOfCodeSnippets = soup.find_all("td",class_="code")
+            languageTypes = []
+            lt = soup.find_all("h2",class_="tabtitle")
 
+            for i in range(len(lt)):
+                languageTypes.append(lt[i].get_text(strip=True))
 
-            print("########################")
+            print(languageTypes)
             
 
+            print("########################INSIDE GFG##########################")
+            
 
-            for codeSnippet in arrayOfCodeSnippets:
-                currentSnippet = ""
-                codeSnippetsInsideDiv = codeSnippet.find_all("div",class_="line")
+            if(len(languageTypes) == len(arrayOfCodeSnippets)):
 
-                for i in codeSnippetsInsideDiv:
-                    codeSnippetsInsideCode = i.find_all("code")
-                    line = ""
+                for idxNo in range(len(arrayOfCodeSnippets)):
+                    languageTypes[idxNo] = languageTypes[idxNo].lower()
+                    if(languageTypes[idxNo]!=langType):
+                        continue
 
-                    for j in codeSnippetsInsideCode:
-                        line+=j.get_text(strip=True)+" "
-                    currentSnippet+=line+"\n"   
+                    currentSnippet = ""
+                    codeSnippetsInsideDiv = arrayOfCodeSnippets[idxNo].find_all("div",class_="line")
+                    
+                    
 
-                snippets.append(currentSnippet)
+                    for i in codeSnippetsInsideDiv:
+                        codeSnippetsInsideCode = i.find_all("code")
+                        line = ""
 
-            print(snippets)
+                        for j in codeSnippetsInsideCode:
+                            line+=j.get_text()+" "
+                        currentSnippet+=line+"\n"   
+
+
+                    snippets.append(" snippet from " + gfgUrl+" \n"+currentSnippet + "\n")
+            else:
+                for idxNo in range(len(arrayOfCodeSnippets)):
+
+                    currentSnippet = ""
+                    codeSnippetsInsideDiv = arrayOfCodeSnippets[idxNo].find_all("div",class_="line")
+                    
+                    
+
+                    for i in codeSnippetsInsideDiv:
+                        codeSnippetsInsideCode = i.find_all("code")
+                        line = ""
+
+                        for j in codeSnippetsInsideCode:
+                            line+=j.get_text()+" "
+                        currentSnippet+=line+"\n"   
+
+
+                    snippets.append(" snippet from " + gfgUrl+" \n"+currentSnippet + "\n")
+
+            # print(snippets)
             return {"snippets":snippets}
 
         except:
             return {"snippets":["some error occured"]}
+
+    def replaceAll(self,query,text,format):
+        out = ""
+
+        for i in query:
+            if(i == text):
+                out+=format
+            else:
+                out+=i
+        return out
 
 
 # completion query is basically a advanced and much more intelligent snippet query which tries to complete code just by function names
@@ -245,7 +286,7 @@ api.add_resource(YouTube_googleSearchUrl,'/YouTube_googleSearchUrl/<encodedWebSe
 
 api.add_resource(NlpToCode_googleSearchUrl,"/NlpToCode_googleSearchUrl/<key>/<cx>/<qry>/<num_urls>")
 api.add_resource(NlpToCode_snippet,"/NlpToCode_snippet/<address>")
-api.add_resource(NlpToCode_snippetGFG,"/NlpToCode_snippetGFG/<address>")
+api.add_resource(NlpToCode_snippetGFG,"/NlpToCode_snippetGFG/<address>/<langType>")
 
 api.add_resource(Code_Summary,'/Code_Summary/<entire_code>')
 
