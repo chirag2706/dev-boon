@@ -345,8 +345,9 @@ export class QueryDocListener{
 
         }
         
+        // made a:any,b:any
         //now sort the elements of codeIndex and take mean of it
-        codeIndex.sort(function(a, b){return (a[0]-b[0])});
+        codeIndex.sort(function(a:any, b:any){return (a[0]-b[0])});
 
 
         console.log("After sorting:");

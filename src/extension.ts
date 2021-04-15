@@ -50,30 +50,30 @@ const regex = /\[(.+?)\]/gm;
 
 
 
-export function toUrl(filePath: string) {
-	let pathName = Path.resolve(filePath).replace(/\\/g, '/');
+// export function toUrl(filePath: string) {
+// 	let pathName = Path.resolve(filePath).replace(/\\/g, '/');
   
-	// Windows drive letter must be prefixed with a slash
-	if (pathName[0] !== '/') {
-	  pathName = '/' + pathName;
-	}
+// 	// Windows drive letter must be prefixed with a slash
+// 	if (pathName[0] !== '/') {
+// 	  pathName = '/' + pathName;
+// 	}
   
-	return encodeURI('file://' + pathName);
-}
+// 	return encodeURI('file://' + pathName);
+// }
 
 
-function resolveInAnyWorkspaceFolder(tsdkPathSetting: any) {
-	if (Path.isAbsolute(tsdkPathSetting)) {
-	  return FS.existsSync(tsdkPathSetting) ? tsdkPathSetting : undefined;
-	}
-	for (const folder of vscode.workspace.workspaceFolders || []) {
-	  const configuredTsPath = Path.join(folder.uri.fsPath, tsdkPathSetting);
-	  if (FS.existsSync(configuredTsPath)) {
-		return configuredTsPath;
-	  }
-	}
-	return undefined;
-  }
+// function resolveInAnyWorkspaceFolder(tsdkPathSetting: any) {
+// 	if (Path.isAbsolute(tsdkPathSetting)) {
+// 	  return FS.existsSync(tsdkPathSetting) ? tsdkPathSetting : undefined;
+// 	}
+// 	for (const folder of vscode.workspace.workspaceFolders || []) {
+// 	  const configuredTsPath = Path.join(folder.uri.fsPath, tsdkPathSetting);
+// 	  if (FS.existsSync(configuredTsPath)) {
+// 		return configuredTsPath;
+// 	  }
+// 	}
+// 	return undefined;
+//   }
 
 
 
@@ -379,7 +379,7 @@ function getSelectedTextFromEditor(): string|undefined{
 	}
 	return finalSelectedString;
 }
-async function runSearchingForStackOverFlowPosts(selectedText:string): Promise<void>{
+async function _runSearchingForStackOverFlowPosts(selectedText:string): Promise<void>{
 	if(!selectedText || selectedText.trim() === ""){
 		return;
 	}
@@ -469,7 +469,7 @@ async function runSearchingForStackOverFlowPosts(selectedText:string): Promise<v
     }
 }
 ////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-async function _runSearchingForStackOverFlowPosts(selectedText:string): Promise<void>{
+async function runSearchingForStackOverFlowPosts(selectedText:string): Promise<void>{
 	if(!selectedText || selectedText.trim() === ""){
 		return;
 	}
@@ -502,13 +502,11 @@ async function _runSearchingForStackOverFlowPosts(selectedText:string): Promise<
 	console.log(encodedTagsString);
 	var apiSearchUrl;
 	if(encodedTagsString.length>0){
-    	apiSearchUrl = `http://127.0.0.1:6615/apiSearchUrl/${encodedAPISearchTerm}/${encodedTagsString}`;
+    	apiSearchUrl = `http://127.0.0.1:6615/Custom_StackOverFlowUrl/${encodedAPISearchTerm}`;
 	}
 	else{
-		apiSearchUrl = `http://127.0.0.1:6615/apiSearchUrl_Single/${encodedAPISearchTerm}`
+		apiSearchUrl = `http://127.0.0.1:6615/Custom_StackOverFlowUrl/${encodedAPISearchTerm}`
 	}
-	const stackoverflowSearchUrl = `http://127.0.0.1:6615/stackoverflowSearchUrl/${encodedWebSearchTerm}`;
-    const googleSearchUrl = `http://127.0.0.1:6615/googleSearchUrl/${encodedWebSearchTerm}`;
     const uriOptions = {
         uri: apiSearchUrl,
         json: true,
@@ -525,31 +523,33 @@ async function _runSearchingForStackOverFlowPosts(selectedText:string): Promise<
 		console.log("Reached here...");
         const searchResponse = await request.get(uriOptions);
 		console.log("Completed here...");
-		//vscode.window.showInformationMessage(`stack api has responded with ${searchResponse}`);
-		console.log(searchResponse);
-		let test = getLatestErrorMessageFromTerminal();
-        if (searchResponse.items && searchResponse.items.length > 0) {
-            var pass_the_result:description[]=new Array(10);
-			var count:number=0;
-            searchResponse.items.forEach((q: any, i: any) => {
-				if(count<10){
-					pass_the_result[count]=new description(q.title,q.tags.join(','),q.owner.display_name,q.link,"");
-					count=count+1;
-				}
-            });
-			if(sidebarProvider === undefined || sidebarProvider === null){
-				//vscode.window.showErrorMessage(`sidebarProvider is ${sidebarProvider} inside stack search`);
-			}
-			if(sidebarProvider!==null && sidebarProvider!==undefined){
-				sidebarProvider.customResolveWebviewView(0,pass_the_result);
-			}
-        }
-		else{
-			var pass_the_result:description[]=new Array(10);
-			if(sidebarProvider!==null && sidebarProvider!==undefined){
-				sidebarProvider.customResolveWebviewView(4,pass_the_result);
-			}
+		
+		for(let key in searchResponse){
+			console.log(key);
 		}
+		// let test = getLatestErrorMessageFromTerminal();
+        // if (searchResponse.items && searchResponse.items.length > 0) {
+        //     var pass_the_result:description[]=new Array(5);
+		// 	var count:number=0;
+        //     searchResponse.items.forEach((q: any, i: any) => {
+		// 		if(count<5){
+		// 			pass_the_result[count]=new description(q.title,q.tags.join(','),q.owner.display_name,q.link,"");
+		// 			count=count+1;
+		// 		}
+        //     });
+		// 	if(sidebarProvider === undefined || sidebarProvider === null){
+		// 		//vscode.window.showErrorMessage(`sidebarProvider is ${sidebarProvider} inside stack search`);
+		// 	}
+		// 	if(sidebarProvider!==null && sidebarProvider!==undefined){
+		// 		sidebarProvider.customResolveWebviewView(0,pass_the_result);
+		// 	}
+        // }
+		// else{
+		// 	var pass_the_result:description[]=new Array(10);
+		// 	if(sidebarProvider!==null && sidebarProvider!==undefined){
+		// 		sidebarProvider.customResolveWebviewView(4,pass_the_result);
+		// 	}
+		// }
     } 
 	catch (error) {
 		var pass_the_result:description[]=new Array(10);
