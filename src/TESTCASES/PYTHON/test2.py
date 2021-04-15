@@ -1,4 +1,5 @@
-# division by zero error
-printt(1/0)
+import tensorflow
 
-?ADD TWO LINKED LISTS?
+print(1/0)
+
+print("HELLO WORLD")

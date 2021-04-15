@@ -9,6 +9,8 @@ from bs4 import BeautifulSoup
 
 # completionQuery interaction class
 from interact import InteractWithGptModel 
+from StackOverFLowPosts import GetDisplayInformation
+
 
 #model_path indicates path where model is trained
 model_path = "model/gpt2_medium_fine_tuned_coder"
@@ -260,6 +262,10 @@ class CompletionQuery(Resource):
             
 
 
+class Custom_StackOverFlowUrl(Resource):
+    def get(self,encodedSearchTerm):
+        return_dict=GetDisplayInformation(encodedSearchTerm)
+        return return_dict
 
     
 
@@ -268,6 +274,8 @@ api.add_resource(StackOverFlow_apiSearchUrl_Single,'/apiSearchUrl_Single/<encode
 api.add_resource(StackOverFlow_apiSearchUrl,'/apiSearchUrl/<encodedAPISearchTerm>/<encodedTagsString>')
 api.add_resource(StackOverFlow_stackoverflowSearchUrl,'/stackoverflowSearchUrl/<encodedWebSearchTerm>')
 api.add_resource(StackOverFlow_googleSearchUrl,'/googleSearchUrl/<encodedWebSearchTerm>')
+
+api.add_resource(Custom_StackOverFlowUrl,'/Custom_StackOverFlowUrl/<encodedSearchTerm>')
 
 
 
