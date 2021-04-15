@@ -529,9 +529,7 @@ async function runSearchingForStackOverFlowPosts(selectedText:string): Promise<v
         const searchResponse = await request.get(uriOptions);
 		console.log("Completed here...");
 		
-		for(let key in searchResponse){
-			console.log(key);
-		}
+			
 		// let test = getLatestErrorMessageFromTerminal();
         // if (searchResponse.items && searchResponse.items.length > 0) {
         //     var pass_the_result:description[]=new Array(5);

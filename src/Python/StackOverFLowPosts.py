@@ -466,32 +466,35 @@ def GetDisplayInformation(query):
     count=5
 
     return_dict={}
-    i=0
+    return_dict["Link"]=[]
+    return_dict["question"]=[]
+    return_dict["AnswerText"]=[]
+    return_dict["AnswerCode"]=[]
+
+    
 
     for k in score.keys():
         if count>0:
-            x={}
             #print("********************************************")
             #print(everything[k]["question"])
-            x["question"]=everything[k]["question"]
+            return_dict["Link"].append(everything[k]["link"])
+            return_dict["question"].append(everything[k]["question"])
             #print("********************************************")
             #print(everything[k]["accepted_answer"]["AnswerText"])
             try:
                 #print(generate_summary(everything[k]["accepted_answer"]["AnswerText"]))
-                x["AnswerText"]=generate_summary(everything[k]["accepted_answer"]["AnswerText"])
+                return_dict["AnswerText"].append(generate_summary(everything[k]["accepted_answer"]["AnswerText"]))
             except:
                 #print(everything[k]["accepted_answer"]["AnswerText"])
-                x["AnswerText"]=everything[k]["accepted_answer"]["AnswerText"]
+                return_dict["AnswerText"].append(everything[k]["accepted_answer"]["AnswerText"])
             # print("********************************************")
             # print(everything[k]["accepted_answer"]["AnswerCode"])
             # print(everything[k]["accepted_answer"]["AnswerCode"])
             # print("********************************************")
             
-            x["AnswerCode"]=everything[k]["accepted_answer"]["AnswerCode"]
+            return_dict["AnswerCode"].append(everything[k]["accepted_answer"]["AnswerCode"])
 
-            return_dict[i]=x
             count-=1
-            i+=1
 
         else:
             pass
