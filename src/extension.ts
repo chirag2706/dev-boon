@@ -538,13 +538,13 @@ async function runSearchingForStackOverFlowPosts(selectedText:string): Promise<v
 		if(mm>0){
 			var pass_the_result:description[]=new Array(5);
 			for(var i=0;i<mm;i++){
-				pass_the_result[i]=new description(searchResponse[i].question,searchResponse[i].AnswerCode,searchResponse[i].AnswerText,searchResponse[i].link,"");
+				pass_the_result[i]=new description(searchResponse[i].question,searchResponse[i].AnswerText,searchResponse[i].AnswerCode,searchResponse[i].link,"");
 			}
 			if(sidebarProvider === undefined || sidebarProvider === null){
 				//vscode.window.showErrorMessage(`sidebarProvider is ${sidebarProvider} inside stack search`);
 			}
 			if(sidebarProvider!==null && sidebarProvider!==undefined){
-				sidebarProvider.customResolveWebviewView(0,pass_the_result);
+				sidebarProvider.customResolveWebviewView(7,pass_the_result);
 			}
 		}
 		else if(mm==0){

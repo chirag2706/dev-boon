@@ -24,8 +24,31 @@ import {summary} from "./summary"
     var c:string;
     var d:string;
     var e:string;
-	if(x==0 || x==1 || x==2 || x==3 || x==4 || x==5 || x==6){
-		if(x==0){
+	if(x==0 || x==1 || x==2 || x==3 || x==4 || x==5 || x==6 || x==7){
+    if(x==7){
+      stck='<div style="max-width:220px;margin-bottom:30px;margin-top:40px;"><img src="https://logos-download.com/wp-content/uploads/2019/01/Stack_Overflow_Logo-700x283.png" alt="StackOverFlow"/></div>';
+			if(pass_the_result.length==0){
+				stck+=`<div>No Results Found ...</div>`;
+			}
+			else{
+				for(num=0;num<min(10,pass_the_result.length);num++){
+					a=pass_the_result[num].ThumbnailURL;
+					b=pass_the_result[num].Title;
+					c=pass_the_result[num].Description;
+					d=pass_the_result[num].Owner;
+					e=pass_the_result[num].Url;
+					stck+=`<div><div class="card" style="width:100%;max-width:180px;margin-bottom:5%;margin-top:5%;" >
+							<div class="card-body" style="padding:3% 3% 3% 3%;">
+							<h5 class="card-title" ><p style="font-size:14px;">${b}</p></h3>
+							<p lass="card-text" style="font-size:12px;">${c}</p>
+              <textarea name="paragraph_text" cols="15" rows="10">${d}</textarea>
+							<a href="${e}" style="width:100%;font-size:11px;" class="btn btn-outline-primary">Open</a>
+							</div>
+							</div></div>`;
+				}
+			}
+    }
+		else if(x==0){
       		stck='<div style="max-width:220px;margin-bottom:30px;margin-top:40px;"><img src="https://logos-download.com/wp-content/uploads/2019/01/Stack_Overflow_Logo-700x283.png" alt="StackOverFlow"/></div>';
 			if(pass_the_result.length==0){
 				stck+=`<div>No Results Found ...</div>`;
