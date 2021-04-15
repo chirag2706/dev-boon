@@ -11,39 +11,6 @@ def GetDisplayInformation(query):
 
 
 
-    return_dict={}
-    i=0
-    count=5
-
-    for k in range(10):
-        if count>0:
-            x={}
-            
-            x["link"]="link"
-            x["question"]="question"
-            
-            try:
-                
-                x["AnswerText"]="answer text"
-            except:
-                
-                x["AnswerText"]="answer text"
-            
-            x["AnswerCode"]="answer code"
-
-            return_dict[i]=x
-            count-=1
-            i+=1
-
-        else:
-            pass
-
-    json_return_obj=json.dumps(return_dict)
-    return json_return_obj
-
-
-
-
 
     req_links={}
     for j in search(query, tld="co.in", num=10, stop=10, pause=2):
