@@ -14,7 +14,7 @@ def GetDisplayInformation(query):
 
     req_links={}
     for j in search(query, tld="co.in", num=10, stop=10, pause=2):
-        if "stackoverflow" in j:
+        if "stackoverflow.com" in j:
             req_links[j]=[]
 
     # dict has link and list as key and value
@@ -460,10 +460,10 @@ def GetDisplayInformation(query):
         s+=20
     for k in answ.keys():
         if answ[k]=="NO ANSWER":
-            score[k]-=100
+            score[k]-=150
     for k in codw.keys():
         if codw[k]=="NO CODE":
-            score[k]-=100
+            score[k]-=150
     
     score=dict(sorted(score.items(), key=lambda item: item[1],reverse=True))
     score

@@ -5,3 +5,4 @@ if 1:
 
 # ?merge sort?
 
+def factorial(n):

@@ -231,7 +231,6 @@ export async function activate(context: vscode.ExtensionContext) {
 				if(isExtensionActivated === 1){
 					let answer:string|undefined = await vscode.window.showInformationMessage(`Which website codeSnippets you prefer`,"stackOverFlow","geeksForgeeks");
 					if((answer === undefined) || (answer!=="stackOverFlow" && answer!=="geeksForgeeks")){
-						vscode.window.showErrorMessage("Somthing went wrong!!!😣");
 						return;
 					}
 					let docListener = new QueryDocListener(answer);
