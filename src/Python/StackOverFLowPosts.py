@@ -3,11 +3,13 @@ import requests
 from bs4 import BeautifulSoup
 from textblob import TextBlob
 import statistics
+import json  
 from Summarizer import generate_summary
 
 def GetDisplayInformation(query):
+
     req_links={}
-    for j in search(query, tld="co.in", num=12, stop=12, pause=2):
+    for j in search(query, tld="co.in", num=10, stop=10, pause=2):
         if "stackoverflow" in j:
             req_links[j]=[]
 
@@ -232,7 +234,7 @@ def GetDisplayInformation(query):
                 accanswer["AnswerCode"]+=item.text
         except:
             accanswer["AnswerText"]="NO ANSWER"
-            accanswer["AnswerCode"]="NO ANSWER"
+            accanswer["AnswerCode"]="NO CODE"
 
 
 
@@ -408,6 +410,8 @@ def GetDisplayInformation(query):
     VotC={}  #100
     AuthRep={} #20
     score={}
+    codw={}
+    answ={}
     ################################################3
     #Select 3 questions to show in order
 
@@ -419,6 +423,8 @@ def GetDisplayInformation(query):
         VotC[i]=everything[i]["VoteCount"]
         AuthRep[i]=everything[i]["AuthorReputationScore"]
         score[i]=0
+        answ[i]=everything[i]["accepted_answer"]["AnswerText"]
+        codw[i]=everything[i]["accepted_answer"]["AnswerCode"]
 
 
     tim=dict(sorted(tim.items(), key=lambda item: item[1]))
@@ -426,6 +432,8 @@ def GetDisplayInformation(query):
     NumAns=dict(sorted(NumAns.items(), key=lambda item: item[1]))
     VotC=dict(sorted(VotC.items(), key=lambda item: item[1]))
     AuthRep=dict(sorted(AuthRep.items(), key=lambda item: item[1]))
+    
+
     s=0
     for k in tim.keys():
         score[k]+=s
@@ -446,26 +454,53 @@ def GetDisplayInformation(query):
     for k in AuthRep.keys():
         score[k]+=s
         s+=20
+    for k in answ.keys():
+        if answ[k]=="NO ANSWER":
+            score[k]-=100
+    for k in codw.keys():
+        if codw[k]=="NO CODE":
+            score[k]-=100
+    
     score=dict(sorted(score.items(), key=lambda item: item[1],reverse=True))
     score
     count=5
+
+    return_dict={}
+    i=0
+
     for k in score.keys():
         if count>0:
-            print("********************************************")
-            print(everything[k]["question"])
-            print("********************************************")
-            print(everything[k]["accepted_answer"]["AnswerText"])
+            x={}
+            #print("********************************************")
+            #print(everything[k]["question"])
+            x["question"]=everything[k]["question"]
+            #print("********************************************")
+            #print(everything[k]["accepted_answer"]["AnswerText"])
             try:
-                print(generate_summary(everything[k]["accepted_answer"]["AnswerText"]))
+                #print(generate_summary(everything[k]["accepted_answer"]["AnswerText"]))
+                x["AnswerText"]=generate_summary(everything[k]["accepted_answer"]["AnswerText"])
             except:
-                print(everything[k]["accepted_answer"]["AnswerText"])
-            print("********************************************")
-            print(everything[k]["accepted_answer"]["AnswerCode"])
-            print(everything[k]["accepted_answer"]["AnswerCode"])
-            print("********************************************")
-            break
+                #print(everything[k]["accepted_answer"]["AnswerText"])
+                x["AnswerText"]=everything[k]["accepted_answer"]["AnswerText"]
+            # print("********************************************")
+            # print(everything[k]["accepted_answer"]["AnswerCode"])
+            # print(everything[k]["accepted_answer"]["AnswerCode"])
+            # print("********************************************")
+            
+            x["AnswerCode"]=everything[k]["accepted_answer"]["AnswerCode"]
+
+            return_dict[i]=x
+            count-=1
+            i+=1
+
+        else:
+            pass
+
+    json_return_obj=json.dumps(return_dict)
+    return json_return_obj
 
 
-query = "TypeError: search() got multiple values for argument 'tld'"
-GetDisplayInformation(query)
+
+# query = "TypeError: search() got multiple values for argument 'tld'"
+# GetDisplayInformation(query)
 
