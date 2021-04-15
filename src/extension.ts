@@ -510,7 +510,7 @@ async function runSearchingForStackOverFlowPosts(selectedText:string): Promise<v
     	apiSearchUrl = `http://127.0.0.1:6615/Custom_StackOverFlowUrl/${encodedAPISearchTerm}`;
 	}
 	else{
-		apiSearchUrl = `http://127.0.0.1:6615/Custom_StackOverFlowUrl/${encodedAPISearchTerm}`
+		apiSearchUrl = `http://127.0.0.1:6615/Custom_StackOverFlowUrl/${encodedAPISearchTerm}`;
 	}
     const uriOptions = {
         uri: apiSearchUrl,
@@ -526,16 +526,40 @@ async function runSearchingForStackOverFlowPosts(selectedText:string): Promise<v
 		}
 
 		console.log("Reached here...");
-        const searchResponse = await request.get(uriOptions);
+        const sr = await request.get(uriOptions);
 		console.log("Completed here...");
+		//console.log(searchResponse.0);
+		let searchResponse = JSON.parse(sr);
+		console.log(Object.keys(searchResponse).length);
+		var mm=5;
+		if(Object.keys(searchResponse).length<mm){
+			mm=Object.keys(searchResponse).length;
+		}
+		if(mm>0){
+			var pass_the_result:description[]=new Array(5);
+			for(var i=0;i<mm;i++){
+				pass_the_result[i]=new description(searchResponse[i].question,searchResponse[i].AnswerCode,searchResponse[i].AnswerText,searchResponse[i].link,"");
+			}
+			if(sidebarProvider === undefined || sidebarProvider === null){
+				//vscode.window.showErrorMessage(`sidebarProvider is ${sidebarProvider} inside stack search`);
+			}
+			if(sidebarProvider!==null && sidebarProvider!==undefined){
+				sidebarProvider.customResolveWebviewView(0,pass_the_result);
+			}
+		}
+		else if(mm==0){
+			var pass_the_result:description[]=new Array(10);
+			if(sidebarProvider!==null && sidebarProvider!==undefined){
+				sidebarProvider.customResolveWebviewView(4,pass_the_result);
+			}
+		}
+		let test = getLatestErrorMessageFromTerminal();
 		
-			
-		// let test = getLatestErrorMessageFromTerminal();
         // if (searchResponse.items && searchResponse.items.length > 0) {
         //     var pass_the_result:description[]=new Array(5);
 		// 	var count:number=0;
         //     searchResponse.items.forEach((q: any, i: any) => {
-		// 		if(count<5){
+		// 		if(count<5 && count>=){
 		// 			pass_the_result[count]=new description(q.title,q.tags.join(','),q.owner.display_name,q.link,"");
 		// 			count=count+1;
 		// 		}

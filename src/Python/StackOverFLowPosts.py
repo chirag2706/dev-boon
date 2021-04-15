@@ -8,6 +8,43 @@ from Summarizer import generate_summary
 
 def GetDisplayInformation(query):
 
+
+
+
+    return_dict={}
+    i=0
+    count=5
+
+    for k in range(10):
+        if count>0:
+            x={}
+            
+            x["link"]="link"
+            x["question"]="question"
+            
+            try:
+                
+                x["AnswerText"]="answer text"
+            except:
+                
+                x["AnswerText"]="answer text"
+            
+            x["AnswerCode"]="answer code"
+
+            return_dict[i]=x
+            count-=1
+            i+=1
+
+        else:
+            pass
+
+    json_return_obj=json.dumps(return_dict)
+    return json_return_obj
+
+
+
+
+
     req_links={}
     for j in search(query, tld="co.in", num=10, stop=10, pause=2):
         if "stackoverflow" in j:
@@ -466,35 +503,33 @@ def GetDisplayInformation(query):
     count=5
 
     return_dict={}
-    return_dict["Link"]=[]
-    return_dict["question"]=[]
-    return_dict["AnswerText"]=[]
-    return_dict["AnswerCode"]=[]
-
-    
+    i=0
 
     for k in score.keys():
         if count>0:
+            x={}
             #print("********************************************")
             #print(everything[k]["question"])
-            return_dict["Link"].append(everything[k]["link"])
-            return_dict["question"].append(everything[k]["question"])
+            x["link"]=everything[k]["link"]
+            x["question"]=everything[k]["question"]
             #print("********************************************")
             #print(everything[k]["accepted_answer"]["AnswerText"])
             try:
                 #print(generate_summary(everything[k]["accepted_answer"]["AnswerText"]))
-                return_dict["AnswerText"].append(generate_summary(everything[k]["accepted_answer"]["AnswerText"]))
+                x["AnswerText"]=generate_summary(everything[k]["accepted_answer"]["AnswerText"])
             except:
                 #print(everything[k]["accepted_answer"]["AnswerText"])
-                return_dict["AnswerText"].append(everything[k]["accepted_answer"]["AnswerText"])
+                x["AnswerText"]=everything[k]["accepted_answer"]["AnswerText"]
             # print("********************************************")
             # print(everything[k]["accepted_answer"]["AnswerCode"])
             # print(everything[k]["accepted_answer"]["AnswerCode"])
             # print("********************************************")
             
-            return_dict["AnswerCode"].append(everything[k]["accepted_answer"]["AnswerCode"])
+            x["AnswerCode"]=everything[k]["accepted_answer"]["AnswerCode"]
 
+            return_dict[i]=x
             count-=1
+            i+=1
 
         else:
             pass
