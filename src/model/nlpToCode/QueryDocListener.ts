@@ -417,11 +417,11 @@ export class QueryDocListener{
         console.log("selectedText is");
         console.log(selectedText);
         let lang = await Searcher.findFileType(); //file type 
-        if(lang !== "python" && lang!== "java"){
+        if(lang !== "python3" && lang!== "java"){
             vscode.window.showErrorMessage("Completion Query works only on python and java code snippets");
             return "";
         }
-        let url = `http://127.0.0.1:6615//CompletionQuery/${lang}/${selectedText[0]}`;
+        let url = `http://127.0.0.1:6615/CompletionQuery/${lang}/${selectedText[0]}`;
         const uriOptions = {
             uri: url,
             json: true,

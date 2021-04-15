@@ -231,7 +231,6 @@ export async function activate(context: vscode.ExtensionContext) {
 				if(isExtensionActivated === 1){
 					let answer:string|undefined = await vscode.window.showInformationMessage(`Which website codeSnippets you prefer`,"stackOverFlow","geeksForgeeks");
 					if((answer === undefined) || (answer!=="stackOverFlow" && answer!=="geeksForgeeks")){
-						vscode.window.showErrorMessage("Somthing went wrong!!!😣");
 						return;
 					}
 					let docListener = new QueryDocListener(answer);
@@ -528,6 +527,7 @@ async function runSearchingForStackOverFlowPosts(selectedText:string): Promise<v
 		console.log("Reached here...");
         const searchResponse = await request.get(uriOptions);
 		console.log("Completed here...");
+		console.log(searchResponse);
 		
 		for(let key in searchResponse){
 			console.log(key);

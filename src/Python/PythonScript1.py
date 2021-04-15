@@ -14,7 +14,7 @@ from StackOverFLowPosts import GetDisplayInformation
 
 #model_path indicates path where model is trained
 model_path = "model/gpt2_medium_fine_tuned_coder"
-max_length = 512
+max_length = 128
 temperature = 0.7
 use_cuda = False #for now,we have used CPU to train models,Now, we will try to train much bigger models with more parameters and bigger dataset inorder to imporvise our model either using CUDA or some cloud service
 
