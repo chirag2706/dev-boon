@@ -14,7 +14,7 @@ function replaceAll(operatorsToBeRemoved:Object ,line:string){
     return output;
 }
 
-export class error_query{
+export class errorQuery{
     async give_final_parsed_string(line:string){
         //console.log(line);
         // Java Arithmetic Exception , Div by zero

@@ -1,4 +1,4 @@
-export class difficult_query_queue{
+export class difficultQueryQueue{
     OperationType:number;
     constructor(OperationType:number){
       this.OperationType=OperationType;

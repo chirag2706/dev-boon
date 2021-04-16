@@ -1,5 +1,8 @@
 # from transformers import GPT2LMHeadModel, GPT2Tokenizer
 from transformers import AutoTokenizer,AutoModelWithLMHead
+""" 
+    Class which acts as a user interface and which tries to interact with gpt2-medium model
+"""
 class InteractWithGptModel():
     def __init__(self,model_path,max_length,temperature,use_cuda,lang,query):
         self.model_path = model_path
@@ -35,7 +38,7 @@ class InteractWithGptModel():
 
     
 
-
+    # function which tries to generate output(generate code) based on given query and based on language (either python3 or java)
     def generate_output(self):
         print(self.model_path)
         print(self.max_length)
@@ -48,10 +51,12 @@ class InteractWithGptModel():
                                  max_length=self.max_length,
                                  temperature=self.temperature,
                                  num_return_sequences=1)
+
+        print(len(outputs))
         
         decoded = self.tokenizer.decode(outputs[0], skip_special_tokens=True)
 
-        # # ends with occurence of double new lines (to meet the convention of code completion)
+        # # # ends with occurence of double new lines (to meet the convention of code completion)
         if "\n\n" in decoded:
             decoded = decoded[:decoded.index("\n\n")]
 

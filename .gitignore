@@ -3,8 +3,8 @@ dist
 node_modules
 .vscode-test/
 *.vsix
-src/Python/completionQuery/model
-src/Python/completionQuery/dataset/Java
-src/Python/completionQuery/dataset/Python
-src/Python/completionQuery/dataset/source_code
-src/Python/model
+src/backend/completionQuery/model
+src/backend/completionQuery/dataset/Java
+src/backend/completionQuery/dataset/Python
+src/backend/completionQuery/dataset/source_code
+src/backend/model
