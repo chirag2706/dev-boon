@@ -2,6 +2,8 @@ import * as vscode from 'vscode';
 import * as request from "request-promise-native";
 import * as fs from "fs"; 
 import {URLReader} from './URLReader';
+import {QueryDocListener} from './QueryDocListener';
+const codeSnippetModel = require("../database/models/codeSnippets.model");
 
 /**
  * class Searcher
@@ -19,7 +21,8 @@ export class Searcher{
 
     static activeFilePath:string = "";
 
-
+    static buffer:any = {};
+    static status:boolean = false;
     /**
      * 
      * @returns a string
@@ -109,9 +112,46 @@ export class Searcher{
 
     }
 
+    /**
+     * 
+     * @param topnAnswers 
+     * Function which just converts a code snippet string into a valid object
+     */
+    static getCodeObjects(topnAnswers:any){
+        let result = [];
+        for(let i=0;i<topnAnswers.length;i++){
+            result.push({
+                code:topnAnswers[i],
+                quality:QueryDocListener.measureQuality(topnAnswers[i])
+            });
+        }
+        return result;
+    }
+
+    /**
+     * 
+     * @param url 
+     * @param language
+     * Function which checks whether a high quality code snippet already exists or not based on Link and language 
+     */
+    static async isExists(url:string,language:string){
+        await codeSnippetModel.findOne({ $or: [{ link: url }, { language: language }]}).then((codeSnippet:any)=>{
+            console.log("Codesnippet inside database is ");
+            // console.log(codeSnippet);
+            if(codeSnippet === undefined || codeSnippet === null){
+                console.log("bye");
+                Searcher.status = false;
+                return;
+            }
+            console.log(codeSnippet.codeSnippets);
+            Searcher.buffer = codeSnippet.codeSnippets;
+            Searcher.status = true;
+        });
+    }
+
     /*
 	 * Function getCodeSnippets
-	 *   Given a vector of StackOverflow forum thread URLs, retrieve the top NUM_ANSWERS_PER_URL answers from each thread (based on upvotes).
+	 *   Given a vec        // return true;tor of StackOverflow forum thread URLs, retrieve the top NUM_ANSWERS_PER_URL answers from each thread (based on upvotes).
 	 *   
 	 *   Input: Vector<String> urls - vector of StackOverflow thread urls.
 	 *   Returns: Vector<String> - vector of top code snippets from each given url.
@@ -120,28 +160,65 @@ export class Searcher{
     static async  getCodeSnippets(urls:string[],type:string){
         try{
             let code:any = [];
+            let topnAnswers = null;
+            let arrayOfCodeSnippets = [];
+            let validSnippet = {};
+            let codeSnippetData:any = undefined;
 
             for(let i=0;i<urls.length;i++){
-                // Create a new url and open using soup so we can do easy queries on the results (formats code for us nicely at cost of time).
-                let ur:URLReader = new URLReader();
 
-                ur.openHTML(urls[i]);
-    
-                let topnAnswers = await ur.getTopN(Searcher.NUM_ANSWERS_PER_URL,Searcher.activeFilePath,type);
-
-                if((await topnAnswers).length === 0){
-                    vscode.window.showErrorMessage(`Code snippet not found from url: ${urls[i]}`);
+                
+                await Searcher.isExists(urls[i],Searcher.activeFilePath);
+                if(Searcher.status){
+                    console.log("Already exists");
+                    code.push(Searcher.buffer);
+                    Searcher.buffer = {};
+                    Searcher.status = false;
                 }else{
-                    code.push(topnAnswers);
+                    console.log("Started new code extraction job");
+                    // Create a new url and open using soup so we can do easy queries on the results (formats code for us nicely at cost of time).
+                    let ur:URLReader = new URLReader();
+
+                    ur.openHTML(urls[i]);
+
+                    //right now,i am assuming that each link is repeated only once
+
+                    topnAnswers = await ur.getTopN(Searcher.NUM_ANSWERS_PER_URL,Searcher.activeFilePath,type);
+
+
+
+                    arrayOfCodeSnippets = Searcher.getCodeObjects(topnAnswers);
+                    arrayOfCodeSnippets.sort(function(a:any, b:any){return (a["quality"]-b["quality"]);});
+                    validSnippet = arrayOfCodeSnippets[Math.floor(arrayOfCodeSnippets.length-1)];
+                    codeSnippetData = new codeSnippetModel({
+                        link:urls[i],
+                        langauge:Searcher.activeFilePath,
+                        codeSnippets:validSnippet
+                    });
+
+                    await codeSnippetData.save(()=>{
+                        console.log(`Code has been saved successfully`);
+                    });
+
+
+                    if((await topnAnswers).length === 0){
+                        vscode.window.showErrorMessage(`Code snippet not found from url: ${urls[i]}`);
+                    }else{
+                        code.push(validSnippet);
+                    }
                 }
-    
+
+                
             }
+
+            code.sort(function(a:any, b:any){return (a["quality"]-b["quality"]);});
+
 
             return code;
 
         }catch(err){
             vscode.window.showErrorMessage("Something went wrong while getting code snippets");
-            return [[]];
+            return [];
         }
 
 

@@ -3,9 +3,7 @@ if 1:
     print("Hello")
         print("check")
 
-# ?bucket sort?
-
-
+# ?merge sort?
 
 
 

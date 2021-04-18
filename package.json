@@ -177,6 +177,7 @@
 		"java": "^0.12.1",
 		"java-ast": "^0.3.0",
 		"luxon": "^1.26.0",
+		"mongoose": "^5.12.4",
 		"navigator": "^1.0.1",
 		"open": "^8.0.1",
 		"python-shell": "^2.0.3",

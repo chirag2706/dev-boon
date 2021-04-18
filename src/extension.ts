@@ -6,10 +6,20 @@ import {summary} from "./summary";
 import {difficultQueryQueue} from './difficult_query_queue';
 import {errorQuery} from './error_query';
 import {QueryDocListener} from './snippetQuery/QueryDocListener';
+const mongoose = require('mongoose');
+//Devboon123
+let uri = "mongodb+srv://chirag2706:Devboon123@cluster0.ihmsp.mongodb.net/snippetQuery?retryWrites=true&w=majority";
 
-
-
-
+mongoose.connect(uri,{ 
+	useNewUrlParser: true, 
+	useUnifiedTopology: true,
+	useCreateIndex: true,
+	useFindAndModify: false
+}).then(()=>{
+	console.log("Database has been connected successfully");
+}).catch((err:any)=>{
+	console.log(`${err.message}`);
+});
 
 var {spawn} = require('child_process');// RUN THE FLASK LOCALLY ON PORT 6615
 var j;

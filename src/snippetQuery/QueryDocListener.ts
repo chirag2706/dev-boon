@@ -190,10 +190,11 @@ export class QueryDocListener{
     
             let code = await Searcher.getCodeSnippets(urls,this.type);
             if(code === null || code === undefined||code.length === 0){
+                extension.showDevBoonSearchBar(1);
                 return -1;
             }
 
-            let mostValidSnippet = await QueryDocListener.logic(code);
+            let mostValidSnippet = code[code.length-1]["code"];
 
             QueryDocListener.writeOnVscodeEditor(mostValidSnippet);
     
@@ -236,21 +237,14 @@ export class QueryDocListener{
         }
     }
 
+    /**
+     * 
+     * @param code 
+     * @returns quality of a particular code snippet
+     * Function which measures quality of code snippet
+     */
 
-    static logic(code:string[][]){
-        let mostValidSnippet:any = "";
-
-        let codeIndex:any = [];
-
-        //now we will be using COSOMO software sizing algorithm
-
-        for(let i=0;i<code.length;i++){
-            for(let j=0;j<code[i].length;j++){
-                codeIndex.push([-1,code[i][j]]);
-            }
-        }
-
-        /**
+    /**
          * This algorithm was implemented in Release 2 of this tool
          *  
          * logic: We will be differentiating our code based on 3 different models and all these models are regression models
@@ -266,15 +260,13 @@ export class QueryDocListener{
          * Actual thought process: Code snippets will be first sorted based on upvotes(fetched from stackoverflow website and people votes)
          * After minimizing the number of code snippets,we will be analyzing each snippet based on COCOMO model to determine best code snippet  
          * 
-         */
-
-
+    */
+    static measureQuality(code:string){
         /**
          * these are parameters which have been calculated from regression model
          * So,don't think that these parameters are static or hard coded.These parameters have been calculated from regression Ml algorithm
          * We have just used parameters instead of whole ML algorithm ,just to increase speed of this function
          */
-
         let tableOfCoefficients = [[2.4,1.05,2.5,0.38],[3.0,1.12,2.5,0.35],[3.6,1.20,2.5,0.32]]; 
         let currLen:number = 0;
 
@@ -287,45 +279,25 @@ export class QueryDocListener{
         let codeQuality = 0;
 
         let currentCodeQuality = -1;
-
-
-        for(let i=0;i<codeIndex.length;i++){
-            
-            currLen = codeIndex[i][1].length;
+        currLen = code.length;
             
             
-            if(currLen>=2 && currLen<=50){
-                modelType = 0;
-            }else if(currLen>50 && currLen <=300){
-                modelType = 1;
-            }else if(currLen>300){
-                modelType = 2;
-            }else{
-            
-                continue;
-            }
-
-
-            effort  = tableOfCoefficients[modelType][0]*(Math.pow(currLen,tableOfCoefficients[modelType][1]));
-            time = tableOfCoefficients[modelType][2]*(Math.pow(effort,tableOfCoefficients[modelType][3]));
-
-            currentCodeQuality = effort/time;
-            
-            codeIndex[i][0] = currentCodeQuality;
-
+        if(currLen>=2 && currLen<=50){
+            modelType = 0;
+        }else if(currLen>50 && currLen <=300){
+            modelType = 1;
+        }else if(currLen>300){
+            modelType = 2;
         }
+
+
+        effort  = tableOfCoefficients[modelType][0]*(Math.pow(currLen,tableOfCoefficients[modelType][1]));
+        time = tableOfCoefficients[modelType][2]*(Math.pow(effort,tableOfCoefficients[modelType][3]));
+
+        currentCodeQuality = effort/time;
         
-        // made a:any,b:any
-        //now sort the elements of codeIndex and take mean of it
-        codeIndex.sort(function(a:any, b:any){return (a[0]-b[0]);});
-        mostValidSnippet = codeIndex[Math.floor(codeIndex.length-1)][1];
-
-        return mostValidSnippet;
+        return currentCodeQuality;
     }
-
-
-
-
     /*
 		 * Function documentChanged
 		 *   Function that activates every time the current edited document is changed.
