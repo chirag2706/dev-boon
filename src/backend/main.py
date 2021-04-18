@@ -18,8 +18,8 @@ max_length = 2560*2
 temperature = 0.7
 use_cuda = False #for now,we have used CPU to train models,Now, we will try to train much bigger models with more parameters and bigger dataset inorder to imporvise our model either using CUDA or some cloud service
 gptModelInteractionWithExtension = InteractWithGptModel(model_path,max_length,temperature,use_cuda,None,None)
-# gptModelInteractionWithExtension.load_tokenizer()
-# gptModelInteractionWithExtension.load_model()    
+gptModelInteractionWithExtension.load_tokenizer()
+gptModelInteractionWithExtension.load_model()    
 
 
 
