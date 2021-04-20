@@ -7,13 +7,9 @@ import json
 from Summarizer import generate_summary
 
 def GetDisplayInformation(query):
-
-
-
-
-
+    
     req_links={}
-    for j in search(query, tld="co.in", num=10, stop=10, pause=2):
+    for j in search(query, tld="co.in", num=15, stop=15, pause=2):
         if "stackoverflow.com" in j:
             req_links[j]=[]
 
