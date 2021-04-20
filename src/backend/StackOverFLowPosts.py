@@ -463,7 +463,7 @@ def GetDisplayInformation(query):
     
     score=dict(sorted(score.items(), key=lambda item: item[1],reverse=True))
     score
-    count=5
+    count=3
 
     return_dict={}
     i=0

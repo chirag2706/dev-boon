@@ -12,12 +12,15 @@ from interact import InteractWithGptModel
 from StackOverFLowPosts import GetDisplayInformation
 
 
-#model_path indicates path where model is trained
-model_path = "model/gpt2_medium_fine_tuned_coder"
-max_length = 128
-temperature = 0.7
-use_cuda = False #for now,we have used CPU to train models,Now, we will try to train much bigger models with more parameters and bigger dataset inorder to imporvise our model either using CUDA or some cloud service
-
+def load_model_():
+    model_path indicates path where model is trained
+    model_path = "model/gpt2_medium_fine_tuned_coder"
+    max_length = 2560*2
+    temperature = 0.7
+    use_cuda = False #for now,we have used CPU to train models,Now, we will try to train much bigger models with more parameters and bigger dataset inorder to imporvise our model either using CUDA or some cloud service
+    gptModelInteractionWithExtension = InteractWithGptModel(model_path,max_length,temperature,use_cuda,None,None)
+    gptModelInteractionWithExtension.load_tokenizer()
+    gptModelInteractionWithExtension.load_model()    
 
 
 
@@ -179,6 +182,9 @@ class NlpToCode_snippetGFG(Resource):
 
                 for idxNo in range(len(arrayOfCodeSnippets)):
                     languageTypes[idxNo] = languageTypes[idxNo].lower()
+                    if(languageTypes[idxNo] == "python"):
+                        languageTypes[idxNo] = "python3"
+                        
                     if(languageTypes[idxNo]!=langType):
                         continue
 
@@ -216,7 +222,6 @@ class NlpToCode_snippetGFG(Resource):
 
                     snippets.append(" snippet from " + gfgUrl+" \n"+currentSnippet + "\n")
 
-            # print(snippets)
             return {"snippets":snippets}
 
         except:
@@ -236,23 +241,14 @@ class NlpToCode_snippetGFG(Resource):
 # completion query is basically a advanced and much more intelligent snippet query which tries to complete code just by function names
 class CompletionQuery(Resource):
     def get(self,lang,query):
-        # try:
-        print("Query inside CompletionQuery is:")
-        print(query)
-        gptModelInteractionWithExtension = InteractWithGptModel(model_path,max_length,temperature,use_cuda,None,None)
-
-            
+        load_model_()
             #lang must be either python or java as models are right now trained on python and java only
-
+        print("====================INSIDE COMPLETIONQUERY API CALL========================")
         gptModelInteractionWithExtension.set_lang(lang)
         gptModelInteractionWithExtension.set_query(query)    
-
-        gptModelInteractionWithExtension.load_tokenizer()
-        gptModelInteractionWithExtension.load_model()    
-
         output = gptModelInteractionWithExtension.generate_output()
 
-        print("====================INSIDE COMPLETIONQUERY API CALL========================")
+        
 
         print(output)
 

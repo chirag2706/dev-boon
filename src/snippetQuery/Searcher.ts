@@ -2,6 +2,8 @@ import * as vscode from 'vscode';
 import * as request from "request-promise-native";
 import * as fs from "fs"; 
 import {URLReader} from './URLReader';
+import {QueryDocListener} from './QueryDocListener';
+const codeSnippetModel = require("../database/models/codeSnippets.model");
 
 /**
  * class Searcher
@@ -11,9 +13,7 @@ import {URLReader} from './URLReader';
  */
 export class Searcher{
     // Defaults for the number of snippets to receive, and how many pages to look at for snippets.
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	static NUM_URLS:number = 3;
-	// eslint-disable-next-line @typescript-eslint/naming-convention
 	static NUM_ANSWERS_PER_URL:any = 4;
 
     static key:string = "AIzaSyClq5H_Nd7RdVSIMaRPQhwpG5m_-68fWRU";
@@ -21,7 +21,13 @@ export class Searcher{
 
     static activeFilePath:string = "";
 
-
+    static buffer:any = {};
+    static status:boolean = false;
+    /**
+     * 
+     * @returns a string
+     * This function basically tries to analyze whether user wants python code or java code or something else.
+     */
     static findFileType():string{
 
         // vscode.window
@@ -30,8 +36,6 @@ export class Searcher{
         if(currentlyOpenTabfilePath === undefined){
             Searcher.activeFilePath = "";
         }
-
-        console.log(`currentlyOpenTabfilePath is ${currentlyOpenTabfilePath}`);
 
         if(currentlyOpenTabfilePath!== undefined && currentlyOpenTabfilePath.length >= 6){
             let lang = currentlyOpenTabfilePath.substr(currentlyOpenTabfilePath.length-4);
@@ -86,8 +90,6 @@ export class Searcher{
         }else{
             this.cx = "011454571462803403544:zvy2e2weyy8";
         }
-        console.log("final query is:");
-        console.log(qry);
         let url = null;
         try{        
             url = `http://127.0.0.1:6615/NlpToCode_googleSearchUrl/${this.key}/${this.cx}/${qry}/${this.NUM_URLS}`;
@@ -98,14 +100,9 @@ export class Searcher{
             };
 
             const searchResponse = await request.get(uriOptions);
-            console.log(searchResponse);
-
             for(let i=0;i<searchResponse.items.length;i++){
                 urls.push(searchResponse.items[i].link);
             }
-
-            console.log(urls);
-
             return urls;
 
         }catch(err){
@@ -115,9 +112,46 @@ export class Searcher{
 
     }
 
+    /**
+     * 
+     * @param topnAnswers 
+     * Function which just converts a code snippet string into a valid object
+     */
+    static getCodeObjects(topnAnswers:any){
+        let result = [];
+        for(let i=0;i<topnAnswers.length;i++){
+            result.push({
+                code:topnAnswers[i],
+                quality:QueryDocListener.measureQuality(topnAnswers[i])
+            });
+        }
+        return result;
+    }
+
+    /**
+     * 
+     * @param url 
+     * @param language
+     * Function which checks whether a high quality code snippet already exists or not based on Link and language 
+     */
+    static async isExists(url:string,language:string){
+        await codeSnippetModel.findOne({ $or: [{ link: url }, { language: language }]}).then((codeSnippet:any)=>{
+            console.log("Codesnippet inside database is ");
+            // console.log(codeSnippet);
+            if(codeSnippet === undefined || codeSnippet === null){
+                console.log("bye");
+                Searcher.status = false;
+                return;
+            }
+            console.log(codeSnippet.codeSnippets);
+            Searcher.buffer = codeSnippet.codeSnippets;
+            Searcher.status = true;
+        });
+    }
+
     /*
 	 * Function getCodeSnippets
-	 *   Given a vector of StackOverflow forum thread URLs, retrieve the top NUM_ANSWERS_PER_URL answers from each thread (based on upvotes).
+	 *   Given a vec        // return true;tor of StackOverflow forum thread URLs, retrieve the top NUM_ANSWERS_PER_URL answers from each thread (based on upvotes).
 	 *   
 	 *   Input: Vector<String> urls - vector of StackOverflow thread urls.
 	 *   Returns: Vector<String> - vector of top code snippets from each given url.
@@ -126,39 +160,78 @@ export class Searcher{
     static async  getCodeSnippets(urls:string[],type:string){
         try{
             let code:any = [];
+            let topnAnswers = null;
+            let arrayOfCodeSnippets = [];
+            let validSnippet = {};
+            let codeSnippetData:any = undefined;
 
             for(let i=0;i<urls.length;i++){
-                // Create a new url and open using soup so we can do easy queries on the results (formats code for us nicely at cost of time).
-                let ur:URLReader = new URLReader();
-                console.log(urls[i]);
-                ur.openHTML(urls[i]);
-    
-                let top_n_answers = await ur.getTopN(Searcher.NUM_ANSWERS_PER_URL,Searcher.activeFilePath,type);
-                console.log("inside getCodeSnippets function before processing,code looks like:");
-                console.log(top_n_answers);
-                if((await top_n_answers).length === 0){
-                    vscode.window.showErrorMessage(`Code snippet not found from url: ${urls[i]}`);
+
+                
+                await Searcher.isExists(urls[i],Searcher.activeFilePath);
+                if(Searcher.status){
+                    console.log("Already exists");
+                    code.push(Searcher.buffer);
+                    Searcher.buffer = {};
+                    Searcher.status = false;
                 }else{
-                    code.push(top_n_answers);
+                    console.log("Started new code extraction job");
+                    // Create a new url and open using soup so we can do easy queries on the results (formats code for us nicely at cost of time).
+                    let ur:URLReader = new URLReader();
+
+                    ur.openHTML(urls[i]);
+
+                    //right now,i am assuming that each link is repeated only once
+
+                    topnAnswers = await ur.getTopN(Searcher.NUM_ANSWERS_PER_URL,Searcher.activeFilePath,type);
+
+
+
+                    arrayOfCodeSnippets = Searcher.getCodeObjects(topnAnswers);
+                    arrayOfCodeSnippets.sort(function(a:any, b:any){return (a["quality"]-b["quality"]);});
+                    validSnippet = arrayOfCodeSnippets[Math.floor(arrayOfCodeSnippets.length-1)];
+                    codeSnippetData = new codeSnippetModel({
+                        link:urls[i],
+                        langauge:Searcher.activeFilePath,
+                        codeSnippets:validSnippet
+                    });
+
+                    await codeSnippetData.save(()=>{
+                        console.log(`Code has been saved successfully`);
+                    });
+
+
+                    if((await topnAnswers).length === 0){
+                        vscode.window.showErrorMessage(`Code snippet not found from url: ${urls[i]}`);
+                    }else{
+                        code.push(validSnippet);
+                    }
                 }
-    
+
+                
             }
-    
-            console.log("inside getCodeSnippets function after processing,code looks like:");
-            console.log(code);
-    
-            console.log(typeof code[0]);
+
+            code.sort(function(a:any, b:any){return (a["quality"]-b["quality"]);});
+
+
             return code;
 
         }catch(err){
             vscode.window.showErrorMessage("Something went wrong while getting code snippets");
-            return [[]];
+            return [];
         }
 
 
     }
 
-
+    /**
+     * 
+     * @param qry 
+     * @param text 
+     * @param format 
+     * @returns a string
+     * Function which replaces characters
+     */
     static replaceAll(qry:string,text:string,format:string){
         let res = "";
 
@@ -172,7 +245,13 @@ export class Searcher{
         return res;
     }
 
-
+    /**
+     * 
+     * @param query 
+     * @param text 
+     * @returns either true or false
+     * Function which checks whether @param text exists inside @param query 
+     */
     static contains(query:string,text:string){
         let len = query.length;
 
@@ -201,17 +280,10 @@ export class Searcher{
             return "";
         }
 
-        // let lang = "java";
         if(Searcher.contains(query," in ")){
             return query; 
         }
 
         return query + " in " + targetLang;
     }
-
-
-
-
-    
-
 };

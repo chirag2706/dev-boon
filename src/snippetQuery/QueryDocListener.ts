@@ -3,10 +3,10 @@ import { off } from 'node:process';
 import { start } from 'node:repl';
 import * as vscode from 'vscode';
 import {Searcher} from './Searcher';
-import {SidebarProvider} from '../../sidebarProvider';
-import {description} from "../../description";
-import {summary} from "../../summary";
-import * as extension from '../../extension';
+import {SidebarProvider} from '../sidebarProvider';
+import {description} from "../description";
+import {summary} from "../summary";
+import * as extension from '../extension';
 import * as request from "request-promise-native";
 
 var operatorsToBeRemoved = {
@@ -34,18 +34,6 @@ export class QueryDocListener{
     //insertion contexts depending on user's cursor
 	//some features would need to be tackled differently depending on context
 	//we mostly just handle inserting inside a function for now
-
-    //we are inside a function
-	static FUNCTION:number = 0;
-
-    //we are inside a function and it is main
-	static MAIN:number = 1;
-	
-	//we are inside a class but not a function
-	static CLASS:number = 2;
-	
-	//we are not within a class
-	static OUTSIDE:number = 3;
 
     static queryString:string = "";
 
@@ -163,8 +151,6 @@ export class QueryDocListener{
         resultantQuery = resultantQuery.trim();
         resultantQuery = resultantQuery.toLowerCase();
 
-        console.log(`resultantQuery is ${resultantQuery}`);
-
         return [resultantQuery,offset[0]+countOfNewLines];
     }
 
@@ -188,13 +174,7 @@ export class QueryDocListener{
             //offset means currentLine no of query
     
             //Now Convert The Stack Overflow thread IDs to specific post URLs.
-            let result = Searcher.getThreads(query,this.type);
-            
-            // if(result.length === 0){
-            //     return -1;
-            // }
-    
-    
+            let result = Searcher.getThreads(query,this.type);    
             if((await result).length === 0){
                 return -1;
             }
@@ -210,37 +190,27 @@ export class QueryDocListener{
     
             let code = await Searcher.getCodeSnippets(urls,this.type);
             if(code === null || code === undefined||code.length === 0){
+                extension.showDevBoonSearchBar(1);
                 return -1;
             }
 
-
-
-    
-    
-            // code = fixSpacing(code);
-    
-            console.log("Final code output is: ");
-            console.log(code);
-
-            let mostValidSnippet = await QueryDocListener.logic(code);
-
-            console.log("most Valid snippet is:");
-            console.log(mostValidSnippet);
+            let mostValidSnippet = code[code.length-1]["code"];
 
             QueryDocListener.writeOnVscodeEditor(mostValidSnippet);
     
-            
-            extension.show_dev_boon_side_bar(1);
+            extension.showDevBoonSearchBar(1);
         }
         catch(err){
             vscode.window.showErrorMessage(err.message);
         }
-
-
-    
-
     }
 
+
+    /**
+     * 
+     * @param mostValidSnippet 
+     * Function which write the valid code snippet on vscode editor based on either selected text or based on current position of cursor
+     */
     static writeOnVscodeEditor(mostValidSnippet:string){
         //now ,we need to print that code on offset+1 line number
         let activeEditor = vscode.window.activeTextEditor;
@@ -267,32 +237,14 @@ export class QueryDocListener{
         }
     }
 
+    /**
+     * 
+     * @param code 
+     * @returns quality of a particular code snippet
+     * Function which measures quality of code snippet
+     */
 
-    static logic(code:string[][]){
-        let mostValidSnippet:any = "";
-
-        let codeIndex:any = [];
-
-        //now we will be using COSOMO software sizing algorithm
-
-
-        /**
-         * This algorithm was implemented in Release 1 of this tool
-         */
-        
-        /*let currLen:number = 0;*/
-
-        for(let i=0;i<code.length;i++){
-            for(let j=0;j<code[i].length;j++){
-                codeIndex.push([-1,code[i][j]]);
-            }
-        }
-
-        console.log("codeIndex is");
-        console.log(codeIndex);
-
-        
-        /**
+    /**
          * This algorithm was implemented in Release 2 of this tool
          *  
          * logic: We will be differentiating our code based on 3 different models and all these models are regression models
@@ -308,10 +260,14 @@ export class QueryDocListener{
          * Actual thought process: Code snippets will be first sorted based on upvotes(fetched from stackoverflow website and people votes)
          * After minimizing the number of code snippets,we will be analyzing each snippet based on COCOMO model to determine best code snippet  
          * 
+    */
+    static measureQuality(code:string){
+        /**
+         * these are parameters which have been calculated from regression model
+         * So,don't think that these parameters are static or hard coded.These parameters have been calculated from regression Ml algorithm
+         * We have just used parameters instead of whole ML algorithm ,just to increase speed of this function
          */
-
-        let tableOfCoefficients = [[2.4,1.05,2.5,0.38],[3.0,1.12,2.5,0.35],[3.6,1.20,2.5,0.32]]; //these are parameters which ahve been calculated from regression model
-
+        let tableOfCoefficients = [[2.4,1.05,2.5,0.38],[3.0,1.12,2.5,0.35],[3.6,1.20,2.5,0.32]]; 
         let currLen:number = 0;
 
         //indicates type of model
@@ -323,53 +279,25 @@ export class QueryDocListener{
         let codeQuality = 0;
 
         let currentCodeQuality = -1;
-
-
-        for(let i=0;i<codeIndex.length;i++){
-            
-            currLen = codeIndex[i][1].length;
+        currLen = code.length;
             
             
-            if(currLen>=2 && currLen<=50){
-                modelType = 0;
-            }else if(currLen>50 && currLen <=300){
-                modelType = 1;
-            }else if(currLen>300){
-                modelType = 2;
-            }else{
-            
-                continue;
-            }
-
-
-            effort  = tableOfCoefficients[modelType][0]*(Math.pow(currLen,tableOfCoefficients[modelType][1]));
-            time = tableOfCoefficients[modelType][2]*(Math.pow(effort,tableOfCoefficients[modelType][3]));
-
-            currentCodeQuality = effort/time;
-            
-            codeIndex[i][0] = currentCodeQuality;
-
+        if(currLen>=2 && currLen<=50){
+            modelType = 0;
+        }else if(currLen>50 && currLen <=300){
+            modelType = 1;
+        }else if(currLen>300){
+            modelType = 2;
         }
+
+
+        effort  = tableOfCoefficients[modelType][0]*(Math.pow(currLen,tableOfCoefficients[modelType][1]));
+        time = tableOfCoefficients[modelType][2]*(Math.pow(effort,tableOfCoefficients[modelType][3]));
+
+        currentCodeQuality = effort/time;
         
-        // made a:any,b:any
-        //now sort the elements of codeIndex and take mean of it
-        codeIndex.sort(function(a:any, b:any){return (a[0]-b[0])});
-
-
-        console.log("After sorting:");
-        console.log(codeIndex);
-
-        
-        mostValidSnippet = codeIndex[Math.floor(codeIndex.length-1)][1];
-
-        return mostValidSnippet;
-
-
+        return currentCodeQuality;
     }
-
-
-
-
     /*
 		 * Function documentChanged
 		 *   Function that activates every time the current edited document is changed.
@@ -380,7 +308,7 @@ export class QueryDocListener{
 	*/
 
     documentChanged(){
-        extension.show_dev_boon_side_bar(0);
+        extension.showDevBoonSearchBar(0);
         // This is the part of the code where we format the event (encounter a ? xxx ? this will format and isolate
 		// query in 'line' and search for code snippets using query.
         let selectedText=this.getSelectedTextFromEditor();
@@ -398,20 +326,19 @@ export class QueryDocListener{
                 this.executeQuery(query,offset);
             }
         }
+        
     }
 
 
 
     /*
 		 * Function completionQuery
-		 *   Function that helps to interact with GPT-2 model inorder to complete code
-		 *   
-		 
+		 *   Function that helps to interact with GPT-2-medium model inorder to complete code
 	*/
 
 
     async completionQuery(){
-        extension.show_dev_boon_side_bar(0);
+        extension.showDevBoonSearchBar(0);
         
         let selectedText=await this.getSelectedTextFromEditor(); //query
         console.log("selectedText is");
@@ -433,12 +360,7 @@ export class QueryDocListener{
 
         await QueryDocListener.writeOnVscodeEditor(searchResponse["snippets"]);
 
-        extension.show_dev_boon_side_bar(1);
+        extension.showDevBoonSearchBar(1);
         
     }
-
-
-
-
-
 };

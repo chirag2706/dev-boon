@@ -1,6 +1,8 @@
 import * as request from "request-promise-native";
 
-
+/**
+ * Class URLReader basically tries to read URL and extract code snippets from that given URL
+ */
 export class URLReader{
     static address: string = "";
 
@@ -30,8 +32,7 @@ export class URLReader{
         let code:string = "";
         let author:string = "";
 
-        // eslint-disable-next-line @typescript-eslint/naming-convention
-        let top_n_snippets:string[] = [];
+        let topnSnippets:string[] = [];
         let url = null;
         try{
 
@@ -51,25 +52,25 @@ export class URLReader{
 
             let res =  await request.get(uriOptions);
             if(res.length === 0){
-                return top_n_snippets;
+                return topnSnippets;
             }else{
-                top_n_snippets = res['snippets'];
+                topnSnippets = res['snippets'];
             }
 
-            for(let i=0;i<top_n_snippets.length;i++){
+            for(let i=0;i<topnSnippets.length;i++){
                 if(filePath === "java"){
-                    top_n_snippets[i] = "//"+top_n_snippets[i];
+                    topnSnippets[i] = "//"+topnSnippets[i];
                 }else{
-                    top_n_snippets[i] = "#"+top_n_snippets[i];
+                    topnSnippets[i] = "#"+topnSnippets[i];
                 }
             }
-            return top_n_snippets;
+            return topnSnippets;
         }catch(err){
             console.log("Some bug occured in getTopN function");
         }
 
 
-        return top_n_snippets;
+        return topnSnippets;
 
         
     }
