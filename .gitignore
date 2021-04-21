@@ -7,4 +7,10 @@ src/backend/completionQuery/model
 src/backend/completionQuery/dataset/Java
 src/backend/completionQuery/dataset/Python
 src/backend/completionQuery/dataset/source_code
+src/backend/completionQuery/tmp/model/distilgpt2_fine_tuned_coder/log.out
+src/backend/completionQuery/runs/Apr21_17-51-18_chiggi/events.out.tfevents.1619007678.chiggi.15074.0
+src/backend/completionQuery/.cache
 src/backend/model
+src/backend/__pycache__/
+src/backend/completionQuery/__pycache__/
+src/backend/__pycache__/interact.cpython-38.pyc

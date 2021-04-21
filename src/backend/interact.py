@@ -57,7 +57,29 @@ class InteractWithGptModel():
         decoded = self.tokenizer.decode(outputs[0], skip_special_tokens=True)
 
         # # # ends with occurence of double new lines (to meet the convention of code completion)
-        if "\n\n" in decoded:
-            decoded = decoded[:decoded.index("\n\n")]
+        # if "return" in decoded:
+        #     decoded = decoded[:decoded.index("return")]
 
-        return decoded
+        resultString = ""
+        currentWord = ""
+        flag = False
+
+        for i in decoded:
+            if(i == "\n"):
+                
+                resultString+=currentWord
+                resultString+="\n"
+                currentWord = ""
+                if(flag):
+                    break
+            elif(i == " "):
+                if(currentWord == "return" and not flag):
+                    flag = True
+                resultString+=currentWord
+                resultString+=" "
+                currentWord=""
+            else:
+                currentWord+=i
+
+
+        return resultString
