@@ -30,3 +30,27 @@ def quick_sort_recursive(lst, start, end):
                                           # you don't need to return the list
                                           # it's modified in place
 
+sripranav@sripranav:~/dev-boon/src/TESTCASES/PYTHON$ python3 test1.py 
+  File "test1.py", line 2
+    import """ tensorflow """ as tf
+           ^
+SyntaxError: invalid syntax
+sripranav@sripranav:~/dev-boon/src/TESTCASES/PYTHON$ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

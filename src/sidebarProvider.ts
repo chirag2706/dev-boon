@@ -13,9 +13,6 @@ import {summary} from "./summary"
 
 
   function getWebviewContent(x:number,pass_the_result:description[]) {
-
-    //vscode.window.showInformationMessage("getWebviewContent function is called");
-
     var stck:string;
     stck='';
     var num:number=0;
@@ -25,34 +22,32 @@ import {summary} from "./summary"
     var d:string;
     var e:string;
 	if(x==0 || x==1 || x==2 || x==3 || x==4 || x==5 || x==6 || x==7 || x==8){
-    if(x==7){
-      console.log("CAME HERE TOO...\n");
-      stck='<div style="max-width:220px;margin-bottom:30px;margin-top:40px;"><img src="https://logos-download.com/wp-content/uploads/2019/01/Stack_Overflow_Logo-700x283.png" alt="StackOverFlow"/></div>';
-			stck+=`<label class="switch">
-              <input type="checkbox">
-              <span class="slider"></span>
-            </label>`
-      if(pass_the_result.length==0){
-				stck+=`<div>No Results Found ...</div>`;
+		if(x==7){
+			stck='<div style="max-width:220px;margin-bottom:30px;margin-top:40px;font-family:courier;"><img src="https://logos-download.com/wp-content/uploads/2019/01/Stack_Overflow_Logo-700x283.png" alt="StackOverFlow"/></div>';
+			if(pass_the_result.length==0){
+				stck+=`<div style="font-family:courier;">No Results Found ...</div>`;
 			}
 			else{
 				for(num=0;num<min(10,pass_the_result.length);num++){
-					a=pass_the_result[num].ThumbnailURL;
-					b=pass_the_result[num].Title;
-					c=pass_the_result[num].Description;
-					d=pass_the_result[num].Owner;
-					e=pass_the_result[num].Url;
-					stck+=`<div><div class="card" style="width:100%;max-width:200px;margin-bottom:5%;margin-top:5%;" >
-							<div class="card-body" style="padding:3% 3% 3% 3%;">
-							<h5 class="card-title" ><p style="font-size:14px;">${b}</p></h3>
-							<p lass="card-text" style="font-size:12px;width:100%;">${c}</p>
-              <textarea class="textarea" name="paragraph_text" cols="15" rows="10" style="width:100%;">${d}</textarea>
-							<a href="${e}" style="width:100%;font-size:11px;" class="btn btn-outline-primary open_button">Open</a>
+				a=pass_the_result[num].ThumbnailURL;
+				b=pass_the_result[num].Title;
+				c=pass_the_result[num].Description;
+				d=pass_the_result[num].Owner;
+				e=pass_the_result[num].Url;
+				stck+=`<div><div class="card" style="width:100%;max-width:200px;margin-bottom:5%;margin-top:5%;font-family:courier;" >
+						<div class="card-body" style="padding:3% 3% 3% 3%;font-family:courier;">
+						<h5 class="card-title" ><p style="font-size:14px;font-family:courier;">${b}</p></h3>
+						<p class="card-text" style="font-size:12px;width:100%;font-family:courier;">${c}</p>
+						<button type="button" class="collapsible btn btn-outline-info" style="margin-bottom:10px;width:100%;font-size:11px;font-family:courier;">Code</button>
+							<div class="content">
+							<textarea class="textarea" name="paragraph_text" cols="15" rows="10" style="width:100%;font-family:courier;">${d}</textarea>
 							</div>
-							</div></div>`;
+						<a href="${e}" style="width:100%;font-size:11px;font-family:courier;" class="btn btn-outline-primary open_button">Open</a>
+						</div>
+						</div></div>`;
 				}
 			}
-    }
+		}
 		else if(x==0){
       		stck='<div style="max-width:220px;margin-bottom:30px;margin-top:40px;"><img src="https://logos-download.com/wp-content/uploads/2019/01/Stack_Overflow_Logo-700x283.png" alt="StackOverFlow"/></div>';
 			if(pass_the_result.length==0){
@@ -121,137 +116,157 @@ import {summary} from "./summary"
 			stck='<div style="max-width:200px;margin-top:40px;"><img src="https://1000logos.net/wp-content/uploads/2017/05/Youtube-Logo-500x313.png" alt="YOUTUBE"></div>';
 			stck+=`<div>No Results Found ...</div>`;
 		}
-    else{
-      stck='<div style="max-width:200px;"><img src="https://i.ibb.co/z7Bt1tN/bcg-white-dev-boon.png" alt="DEV BOON"></div><div style="margin-top:40px;"><h3>Automatically generating a Code Snippet ...</h3></div>';
-      stck+=`<button class="buttonload">
-			<i class="fa fa-refresh fa-spin"></i>
-		  </button>`;
-    }
+    	else{
+			stck='<div style="max-width:200px;"><img src="https://i.ibb.co/z7Bt1tN/bcg-white-dev-boon.png" alt="DEV BOON"></div><div style="margin-top:40px;"><h3>Automatically generating a Code Snippet ...</h3></div>';
+			stck+=`<button class="buttonload">
+					<i class="fa fa-refresh fa-spin"></i>
+				</button>`;
+		}
 		return `<!DOCTYPE html>
-		<html>
-		<head>
-		<style>
-			.buttonload {
-        text-align: center;
-				background-color: white;
-				border: none; /* Remove borders */
-				color: black; /* White text */
-				padding: 12px 16px; /* Some padding */
-				font-size: 30px; /* Set a font size */
-        max-width:100px;
-        width: 100%;
-			}
+				<html>
+					<head>
+						<style>
+									.buttonload {
+								text-align: center;
+										background-color: white;
+										border: none; /* Remove borders */
+										color: black; /* White text */
+										padding: 12px 16px; /* Some padding */
+										font-size: 30px; /* Set a font size */
+								max-width:100px;
+								width: 100%;
+									}
 
-      .testing {
-        display: flex;
-        
-        flex-direction: column;
-        align-items:center;
-        justify-content: center;
-      }
-      .align {
-        text-align: center;
-        margin-top: 50vh;
-      }
-      .switch {
-        position: relative;
-        display: inline-block;
-        width: 60px;
-        height: 34px;
-      }
-      
-      .switch input { 
-        opacity: 0;
-        width: 0;
-        height: 0;
-      }
-      
-      .slider {
-        position: absolute;
-        cursor: pointer;
-        top: 0;
-        left: 0;
-        right: 0;
-        bottom: 0;
-        background-color: #ccc;
-        -webkit-transition: .4s;
-        transition: .4s;
-      }
-      
-      .slider:before {
-        position: absolute;
-        content: "";
-        height: 26px;
-        width: 26px;
-        left: 4px;
-        bottom: 4px;
-        background-color: white;
-        -webkit-transition: .4s;
-        transition: .4s;
-      }
-      
-      
-      
+							.testing {
+								display: flex;
+								
+								flex-direction: column;
+								align-items:center;
+								justify-content: center;
+							}
+							.align {
+								text-align: center;
+								margin-top: 50vh;
+							}
+							.switch {
+								position: relative;
+								display: inline-block;
+								width: 60px;
+								height: 34px;
+							}
+							
+							.switch input { 
+								opacity: 0;
+								width: 0;
+								height: 0;
+							}
+							
+							.slider {
+								position: absolute;
+								cursor: pointer;
+								top: 0;
+								left: 0;
+								right: 0;
+								bottom: 0;
+								background-color: #ccc;
+								-webkit-transition: .4s;
+								transition: .4s;
+							}
+							
+							.slider:before {
+								position: absolute;
+								content: "";
+								height: 26px;
+								width: 26px;
+								left: 4px;
+								bottom: 4px;
+								background-color: white;
+								-webkit-transition: .4s;
+								transition: .4s;
+							}
+							
+							
+							
 
-      input:checked + .slider {
-        background-color: #2196F3;
-      }/*  */
-      
+							input:checked + .slider {
+								background-color: #2196F3;
+							}/*  */
+							
 
-      input:focus + .slider {
-        box-shadow: 0 0 1px #2196F3;
-      }
-      
-      input:checked + .slider:before {
-        -webkit-transform: translateX(26px);
-        -ms-transform: translateX(26px);
-        transform: translateX(26px);
-      }
-      
-      /* Rounded sliders */
-      .slider.round {
-        border-radius: 34px;
-      }
-      
-      .slider.round:before {
-        border-radius: 50%;
-      }
-		</style>
-
-		<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
-        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous"
-		</head>
-		<body >
-      <div id = "MyCustom">
-        ${stck}
-      </div>
-      
-		</body>
-		<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
-    
-    </html>`;
+							input:focus + .slider {
+								box-shadow: 0 0 1px #2196F3;
+							}
+							
+							input:checked + .slider:before {
+								-webkit-transform: translateX(26px);
+								-ms-transform: translateX(26px);
+								transform: translateX(26px);
+							}
+							
+							/* Rounded sliders */
+							.slider.round {
+								border-radius: 34px;
+							}
+							
+							.slider.round:before {
+								border-radius: 50%;
+							}
+							
+							  .content {
+								padding: 0 18px;
+								display: none;
+								overflow: hidden;
+								background-color: #f1f1f1;
+							  }
+						</style>
+							<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+							<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous"
+					</head>
+					<body >
+						<div id = "MyCustom">
+							${stck}
+						</div>
+					</body>
+						<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+						<script>
+								var coll = document.getElementsByClassName("collapsible");
+								var i;
+								for (i = 0; i < coll.length; i++) {
+									coll[i].addEventListener("click", function() {
+										this.classList.toggle("active");
+										var content = this.nextElementSibling;
+										if (content.style.display === "block") {
+											content.style.display = "none";
+										} 
+										else {
+											content.style.display = "block";
+										}
+									});
+								}
+						</script>			
+				</html>`;
 	}
     return `<!DOCTYPE html>
-	<html>
-	<head>
-	<style>
-		.testing{
-		display: flex;
-		flex-direction: column;
-		align-items:center;
-		justify-content: center;
-		}
-	</style>
-	<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous"
-	</head>
-	<body>
-	<div class = "testing" >
-	<div style="max-width:200px;"><img src="https://i.ibb.co/z7Bt1tN/bcg-white-dev-boon.png" alt="DEV BOON"></div>
-	</div>
-	</body>
-	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
-	
-  </html>`;
+				<html>
+				<head>
+				<style>
+					.testing{
+					display: flex;
+					flex-direction: column;
+					align-items:center;
+					justify-content: center;
+					}
+				</style>
+					<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous"
+				</head>
+				<body>
+					<div class = "testing" >
+					<div style="max-width:200px;"><img src="https://i.ibb.co/z7Bt1tN/bcg-white-dev-boon.png" alt="DEV BOON"></div>
+					</div>
+				</body>
+				<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
+				
+				</html>`;
 }
 //https://i.ibb.co/XFHsytD/dev-boon-logo.png
 //https://i.ibb.co/z7Bt1tN/bcg-white-dev-boon.png

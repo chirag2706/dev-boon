@@ -528,10 +528,10 @@ async function runSearchingForStackOverFlowPosts(selectedText:string): Promise<v
 		if(mm>0){
 			var pass_the_result:description[]=new Array(3);
 			for(var i=0;i<mm;i++){
-				// console.log(searchResponse[i].question);
-				// console.log(searchResponse[i].AnswerText);
-				// console.log(searchResponse[i].AnswerCode);
-				// console.log(searchResponse[i].link);
+				console.log(searchResponse[i].question);
+				console.log(searchResponse[i].AnswerText);
+				console.log(searchResponse[i].AnswerCode);
+				console.log(searchResponse[i].link);
 
 				pass_the_result[i]=new description(searchResponse[i].question,searchResponse[i].AnswerText,searchResponse[i].AnswerCode,searchResponse[i].link,"");
 			}
