@@ -7,6 +7,49 @@ import json
 from Summarizer import generate_summary
 
 def GetDisplayInformation(query):
+
+
+    ###############################################################TEST####################################################################
+
+    count=3
+
+    return_dict={}
+    i=0
+
+    for k in range(3):
+        if count>0:
+            x={}
+            #print("********************************************")
+            #print(everything[k]["question"])
+            x["link"]="link"+str(count)
+            x["question"]="question"+str(count)
+            #print("********************************************")
+            #print(everything[k]["accepted_answer"]["AnswerText"])
+            try:
+                #print(generate_summary(everything[k]["accepted_answer"]["AnswerText"]))
+                x["AnswerText"]="AnswerText"+str(count)
+            except:
+                #print(everything[k]["accepted_answer"]["AnswerText"])
+                x["AnswerText"]="AnswerText"+str(count)
+            # print("********************************************")
+            # print(everything[k]["accepted_answer"]["AnswerCode"])
+            # print(everything[k]["accepted_answer"]["AnswerCode"])
+            # print("********************************************")
+            
+            x["AnswerCode"]="AnswerCode"+str(count)
+
+            return_dict[i]=x
+            count-=1
+            i+=1
+
+        else:
+            pass
+
+    json_return_obj=json.dumps(return_dict)
+    print(json_return_obj)
+    return json_return_obj
+
+    ###############################################################TEST####################################################################
     
     req_links={}
     for j in search(query, tld="co.in", num=15, stop=15, pause=2):
@@ -37,6 +80,7 @@ def GetDisplayInformation(query):
     everything=[]
 
     for link in req_links:
+        print(link)
         all_details={}
         all_details["link"]=link
 
@@ -462,7 +506,6 @@ def GetDisplayInformation(query):
             score[k]-=150
     
     score=dict(sorted(score.items(), key=lambda item: item[1],reverse=True))
-    score
     count=3
 
     return_dict={}
@@ -498,6 +541,7 @@ def GetDisplayInformation(query):
             pass
 
     json_return_obj=json.dumps(return_dict)
+    print(json_return_obj)
     return json_return_obj
 
 

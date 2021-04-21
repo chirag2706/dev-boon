@@ -13,7 +13,7 @@ from StackOverFLowPosts import GetDisplayInformation
 
 
 def load_model_():
-    model_path indicates path where model is trained
+    #model_path indicates path where model is trained
     model_path = "model/gpt2_medium_fine_tuned_coder"
     max_length = 2560*2
     temperature = 0.7

@@ -21,7 +21,7 @@ mongoose.connect(uri,{
 	console.log(`${err.message}`);
 });
 
-var {spawn} = require('child_process');// RUN THE FLASK LOCALLY ON PORT 6615
+// var {spawn} = require('child_process');// RUN THE FLASK LOCALLY ON PORT 6615
 var j;
 
 
@@ -33,8 +33,8 @@ for(var i=__dirname.length;i>=0;i--){
 }
 
 var path=__dirname.slice(0,j);
-var stopRunningServer=spawn('fuser',['-n','tcp','-k','6615']);// STOP THE FLASK SERVER IF RUNNING ON PORT 6615
-var python=spawn('python3',[path+'/src/Python/main.py']);//START FLASK ON PORT 6615
+// var stopRunningServer=spawn('fuser',['-n','tcp','-k','6615']);// STOP THE FLASK SERVER IF RUNNING ON PORT 6615
+// var python=spawn('python3',[path+'/src/Python/main.py']);//START FLASK ON PORT 6615
 var sidebarProvider:any = undefined ; // represents dev-boon extension sidebar is closed
 let isExtensionActivated = 0; // 0 means that initially ,it is deactivated
 let queryUnderProcess = 0; // 0 means that api call is under process
@@ -526,14 +526,20 @@ async function runSearchingForStackOverFlowPosts(selectedText:string): Promise<v
 			mm=Object.keys(searchResponse).length;
 		}
 		if(mm>0){
-			var pass_the_result:description[]=new Array(5);
+			var pass_the_result:description[]=new Array(3);
 			for(var i=0;i<mm;i++){
+				// console.log(searchResponse[i].question);
+				// console.log(searchResponse[i].AnswerText);
+				// console.log(searchResponse[i].AnswerCode);
+				// console.log(searchResponse[i].link);
+
 				pass_the_result[i]=new description(searchResponse[i].question,searchResponse[i].AnswerText,searchResponse[i].AnswerCode,searchResponse[i].link,"");
 			}
 			if(sidebarProvider === undefined || sidebarProvider === null){
 				//vscode.window.showErrorMessage(`sidebarProvider is ${sidebarProvider} inside stack search`);
 			}
 			if(sidebarProvider!==null && sidebarProvider!==undefined){
+				console.log("passed 7");
 				sidebarProvider.customResolveWebviewView(7,pass_the_result);
 			}
 		}
@@ -872,3 +878,116 @@ function difficultQuery(){
 	preLine=curLine;
 	preLineText=curLineText;
 }
+
+
+// async function runSearchingForStackOverFlowPosts(selectedText:string): Promise<void>{
+// 	if(!selectedText || selectedText.trim() === ""){
+// 		return;
+// 	}
+// 	selectedText = selectedText.trim();
+//     vscode.window.showInformationMessage(`Initiated a StackOverFlow search with \"[${selectedText}]\" query`);
+
+// 	let tags: string[] = [];
+// 	let tagsMatch;
+// 	let updatedSelectedText = selectedText;
+
+// 	while ((tagsMatch = regex.exec(updatedSelectedText)) !== null) {
+//         // This is necessary to avoid infinite loops with zero-width matches
+//         if (tagsMatch.index === regex.lastIndex) {
+//             regex.lastIndex++;
+//         }
+        
+//         // The result can be accessed through the `m`-variable.
+//         tagsMatch.forEach((match, groupIndex) => {
+//             if(groupIndex === 0) { // full match without group for replace
+//                 updatedSelectedText = updatedSelectedText.replace(match, "").trim();
+//             } else if(groupIndex === 1) { // not a full match
+//                 tags.push(match);
+//             }
+//         }); 
+//     }
+
+//     var encodedTagsString = encodeURIComponent(tags.join(';'));
+//     const encodedAPISearchTerm = encodeURIComponent(updatedSelectedText);
+//     const encodedWebSearchTerm = encodeURIComponent(selectedText);
+// 	console.log(encodedTagsString);
+// 	var apiSearchUrl;
+// 	if(encodedTagsString.length>0){
+//     	apiSearchUrl = `http://127.0.0.1:6615/Custom_StackOverFlowUrl/${encodedAPISearchTerm}`;
+// 	}
+// 	else{
+// 		apiSearchUrl = `http://127.0.0.1:6615/Custom_StackOverFlowUrl/${encodedAPISearchTerm}`;
+// 	}
+//     const uriOptions = {
+//         uri: apiSearchUrl,
+//         json: true,
+//         gzip: true,
+//     };
+//     try {
+
+// 		var emptyArray:description[]=new Array(10);
+
+// 		if(sidebarProvider!==null && sidebarProvider!==undefined){
+// 			sidebarProvider.customResolveWebviewView(3,emptyArray);
+// 		}
+
+// 		console.log("Reached here...");
+//         const sr = await request.get(uriOptions);
+// 		console.log("Completed here...");
+// 		//console.log(searchResponse.0);
+// 		let searchResponse = JSON.parse(sr);
+// 		console.log(Object.keys(searchResponse).length);
+// 		var mm=5;
+// 		if(Object.keys(searchResponse).length<mm){
+// 			mm=Object.keys(searchResponse).length;
+// 		}
+// 		if(mm>0){
+// 			var pass_the_result:description[]=new Array(5);
+// 			for(var i=0;i<mm;i++){
+// 				pass_the_result[i]=new description(searchResponse[i].question,searchResponse[i].AnswerText,searchResponse[i].AnswerCode,searchResponse[i].link,"");
+// 			}
+// 			if(sidebarProvider === undefined || sidebarProvider === null){
+// 				//vscode.window.showErrorMessage(`sidebarProvider is ${sidebarProvider} inside stack search`);
+// 			}
+// 			if(sidebarProvider!==null && sidebarProvider!==undefined){
+// 				sidebarProvider.customResolveWebviewView(7,pass_the_result);
+// 			}
+// 		}
+// 		else if(mm==0){
+// 			var pass_the_result:description[]=new Array(10);
+// 			if(sidebarProvider!==null && sidebarProvider!==undefined){
+// 				sidebarProvider.customResolveWebviewView(4,pass_the_result);
+// 			}
+// 		}
+// 		//let test = getLatestErrorMessageFromTerminal();
+		
+//         // if (searchResponse.items && searchResponse.items.length > 0) {
+//         //     var pass_the_result:description[]=new Array(5);
+// 		// 	var count:number=0;
+//         //     searchResponse.items.forEach((q: any, i: any) => {
+// 		// 		if(count<5 && count>=){
+// 		// 			pass_the_result[count]=new description(q.title,q.tags.join(','),q.owner.display_name,q.link,"");
+// 		// 			count=count+1;
+// 		// 		}
+//         //     });
+// 		// 	if(sidebarProvider === undefined || sidebarProvider === null){
+// 		// 		//vscode.window.showErrorMessage(`sidebarProvider is ${sidebarProvider} inside stack search`);
+// 		// 	}
+// 		// 	if(sidebarProvider!==null && sidebarProvider!==undefined){
+// 		// 		sidebarProvider.customResolveWebviewView(0,pass_the_result);
+// 		// 	}
+//         // }
+// 		// else{
+// 		// 	var pass_the_result:description[]=new Array(10);
+// 		// 	if(sidebarProvider!==null && sidebarProvider!==undefined){
+// 		// 		sidebarProvider.customResolveWebviewView(4,pass_the_result);
+// 		// 	}
+// 		// }
+//     } 
+// 	catch (error) {
+// 		var passTheResult:description[]=new Array(10);
+//         if(sidebarProvider!==null && sidebarProvider!==undefined){
+// 			sidebarProvider.customResolveWebviewView(4,passTheResult);
+// 		}
+//     }
+// }
