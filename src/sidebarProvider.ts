@@ -40,7 +40,7 @@ import {summary} from "./summary"
 						<p class="card-text" style="font-size:12px;width:100%;font-family:courier;">${c}</p>
 						<button type="button" class="collapsible btn btn-outline-info" style="margin-bottom:10px;width:100%;font-size:11px;font-family:courier;">Code</button>
 							<div class="content">
-							<textarea class="textarea" name="paragraph_text" cols="15" rows="10" style="width:100%;font-family:courier;">${d}</textarea>
+							<textarea class="textarea" name="paragraph_text" cols="15" rows="10" style="width:100%;font-family:courier;font-size:10px;">${d}</textarea>
 							</div>
 						<a href="${e}" style="width:100%;font-size:11px;font-family:courier;" class="btn btn-outline-primary open_button">Open</a>
 						</div>

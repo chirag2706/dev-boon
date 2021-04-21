@@ -9,18 +9,17 @@ from bs4 import BeautifulSoup
 
 # completionQuery interaction class
 from interact import InteractWithGptModel 
-from StackOverFLowPosts import GetDisplayInformation
+from ErrorSearchQuery.StackOverFLowPosts import GetDisplayInformation
 
 
-def load_model_():
-    #model_path indicates path where model is trained
-    model_path = "model/gpt2_medium_fine_tuned_coder"
-    max_length = 2560*2
-    temperature = 0.7
-    use_cuda = False #for now,we have used CPU to train models,Now, we will try to train much bigger models with more parameters and bigger dataset inorder to imporvise our model either using CUDA or some cloud service
-    gptModelInteractionWithExtension = InteractWithGptModel(model_path,max_length,temperature,use_cuda,None,None)
-    gptModelInteractionWithExtension.load_tokenizer()
-    gptModelInteractionWithExtension.load_model()    
+#model_path indicates path where model is trained
+model_path = "model/gpt2_medium_fine_tuned_coder"
+max_length = 2560*2
+temperature = 0.7
+use_cuda = False #for now,we have used CPU to train models,Now, we will try to train much bigger models with more parameters and bigger dataset inorder to imporvise our model either using CUDA or some cloud service
+gptModelInteractionWithExtension = InteractWithGptModel(model_path,max_length,temperature,use_cuda,None,None)
+gptModelInteractionWithExtension.load_tokenizer()
+gptModelInteractionWithExtension.load_model()    
 
 
 
@@ -241,7 +240,7 @@ class NlpToCode_snippetGFG(Resource):
 # completion query is basically a advanced and much more intelligent snippet query which tries to complete code just by function names
 class CompletionQuery(Resource):
     def get(self,lang,query):
-        load_model_()
+
             #lang must be either python or java as models are right now trained on python and java only
         print("====================INSIDE COMPLETIONQUERY API CALL========================")
         gptModelInteractionWithExtension.set_lang(lang)

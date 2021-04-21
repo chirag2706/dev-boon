@@ -9,16 +9,14 @@ from Summarizer import generate_summary
 from apiclient.discovery import build
 
 def GetDisplayInformation(query):
+    #Google CSE Api Information
     
-
     api_key="AIzaSyAkSpqRYUzIX19c05nACM4EMbuDRU-hwmw"
-
     cse_id="a2a833c876db82751"
-
     resource=build("customsearch",'v1',developerKey=api_key).cse()
-
     result=resource.list(q=query,cx=cse_id).execute()
     
+
     req_links={}
 
     for item in result['items']:
@@ -303,8 +301,13 @@ def GetDisplayInformation(query):
             
             accanswer["accepted"]=1
 
+            t=all_details
 
             all_details["accepted_answer"]=accanswer
+
+            everything.append(all_details)
+
+            all_details=t
             
 
             ######################################################################
@@ -412,11 +415,13 @@ def GetDisplayInformation(query):
 
                 #print(a["Comments"])
 
-                answers.append(a)
+                # t=all_details
+                # all_details["accepted_answer"]=a
+                # everything.append(all_details)
+                # all_details=t
 
-            all_details["AllAnswers"]=answers
 
-            everything.append(all_details)
+            #everything.append(all_details)
             all_details={}
 
         except:
