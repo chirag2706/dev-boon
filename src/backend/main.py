@@ -9,7 +9,7 @@ from bs4 import BeautifulSoup
 
 # completionQuery interaction class
 from interact import InteractWithGptModel 
-from StackOverFLowPosts import GetDisplayInformation
+from ErrorSearchQuery.StackOverFLowPosts import GetDisplayInformation
 
 
 #model_path indicates path where model is trained

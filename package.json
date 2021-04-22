@@ -69,7 +69,7 @@
 			{
 				"command": "dev-boon.ACTIVATE_EXTENSION",
 				"category": "dev-boon",
-				"title": "deactivate dev-boon extension"
+				"title": "activate dev-boon extension"
 			},
 			{
 				"command": "dev-boon.STACKOVERFLOW_SEARCH_WITH_SELECTED_TEXT",

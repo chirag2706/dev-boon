@@ -14,7 +14,6 @@ class InteractWithGptModel():
         self.lang = lang #can be python or java ,otherwise this class will never be called
         self.query = query #oriignal query taken from vscode editor
 
-
         
 
         print("InteractWithGptModel object succesfully created")
