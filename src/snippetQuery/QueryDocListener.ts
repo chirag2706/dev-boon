@@ -166,8 +166,10 @@ export class QueryDocListener{
         try{
             let out = query.match("[abcdefghijklmnopqrstuvwxyz ]*");
             if(out!==null && out.length === 0){
+                extension.showDevBoonSearchBar(1,"Something went wrong while execution of snippet query.");
                 return -1;
             }else if(out === null){
+                extension.showDevBoonSearchBar(1,"Something went wrong while execution of snippet query.");
                 return -1;
             }
     
@@ -176,6 +178,7 @@ export class QueryDocListener{
             //Now Convert The Stack Overflow thread IDs to specific post URLs.
             let result = Searcher.getThreads(query,this.type);    
             if((await result).length === 0){
+                extension.showDevBoonSearchBar(1,"Something went wrong while execution of snippet query.");
                 return -1;
             }
     
@@ -190,7 +193,7 @@ export class QueryDocListener{
     
             let code = await Searcher.getCodeSnippets(urls,this.type);
             if(code === null || code === undefined||code.length === 0){
-                extension.showDevBoonSearchBar(1);
+                extension.showDevBoonSearchBar(1,"Something went wrong while execution of snippet query.");
                 return -1;
             }
 
@@ -198,9 +201,10 @@ export class QueryDocListener{
 
             QueryDocListener.writeOnVscodeEditor(mostValidSnippet);
     
-            extension.showDevBoonSearchBar(1);
+            extension.showDevBoonSearchBar(1,"Snippet query has been executed successfully.");
         }
         catch(err){
+            extension.showDevBoonSearchBar(1,"Something went wrong while execution of snippet query.");
             vscode.window.showErrorMessage(err.message);
         }
     }
@@ -308,7 +312,7 @@ export class QueryDocListener{
 	*/
 
     documentChanged(){
-        extension.showDevBoonSearchBar(0);
+        extension.showDevBoonSearchBar(0,"");
         // This is the part of the code where we format the event (encounter a ? xxx ? this will format and isolate
 		// query in 'line' and search for code snippets using query.
         let selectedText=this.getSelectedTextFromEditor();
@@ -338,30 +342,34 @@ export class QueryDocListener{
 
 
     async completionQuery(){
-        extension.showDevBoonSearchBar(0);
+        extension.showDevBoonSearchBar(0,"");
         
-        let selectedText=await this.getSelectedTextFromEditor(); //query
-        console.log("selectedText is");
-        console.log(selectedText);
-        // let array = this.extractQueryFromInsertion(selectedText[0],selectedText[1]);
-        let lang = await Searcher.findFileType(); //file type 
-        if(lang !== "python3" && lang!== "java"){
-            vscode.window.showErrorMessage("Completion Query works only on python and java code snippets");
-            return "";
+        try{
+            let selectedText=await this.getSelectedTextFromEditor(); //query
+            let lang = await Searcher.findFileType(); //file type 
+            if(lang !== "python3" && lang!== "java"){
+                extension.showDevBoonSearchBar(1,"Completion Query works only on python and java code snippets");
+                vscode.window.showErrorMessage("Completion Query works only on python and java code snippets");
+                return "";
+            }
+            let url = `http://127.0.0.1:6615/CompletionQuery/${lang}/${selectedText[0]}`;
+            const uriOptions = {
+                uri: url,
+                json: true,
+                gzip: true,
+            };
+
+            const searchResponse = await request.get(uriOptions);
+            console.log(searchResponse);
+
+            await QueryDocListener.writeOnVscodeEditor(searchResponse["snippets"]);
+
+            extension.showDevBoonSearchBar(1,"Completion Query has been executed successfully");
+        }catch(err){
+            extension.showDevBoonSearchBar(1,"Something went wrong while execution of completion query.");
+            vscode.window.showErrorMessage("Something Went Wrong!!!");
+            return;
         }
-        let url = `http://127.0.0.1:6615/CompletionQuery/${lang}/${selectedText[0]}`;
-        const uriOptions = {
-            uri: url,
-            json: true,
-            gzip: true,
-        };
-
-        const searchResponse = await request.get(uriOptions);
-        console.log(searchResponse);
-
-        await QueryDocListener.writeOnVscodeEditor(searchResponse["snippets"]);
-
-        extension.showDevBoonSearchBar(1);
         
     }
 };

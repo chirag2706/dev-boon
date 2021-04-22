@@ -82,17 +82,17 @@ async function check(context: vscode.ExtensionContext):Promise<string | undefine
  * @param x is a number which tells what type of action should be taken by sidebar
  * Funtion will show information on sidebar based on parameter @param x
  */
-export async function showDevBoonSearchBar(x:number){
+export async function showDevBoonSearchBar(x:number,message:string){
 	if(x==1){
 		if(sidebarProvider!==null && sidebarProvider!==undefined){
 			var passTheResult:description[]=new Array(1);
-			sidebarProvider.customResolveWebviewView(10,passTheResult);
+			sidebarProvider.customResolveWebviewView(10,passTheResult,message);
 		}
 	}
 	else{
 		if(sidebarProvider!==null && sidebarProvider!==undefined){
 			var passTheResult:description[]=new Array(1);
-			sidebarProvider.customResolveWebviewView(6,passTheResult);
+			sidebarProvider.customResolveWebviewView(6,passTheResult,message);
 		}
 	}
 	
@@ -193,6 +193,7 @@ export async function activate(context: vscode.ExtensionContext) {
 					terminalCapture(); //function which captures and monitors terminal
 				}
 				catch (err) {
+					// showDevBoonSearchBar(0);
 					return;
 				}
 			}
@@ -218,7 +219,7 @@ export async function activate(context: vscode.ExtensionContext) {
 				}
 			}
 			catch(err){
-				console.log("some bug came!");
+				showDevBoonSearchBar(1,"Something went wrong while execution of completion query.");
 				return;
 			}
 		});
@@ -245,6 +246,7 @@ export async function activate(context: vscode.ExtensionContext) {
 				}
 			}
 			catch(err){
+				showDevBoonSearchBar(1,"Something went wrong while execution of snippet query.");
 				return;
 			}
 		});

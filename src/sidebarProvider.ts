@@ -12,7 +12,7 @@ import {summary} from "./summary"
   }
 
 
-  function getWebviewContent(x:number,pass_the_result:description[]) {
+  function getWebviewContent(x:number,pass_the_result:description[],message:string) {
 
     //vscode.window.showInformationMessage("getWebviewContent function is called");
 
@@ -55,6 +55,7 @@ import {summary} from "./summary"
 				stck+=`<div>No Results Found ...</div>`;
 			}
 			else{
+        console.log("BUG FOUND");
 				for(num=0;num<min(5,pass_the_result.length);num++){
 					a=pass_the_result[num].ThumbnailURL;
 					b=pass_the_result[num].Title;
@@ -156,6 +157,7 @@ import {summary} from "./summary"
 	<div style="max-width:200px;"><img src="https://i.ibb.co/z7Bt1tN/bcg-white-dev-boon.png" alt="DEV BOON"></div>
 	</div>
 	</body>
+  <div style="margin-top:40px;"><h3>${message}</h3></div>
 	<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/js/bootstrap.bundle.min.js" integrity="sha384-b5kHyXgcpbZJO/tY9Ul7kGkf1S0CWuKcCD38l8YkeH8z8QjE0GmW1gYU5S9FOnJ0" crossorigin="anonymous"></script>
 	</html>`;
 }
@@ -181,7 +183,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
       localResourceRoots: [this._extensionUri],
     };
 
-    webviewView.webview.html = this._getHtmlForWebview(webviewView.webview,-1,[]);
+    webviewView.webview.html = this._getHtmlForWebview(webviewView.webview,-1,[],"");
 
     webviewView.webview.onDidReceiveMessage(async (data) => {
       switch (data.type) {
@@ -205,7 +207,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
     });
   }
 
-  public customResolveWebviewView(x:number,pass_the_result:description[]) {
+  public customResolveWebviewView(x:number,pass_the_result:description[],message:string) {
     //vscode.window.showErrorMessage("customResolveWebviewView function is called");
     // this._view = webviewView;
     if(this._view!==undefined){
@@ -216,7 +218,7 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
         localResourceRoots: [this._extensionUri],
       };
   
-      this._view.webview.html = this._getHtmlForWebview(this._view.webview,x,pass_the_result);
+      this._view.webview.html = this._getHtmlForWebview(this._view.webview,x,pass_the_result,message);
   
       this._view.webview.onDidReceiveMessage(async (data) => {
         switch (data.type) {
@@ -248,8 +250,8 @@ export class SidebarProvider implements vscode.WebviewViewProvider {
     this._view = panel;
   }
 
-  private _getHtmlForWebview(webview: vscode.Webview,x:number,pass_the_result:description[]) {
-    return getWebviewContent(x,pass_the_result);
+  private _getHtmlForWebview(webview: vscode.Webview,x:number,pass_the_result:description[],message:string) {
+    return getWebviewContent(x,pass_the_result,message);
   }
   public customResolveWebviewViewS(x:number,pass_the_result:summary) {
     //vscode.window.showErrorMessage("customResolveWebviewView function is called");
