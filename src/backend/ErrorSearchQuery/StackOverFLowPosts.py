@@ -1,12 +1,12 @@
-from CommentClassifier import Getpolarity
-from googlesearch import search
 import requests
 from bs4 import BeautifulSoup
 from textblob import TextBlob
 import statistics
 import json  
-from Summarizer import generate_summary
 from apiclient.discovery import build
+from .AnswerSummarizer import generate_summary_
+from .CommentClassifier import Getpolarity_Score
+
 
 def GetDisplayInformation(query):
     #Google CSE Api Information

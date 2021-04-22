@@ -343,6 +343,7 @@ export class QueryDocListener{
         let selectedText=await this.getSelectedTextFromEditor(); //query
         console.log("selectedText is");
         console.log(selectedText);
+        // let array = this.extractQueryFromInsertion(selectedText[0],selectedText[1]);
         let lang = await Searcher.findFileType(); //file type 
         if(lang !== "python3" && lang!== "java"){
             vscode.window.showErrorMessage("Completion Query works only on python and java code snippets");

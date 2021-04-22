@@ -15,7 +15,7 @@ from ErrorSearchQuery.StackOverFLowPosts import GetDisplayInformation
 #model_path indicates path where model is trained
 model_path = "model/gpt2_medium_fine_tuned_coder"
 max_length = 2560*2
-temperature = 0.7
+temperature = 0.5
 use_cuda = False #for now,we have used CPU to train models,Now, we will try to train much bigger models with more parameters and bigger dataset inorder to imporvise our model either using CUDA or some cloud service
 gptModelInteractionWithExtension = InteractWithGptModel(model_path,max_length,temperature,use_cuda,None,None)
 gptModelInteractionWithExtension.load_tokenizer()
@@ -269,7 +269,6 @@ api.add_resource(StackOverFlow_apiSearchUrl_Single,'/apiSearchUrl_Single/<encode
 api.add_resource(StackOverFlow_apiSearchUrl,'/apiSearchUrl/<encodedAPISearchTerm>/<encodedTagsString>')
 api.add_resource(StackOverFlow_stackoverflowSearchUrl,'/stackoverflowSearchUrl/<encodedWebSearchTerm>')
 api.add_resource(StackOverFlow_googleSearchUrl,'/googleSearchUrl/<encodedWebSearchTerm>')
-
 api.add_resource(Custom_StackOverFlowUrl,'/Custom_StackOverFlowUrl/<encodedSearchTerm>')
 
 
@@ -277,14 +276,10 @@ api.add_resource(Custom_StackOverFlowUrl,'/Custom_StackOverFlowUrl/<encodedSearc
 api.add_resource(YouTube,'/YouTube/<encodedWebSearchTerm>')
 api.add_resource(YouTube_youtubeSearchUrl,'/YouTube_youtubeSearchUrl/<encodedWebSearchTerm>')
 api.add_resource(YouTube_googleSearchUrl,'/YouTube_googleSearchUrl/<encodedWebSearchTerm>')
-
-
 api.add_resource(NlpToCode_googleSearchUrl,"/NlpToCode_googleSearchUrl/<key>/<cx>/<qry>/<num_urls>")
 api.add_resource(NlpToCode_snippet,"/NlpToCode_snippet/<address>")
 api.add_resource(NlpToCode_snippetGFG,"/NlpToCode_snippetGFG/<address>/<langType>")
-
 api.add_resource(Code_Summary,'/Code_Summary/<entire_code>')
-
 api.add_resource(CompletionQuery,"/CompletionQuery/<lang>/<query>")
 
 
