@@ -211,6 +211,10 @@ export class Searcher{
                 
             }
 
+            if(code.length === 0){
+                return [];
+            }
+
             code.sort(function(a:any, b:any){return (a["quality"]-b["quality"]);});
 
 
