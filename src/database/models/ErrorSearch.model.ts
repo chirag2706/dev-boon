@@ -1,3 +1,6 @@
+const mongoose = require('mongoose');
+const Schema = mongoose.Schema;
+
 /**
  *  Schema(Logical) of our database for Error and Search Query
  */

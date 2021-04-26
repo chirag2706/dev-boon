@@ -6,6 +6,7 @@ import {summary} from "./summary";
 import {difficultQueryQueue} from './difficult_query_queue';
 import {errorQuery} from './error_query';
 import {QueryDocListener} from './snippetQuery/QueryDocListener';
+const errorModel = require("./database/models/ErrorSearch.model");
 const mongoose = require('mongoose');
 //Devboon123
 let uri = "mongodb+srv://chirag2706:Devboon123@cluster0.ihmsp.mongodb.net/snippetQuery?retryWrites=true&w=majority";
@@ -353,6 +354,22 @@ function getSelectedTextFromEditor(): string|undefined{
 	return finalSelectedString;
 }
 
+
+async function isExists(query:string){
+	console.log(typeof query);
+	return await errorModel.findOne({ $or: [{ query: query}]}).then((ans:any)=>{
+		console.log("error query inside database is ");
+		// console.log(codeSnippet);
+		if(ans === undefined || ans === null){
+			console.log("bye");
+			
+			return [false,{}];
+		}
+		console.log(ans.ans);
+		return [true,ans.ans];
+	});
+}
+
 /**
  * 
  * @param selectedText 
@@ -387,6 +404,7 @@ async function runSearchingForStackOverFlowPosts(selectedText:string): Promise<v
     }
 
     var encodedTagsString = encodeURIComponent(tags.join(';'));
+	
     const encodedAPISearchTerm = encodeURIComponent(updatedSelectedText);
     const encodedWebSearchTerm = encodeURIComponent(selectedText);
 	console.log(encodedTagsString);
@@ -410,11 +428,29 @@ async function runSearchingForStackOverFlowPosts(selectedText:string): Promise<v
 			sidebarProvider.customResolveWebviewView(3,emptyArray);
 		}
 
-		console.log("Reached here...");
-        const sr = await request.get(uriOptions);
-		console.log("Completed here...");
+		let searchResponse = null;
+		let sr = null;
+		let result:any = await isExists(encodedAPISearchTerm);
+		console.log(result);
+		if(result[0]){
+			sr = result[1];
+			searchResponse = sr;
+		}else{
+			console.log("Reached here...");
+			sr = await request.get(uriOptions);
+			const errorModelObject = new errorModel({
+				query:encodedAPISearchTerm,
+				ans:JSON.parse(sr)
+			});
+			await errorModelObject.save(()=>{
+				console.log("Error query object saved successfully");
+			})
+			searchResponse = JSON.parse(sr);
+			console.log("Completed here...");
+		}
+        
 		//console.log(searchResponse.0);
-		let searchResponse = JSON.parse(sr);
+		
 		console.log(Object.keys(searchResponse).length);
 		var mm=5;
 		if(Object.keys(searchResponse).length<mm){
