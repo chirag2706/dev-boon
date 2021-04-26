@@ -10,6 +10,3 @@
         next = int(next % 10)
         gen += 1
     return gen
-
-
-

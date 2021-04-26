@@ -102,13 +102,13 @@ import {summary} from "./summary"
 		else if(x==2){
 			stck='<div style="max-width:200px;margin-top:40px;"><img src="https://1000logos.net/wp-content/uploads/2017/05/Youtube-Logo-500x313.png" alt="YOUTUBE"></div>';
 			stck+=`<button class="buttonload">
-			<i class="fa fa-refresh fa-spin"></i>
+			<i class="fa fa-refresh fa-spin" style="Margin-left:30px;"></i>
 		  </button>`;
 		}
 		else if(x==3){
 			stck='<div style="max-width:220px;margin-bottom:30px;margin-top:40px;"><img src="https://logos-download.com/wp-content/uploads/2019/01/Stack_Overflow_Logo-700x283.png" alt="StackOverFlow"/></div>'
 			stck+=`<button class="buttonload">
-			<i class="fa fa-refresh fa-spin"></i>
+			<i class="fa fa-refresh fa-spin" style="Margin-left:30px;"></i>
 		  </button>`;
 		}
 		else if(x==4){
@@ -122,7 +122,7 @@ import {summary} from "./summary"
     	else{
 			stck='<div style="max-width:200px;"><img src="https://i.ibb.co/z7Bt1tN/bcg-white-dev-boon.png" alt="DEV BOON"></div><div style="margin-top:40px;"><h3>Automatically generating a Code Snippet ...</h3></div>';
 			stck+=`<button class="buttonload">
-					<i class="fa fa-refresh fa-spin"></i>
+					<i class="fa fa-refresh fa-spin" style="Margin-left:30px;"></i>
 				</button>`;
 		}
 		return `<!DOCTYPE html>
