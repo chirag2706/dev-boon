@@ -1,0 +1,159 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.9.2" />
+<title>train API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>train</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">import argparse, os
+import logging
+&#34;&#34;&#34;
+This file contains python script inorder to fine-tune GPT-2-Large model based on taken dataset (Algorithms)
+&#34;&#34;&#34;
+logging.basicConfig(
+    format=logging.BASIC_FORMAT,
+    datefmt=&#39;%Y-%m-%d %H:%M:%S&#39;,
+    level=logging.INFO
+)
+logger = logging.getLogger(__name__)
+
+MODEL_MAP = {&#34;distilgpt2&#34;: &#34;distilgpt2&#34;, &#34;gpt2&#34;: &#34;gpt2&#34;, &#34;gpt2_medium&#34;: &#34;gpt2-medium&#34;,
+             &#34;gpt2_large&#34;: &#34;gpt2-large&#34;}
+
+from model import GPTSingleHead
+from trainer import ModelTrainer
+from data import SrcCodeDataset
+from evaluate import SingleCLMEvaluator
+
+if __name__ == &#39;__main__&#39;:
+    parser = argparse.ArgumentParser(description=&#39;Hyper params&#39;)
+    parser.add_argument(&#39;--model_select&#39;, type=str, default=&#34;distilgpt2&#34;,
+                        help=&#39;model select from distilgpt2, gpt2_medium, gpt2, or gpt2_large&#39;)
+    parser.add_argument(&#39;--dataset_name&#39;, type=str, default=&#34;source_code&#34;,
+                        help=&#39;dataset name whatever name you put into the ./dataset directory (by default: source_code)&#39;)
+    parser.add_argument(&#39;--per_gpu_train_batch_size&#39;, type=int, default=4,
+                        help=&#39;input batch size for training&#39;)
+    parser.add_argument(&#39;--dev_batch_size&#39;, type=int, default=8,
+                        help=&#39;input batch size for development&#39;)
+    parser.add_argument(&#39;--num_epochs_train&#39;, type=int, default=16,
+                        help=&#39;number of epochs to train&#39;)
+    parser.add_argument(&#39;--max_seq_length&#39;, type=int, default=256,
+                        help=&#39;maximum sequence length of samples in a batch for training&#39;)
+    parser.add_argument(&#39;--lr&#39;, type=float, default=2e-5,
+                        help=&#39;learning rate&#39;)
+    parser.add_argument(&#39;--warmup_ratio&#39;, type=float, default=0.2,
+                        help=&#39;warmup_ratio&#39;)
+    parser.add_argument(&#39;--early_stop&#39;, type=int, default=20,
+                        help=&#39;early_stop&#39;)
+    parser.add_argument(&#39;--scheduler&#39;, type=str, default=&#34;warmuplinear&#34;,
+                        help=&#39;scheduler&#39;)
+    parser.add_argument(&#39;--seed&#39;, type=int, default=122,
+                        help=&#39;random seed&#39;)
+    parser.add_argument(&#39;--accumulation_steps&#39;, type=int, default=1,
+                        help=&#39;accumulation steps if you want large batch size but can not fit in the memory allowed&#39;)
+    parser.add_argument(&#39;--n_gpu&#39;, type=int, default=1,
+                        help=&#39;number of gpu for training&#39;)
+    parser.add_argument(&#39;--visiable_device&#39;, type=str, default=&#34;0&#34;,
+                        help=&#39;visiable gpus for training, should be consistent with n_gpu&#39;)
+    parser.add_argument(&#39;--evaluation_steps&#39;, type=int, default=200,
+                        help=&#39;evaluation_steps&#39;)
+    parser.add_argument(&#39;--wandb_project_name&#39;, type=str, default=&#34;code_generate&#34;,
+                        help=&#39;project name for wandb&#39;)
+    parser.add_argument(
+        &#34;--restore_training&#34;, action=&#34;store_true&#34;, help=&#34;restore training if a saved checkopint exists&#34;
+    )
+    parser.add_argument(
+        &#34;--with_wandb&#34;, action=&#34;store_true&#34;, help=&#34;Train with wandb tracking.&#34;
+    )
+
+    args = parser.parse_args()
+    logger.info(f&#34;args: {args}&#34;)
+    dataset_folder = f&#34;dataset/{args.dataset_name}/json/&#34;
+    assert args.model_select in MODEL_MAP.keys(), (f&#34;model has to be in {MODEL_MAP.keys()}&#34;)
+    output_path = f&#34;model/{args.model_select}_fine_tuned_coder&#34;
+    logger.info(&#34;{} for dataset in: {}&#34;.format(output_path, dataset_folder))
+    logger.info(
+        f&#34;*****************model select: {args.model_select} for code generation using dataset: {args.dataset_name}******************&#34;)
+    # add more params for wandb
+    args.wandb_run_name = output_path
+    #initialize model by model name (the same as used in transformers lib)
+    model = GPTSingleHead(MODEL_MAP[args.model_select], max_seq_length=args.max_seq_length)
+    #add special tokens for controlling code generation by different programming language
+    model.add_special_words({&#34;pad_token&#34;: &#34;&lt;pad&gt;&#34;, &#34;additional_special_tokens&#34;: [&#34;&lt;python&gt;&#34;, &#34;&lt;java&gt;&#34;]})
+    #load training dataset
+    file_path = dataset_folder + &#34;train.jsonl&#34;
+    train_dataset = SrcCodeDataset(file_path, model, cache_path=os.path.join(&#34;.cache&#34;, output_path, &#34;train&#34;))
+    #load developlemt dataset
+    file_path = dataset_folder + &#34;dev.jsonl&#34;
+    dev_dataset = SrcCodeDataset(file_path, model, cache_path=os.path.join(&#34;.cache&#34;, output_path, &#34;dev&#34;))
+    # initialize development evaluator
+    dev_evaluator = SingleCLMEvaluator()
+    # initialize model trainer
+    model_trainer = ModelTrainer(model,
+                                 train_dataset=train_dataset,
+                                 dev_dataset=dev_dataset,
+                                 dev_evaluator=dev_evaluator,
+                                 scheduler=args.scheduler,
+                                 epochs=args.num_epochs_train,
+                                 per_gpu_train_batch_size=args.per_gpu_train_batch_size,
+                                 output_path=output_path,
+                                 optimizer_params={&#39;lr&#39;: args.lr, &#39;eps&#39;: 1e-6, &#39;correct_bias&#39;: False},
+                                 evaluation_steps=args.evaluation_steps,
+                                 early_stop=args.early_stop,
+                                 dev_batch_size=args.dev_batch_size,
+                                 restore_training=args.restore_training,
+                                 accumulation_steps=args.accumulation_steps,
+                                 n_gpu=args.n_gpu,
+                                 visiable_device=args.visiable_device,
+                                 warmup_ratio=args.warmup_ratio,
+                                 seed=args.seed,
+                                 data_loader_shuffle=True,
+                                 wandb_config=args if args.with_wandb else None)
+    #start training
+    model_trainer.train()</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.2</a>.</p>
+</footer>
+</body>
+</html>
