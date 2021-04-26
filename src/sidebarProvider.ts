@@ -36,7 +36,7 @@ import {summary} from "./summary"
 				c=pass_the_result[num].Description;
 				d=pass_the_result[num].Owner;
 				e=pass_the_result[num].Url;
-				stck+=`<div><div class="card" style="width:100%;max-width:200px;margin-bottom:5%;margin-top:5%;font-family:courier;" >
+				stck+=`<div><div class="card" style="width:100%;max-width:400px;margin-bottom:5%;margin-top:5%;font-family:courier;" >
 						<div class="card-body" style="padding:3% 3% 3% 3%;font-family:courier;">
 						<h5 class="card-title" ><p style="font-size:14px;font-family:courier;">${b}</p></h3>
 						<p class="card-text" style="font-size:12px;width:100%;font-family:courier;">${c}</p>
@@ -51,7 +51,7 @@ import {summary} from "./summary"
 			}
 		}
 		else if(x==0){
-      		stck='<div style="max-width:220px;margin-bottom:30px;margin-top:40px;"><img src="https://logos-download.com/wp-content/uploads/2019/01/Stack_Overflow_Logo-700x283.png" alt="StackOverFlow"/></div>';
+      		stck='<div style="max-width:400px;margin-bottom:30px;margin-top:40px;"><img src="https://logos-download.com/wp-content/uploads/2019/01/Stack_Overflow_Logo-700x283.png" alt="StackOverFlow"/></div>';
 			if(pass_the_result.length==0){
 				stck+=`<div>No Results Found ...</div>`;
 			}
@@ -62,7 +62,7 @@ import {summary} from "./summary"
 					c=pass_the_result[num].Description;
 					d=pass_the_result[num].Owner;
 					e=pass_the_result[num].Url;
-					stck+=`<div><div class="card" style="width:100%;max-width:180px;margin-bottom:5%;margin-top:5%;" >
+					stck+=`<div><div class="card" style="width:100%;max-width:400px;margin-bottom:5%;margin-top:5%;" >
 							<img src="https://jessehouwing.net/content/images/size/w2000/2018/07/stackoverflow-1.png" class="card-img-top" alt="..."/>
 							<div class="card-body" style="padding:3% 3% 3% 3%;">
 							<h5 class="card-title" ><p style="font-size:14px;">${b}</p></h3>
@@ -75,7 +75,7 @@ import {summary} from "./summary"
 			}
 		}
 		else if(x==1){
-			stck='<div style="max-width:200px;margin-top:40px;"><img src="https://1000logos.net/wp-content/uploads/2017/05/Youtube-Logo-500x313.png" alt="YOUTUBE"></div>';
+			stck='<div style="max-width:400px;margin-top:40px;"><img src="https://1000logos.net/wp-content/uploads/2017/05/Youtube-Logo-500x313.png" alt="YOUTUBE"></div>';
 			if(pass_the_result.length==0){
 				stck+=`<div>No Results Found ...</div>`;
 			}
@@ -87,7 +87,7 @@ import {summary} from "./summary"
 					c=pass_the_result[num].Description;
 					d=pass_the_result[num].Owner;
 					e=pass_the_result[num].Url;
-					stck+=`<div><div class="card" style="width:100%;max-width:180px;margin-bottom:5%;margin-top:5%;" >
+					stck+=`<div><div class="card" style="width:100%;max-width:400px;margin-bottom:5%;margin-top:5%;" >
 							<img class="card-img-top"  src="${a}" alt="YOUTUBE" >
 							<div class="card-body" style="padding:3% 3% 3% 3%;">
 							<h5 class="card-title" ><p style="font-size:14px;">${b}</p></h3>
@@ -100,27 +100,27 @@ import {summary} from "./summary"
 			}
 		}
 		else if(x==2){
-			stck='<div style="max-width:200px;margin-top:40px;"><img src="https://1000logos.net/wp-content/uploads/2017/05/Youtube-Logo-500x313.png" alt="YOUTUBE"></div>';
+			stck='<div style="max-width:400px;margin-top:40px;"><img src="https://1000logos.net/wp-content/uploads/2017/05/Youtube-Logo-500x313.png" alt="YOUTUBE"></div>';
 			stck+=`<button class="buttonload">
 			<i class="fa fa-refresh fa-spin"></i>
 		  </button>`;
 		}
 		else if(x==3){
-			stck='<div style="max-width:220px;margin-bottom:30px;margin-top:40px;"><img src="https://logos-download.com/wp-content/uploads/2019/01/Stack_Overflow_Logo-700x283.png" alt="StackOverFlow"/></div>'
+			stck='<div style="max-width:400px;margin-bottom:30px;margin-top:40px;"><img src="https://logos-download.com/wp-content/uploads/2019/01/Stack_Overflow_Logo-700x283.png" alt="StackOverFlow"/></div>'
 			stck+=`<button class="buttonload">
 			<i class="fa fa-refresh fa-spin"></i>
 		  </button>`;
 		}
 		else if(x==4){
-			stck='<div style="max-width:220px;margin-bottom:30px;margin-top:40px;"><img src="https://logos-download.com/wp-content/uploads/2019/01/Stack_Overflow_Logo-700x283.png" alt="StackOverFlow"/></div>'
+			stck='<div style="max-width:400px;margin-bottom:30px;margin-top:40px;"><img src="https://logos-download.com/wp-content/uploads/2019/01/Stack_Overflow_Logo-700x283.png" alt="StackOverFlow"/></div>'
 			stck+=`<div>No Results Found ...</div>`;
 		}
 		else if(x==5){
-			stck='<div style="max-width:200px;margin-top:40px;"><img src="https://1000logos.net/wp-content/uploads/2017/05/Youtube-Logo-500x313.png" alt="YOUTUBE"></div>';
+			stck='<div style="max-width:400px;margin-top:40px;"><img src="https://1000logos.net/wp-content/uploads/2017/05/Youtube-Logo-500x313.png" alt="YOUTUBE"></div>';
 			stck+=`<div>No Results Found ...</div>`;
 		}
     	else{
-			stck='<div style="max-width:200px;"><img src="https://i.ibb.co/z7Bt1tN/bcg-white-dev-boon.png" alt="DEV BOON"></div><div style="margin-top:40px;"><h3>Automatically generating a Code Snippet ...</h3></div>';
+			stck='<div style="max-width:400px;"><img src="https://i.ibb.co/z7Bt1tN/bcg-white-dev-boon.png" alt="DEV BOON"></div><div style="margin-top:40px;"><h3>Automatically generating a Code Snippet ...</h3></div>';
 			stck+=`<button class="buttonload">
 					<i class="fa fa-refresh fa-spin"></i>
 				</button>`;
@@ -226,7 +226,7 @@ import {summary} from "./summary"
 							<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous"
 					</head>
 					<body >
-						<div id = "MyCustom">
+						<div class = "testing">
 							${stck}
 						</div>
 					</body>
