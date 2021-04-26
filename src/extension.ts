@@ -168,20 +168,6 @@ export async function activate(context: vscode.ExtensionContext) {
 		/**
 		 * command to do code summarization
 		 */
-		let codeSmy = vscode.commands.registerCommand('dev-boon.CODE_SUMMARY', async () => {
-			if(isExtensionActivated === 1){
-				try {
-					codeSummary(); //function tries to do code summarization
-				}
-				catch (err) {
-					return;
-				}
-			}
-			else{
-				await check(context); //checks whether a extension is activated or not
-			}
-		});
-		context.subscriptions.push(codeSmy);
 
 
 		/**
@@ -576,32 +562,7 @@ async function customSearch(): Promise<void>{
 /**
  * Function which executes code Summary logic 
  */
-async function codeSummary(): Promise<void> {
-	var editor = vscode.window.activeTextEditor;
-	if (!editor) {
-		return; // No open text editor
-	}
-	var lines = editor.document;
-	var entireCode="";
-	for(var i=0;i<=lines.lineCount - 1;i++){
-		entireCode+=lines.lineAt(i).text.toString();
-		entireCode+="@NEWLINE@";
-	}
-	entireCode=entireCode.replace(/\//gi,"@BY@");
-	entireCode=entireCode.replace(/#/gi,"@HASH@");
-	const summ=`http://127.0.0.1:6615/Code_Summary/${entireCode}`;
-	const uriOptions = {
-        uri: summ,
-        json: true,
-        gzip: true,
-    };
-	var response = await request.get(uriOptions);
-	let sum = response.summary;
-	let x=new summary(sum);
-	if(sidebarProvider!==null && sidebarProvider!==undefined){
-		sidebarProvider.customResolveWebviewViewS(1,x);
-	}
-}
+
 
 var terminalData="";
 

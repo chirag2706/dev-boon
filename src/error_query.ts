@@ -1,10 +1,10 @@
-var operatorsToBeRemoved = {
+var operatorsToBeRemoved = {    // These are the operators that are to be removed 
     "\'":0,
     "\"":1,
     "\\":2,
     "\/":3
 };
-function replaceAll(operatorsToBeRemoved:Object ,line:string){
+function replaceAll(operatorsToBeRemoved:Object ,line:string){      
     let output:string = "";
     for(let idx = 0;idx<line.length;idx++){
         if(!(line[idx] in operatorsToBeRemoved)){
@@ -49,7 +49,7 @@ export class errorQuery{
             return finalParsedString;
         }
 
-
+        // Python regular expressions for errors...
         var Python_ModuleNotFoundError= new RegExp("ModuleNotFoundError"); // match[1]
         var Python_ImportError = new RegExp("ImportError"); // match[1]
 
