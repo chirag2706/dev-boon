@@ -1,0 +1,264 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.9.2" />
+<title>AnswerSummarizer API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>AnswerSummarizer</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">import nltk
+from nltk.corpus import stopwords
+from nltk.cluster.util import cosine_distance
+import numpy as np
+import networkx as nx
+ 
+def read_article(filedata):
+
+    article = filedata.split(&#34;.&#34;)
+    sentences = []
+
+    for sentence in article:
+        print(sentence)
+        sentences.append(sentence.replace(&#34;[^a-zA-Z]&#34;, &#34; &#34;).split(&#34; &#34;))
+    sentences.pop() 
+    
+    return sentences
+
+def sentence_similarity(sent1, sent2, stopwords=None):
+    if stopwords is None:
+        stopwords = []
+ 
+    sent1 = [w.lower() for w in sent1]
+    sent2 = [w.lower() for w in sent2]
+ 
+    all_words = list(set(sent1 + sent2))
+ 
+    vector1 = [0] * len(all_words)
+    vector2 = [0] * len(all_words)
+ 
+    # build the vector for the first sentence
+    for w in sent1:
+        if w in stopwords:
+            continue
+        vector1[all_words.index(w)] += 1
+ 
+    # build the vector for the second sentence
+    for w in sent2:
+        if w in stopwords:
+            continue
+        vector2[all_words.index(w)] += 1
+ 
+    return 1 - cosine_distance(vector1, vector2)
+ 
+def build_similarity_matrix(sentences, stop_words):
+    # Create an empty similarity matrix
+    similarity_matrix = np.zeros((len(sentences), len(sentences)))
+ 
+    for idx1 in range(len(sentences)):
+        for idx2 in range(len(sentences)):
+            if idx1 == idx2: #ignore if both are same sentences
+                continue 
+            similarity_matrix[idx1][idx2] = sentence_similarity(sentences[idx1], sentences[idx2], stop_words)
+
+    return similarity_matrix
+
+
+def generate_summary_(input_text, top_n=5):
+    nltk.download(&#34;stopwords&#34;)
+    stop_words = stopwords.words(&#39;english&#39;)
+    summarize_text = []
+
+    # Step 1 - Read text anc split it
+    sentences =  read_article(input_text)
+
+    # Step 2 - Generate Similary Martix across sentences
+    sentence_similarity_martix = build_similarity_matrix(sentences, stop_words)
+
+    # Step 3 - Rank sentences in similarity martix
+    sentence_similarity_graph = nx.from_numpy_array(sentence_similarity_martix)
+    scores = nx.pagerank(sentence_similarity_graph)
+
+    # Step 4 - Sort the rank and pick top sentences
+    ranked_sentence = sorted(((scores[i],s) for i,s in enumerate(sentences)), reverse=True)    
+    #print(&#34;Indexes of top ranked_sentence order are &#34;, ranked_sentence)    
+
+    for i in range(top_n):
+      summarize_text.append(&#34; &#34;.join(ranked_sentence[i][1]))
+
+    # Step 5 - Offcourse, output the summarize texr
+    #print(&#34;Summarize Text: \n&#34;, &#34;. &#34;.join(summarize_text))
+
+    return (&#34;. &#34;.join(summarize_text))</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="AnswerSummarizer.build_similarity_matrix"><code class="name flex">
+<span>def <span class="ident">build_similarity_matrix</span></span>(<span>sentences, stop_words)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def build_similarity_matrix(sentences, stop_words):
+    # Create an empty similarity matrix
+    similarity_matrix = np.zeros((len(sentences), len(sentences)))
+ 
+    for idx1 in range(len(sentences)):
+        for idx2 in range(len(sentences)):
+            if idx1 == idx2: #ignore if both are same sentences
+                continue 
+            similarity_matrix[idx1][idx2] = sentence_similarity(sentences[idx1], sentences[idx2], stop_words)
+
+    return similarity_matrix</code></pre>
+</details>
+</dd>
+<dt id="AnswerSummarizer.generate_summary_"><code class="name flex">
+<span>def <span class="ident">generate_summary_</span></span>(<span>input_text, top_n=5)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def generate_summary_(input_text, top_n=5):
+    nltk.download(&#34;stopwords&#34;)
+    stop_words = stopwords.words(&#39;english&#39;)
+    summarize_text = []
+
+    # Step 1 - Read text anc split it
+    sentences =  read_article(input_text)
+
+    # Step 2 - Generate Similary Martix across sentences
+    sentence_similarity_martix = build_similarity_matrix(sentences, stop_words)
+
+    # Step 3 - Rank sentences in similarity martix
+    sentence_similarity_graph = nx.from_numpy_array(sentence_similarity_martix)
+    scores = nx.pagerank(sentence_similarity_graph)
+
+    # Step 4 - Sort the rank and pick top sentences
+    ranked_sentence = sorted(((scores[i],s) for i,s in enumerate(sentences)), reverse=True)    
+    #print(&#34;Indexes of top ranked_sentence order are &#34;, ranked_sentence)    
+
+    for i in range(top_n):
+      summarize_text.append(&#34; &#34;.join(ranked_sentence[i][1]))
+
+    # Step 5 - Offcourse, output the summarize texr
+    #print(&#34;Summarize Text: \n&#34;, &#34;. &#34;.join(summarize_text))
+
+    return (&#34;. &#34;.join(summarize_text))</code></pre>
+</details>
+</dd>
+<dt id="AnswerSummarizer.read_article"><code class="name flex">
+<span>def <span class="ident">read_article</span></span>(<span>filedata)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def read_article(filedata):
+
+    article = filedata.split(&#34;.&#34;)
+    sentences = []
+
+    for sentence in article:
+        print(sentence)
+        sentences.append(sentence.replace(&#34;[^a-zA-Z]&#34;, &#34; &#34;).split(&#34; &#34;))
+    sentences.pop() 
+    
+    return sentences</code></pre>
+</details>
+</dd>
+<dt id="AnswerSummarizer.sentence_similarity"><code class="name flex">
+<span>def <span class="ident">sentence_similarity</span></span>(<span>sent1, sent2, stopwords=None)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def sentence_similarity(sent1, sent2, stopwords=None):
+    if stopwords is None:
+        stopwords = []
+ 
+    sent1 = [w.lower() for w in sent1]
+    sent2 = [w.lower() for w in sent2]
+ 
+    all_words = list(set(sent1 + sent2))
+ 
+    vector1 = [0] * len(all_words)
+    vector2 = [0] * len(all_words)
+ 
+    # build the vector for the first sentence
+    for w in sent1:
+        if w in stopwords:
+            continue
+        vector1[all_words.index(w)] += 1
+ 
+    # build the vector for the second sentence
+    for w in sent2:
+        if w in stopwords:
+            continue
+        vector2[all_words.index(w)] += 1
+ 
+    return 1 - cosine_distance(vector1, vector2)</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="AnswerSummarizer.build_similarity_matrix" href="#AnswerSummarizer.build_similarity_matrix">build_similarity_matrix</a></code></li>
+<li><code><a title="AnswerSummarizer.generate_summary_" href="#AnswerSummarizer.generate_summary_">generate_summary_</a></code></li>
+<li><code><a title="AnswerSummarizer.read_article" href="#AnswerSummarizer.read_article">read_article</a></code></li>
+<li><code><a title="AnswerSummarizer.sentence_similarity" href="#AnswerSummarizer.sentence_similarity">sentence_similarity</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.2</a>.</p>
+</footer>
+</body>
+</html>
