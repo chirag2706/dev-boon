@@ -42,7 +42,7 @@ class YouTube(Resource):
 
 
 # This class basically helps to fetch website links of stackoverflow and geeksforgeeks based on query
-class NlpToCode_googleSearchUrl(Resource):
+class NlpToCodeGoogleSearchUrl(Resource):
     def get(self,key,cx,qry,num_urls):
         num_urls = str(num_urls)
         # The url is structured to do a custom search which only looks at StackOverflow and GeeksForGeeks sites.
@@ -54,7 +54,7 @@ class NlpToCode_googleSearchUrl(Resource):
         return output
 
 # This class basically tells logic on how snippets are extracted from stackoverflow website based on query and programming language
-class NlpToCode_snippet(Resource):
+class NlpToCodeSnippetStackOverFlow(Resource):
     def get(self,address):
         try:
             stackoverflowUrl = "https://"+self.replaceAll(address,"$",'/')
@@ -103,7 +103,7 @@ class NlpToCode_snippet(Resource):
 
 
 # This class basically tells logic on how snippets are extracted from geeksforgeeks website based on query and programming language
-class NlpToCode_snippetGFG(Resource):
+class NlpToCodeSnippetGFG(Resource):
     def get(self,address,langType):
         try:
             # gfgUrl = "https://"+self.replaceAll(address,"$",'/')
@@ -218,10 +218,9 @@ class ErrorAndSearchQuery(Resource):
 
 api.add_resource(ErrorAndSearchQuery,'/Custom_StackOverFlowUrl/<encodedSearchTerm>')
 api.add_resource(YouTube,'/YouTube/<encodedWebSearchTerm>')
-api.add_resource(NlpToCode_googleSearchUrl,"/NlpToCode_googleSearchUrl/<key>/<cx>/<qry>/<num_urls>")
-api.add_resource(NlpToCode_snippet,"/NlpToCode_snippet/<address>")
-api.add_resource(NlpToCode_snippetGFG,"/NlpToCode_snippetGFG/<address>/<langType>")
-
+api.add_resource(NlpToCodeGoogleSearchUrl,"/NlpToCode_googleSearchUrl/<key>/<cx>/<qry>/<num_urls>")
+api.add_resource(NlpToCodeSnippetStackOverFlow,"/NlpToCode_snippet/<address>")
+api.add_resource(NlpToCodeSnippetGFG,"/NlpToCode_snippetGFG/<address>/<langType>")
 api.add_resource(CompletionQuery,"/CompletionQuery/<lang>/<query>")
 
 
