@@ -24,7 +24,7 @@ import {summary} from "./summary"
     var d:string;
     var e:string;
 	if(x==0 || x==1 || x==2 || x==3 || x==4 || x==5 || x==6 || x==7 || x==8){
-		if(x==7){
+		if(x==7){	// This case is for error query where code is shown
 			stck='<div style="max-width:220px;margin-bottom:30px;margin-top:40px;font-family:courier;"><img src="https://logos-download.com/wp-content/uploads/2019/01/Stack_Overflow_Logo-700x283.png" alt="StackOverFlow"/></div>';
 			if(pass_the_result.length==0){
 				stck+=`<div style="font-family:courier;">No Results Found ...</div>`;
@@ -50,7 +50,7 @@ import {summary} from "./summary"
 				}
 			}
 		}
-		else if(x==0){
+		else if(x==0){	// This case is for cases, where there are no results found to be displayed
       		stck='<div style="max-width:400px;margin-bottom:30px;margin-top:40px;"><img src="https://logos-download.com/wp-content/uploads/2019/01/Stack_Overflow_Logo-700x283.png" alt="StackOverFlow"/></div>';
 			if(pass_the_result.length==0){
 				stck+=`<div>No Results Found ...</div>`;
@@ -74,7 +74,7 @@ import {summary} from "./summary"
 				}
 			}
 		}
-		else if(x==1){
+		else if(x==1){	// This case is for cases, where there are no results found to be displayed
 			stck='<div style="max-width:400px;margin-top:40px;"><img src="https://1000logos.net/wp-content/uploads/2017/05/Youtube-Logo-500x313.png" alt="YOUTUBE"></div>';
 			if(pass_the_result.length==0){
 				stck+=`<div>No Results Found ...</div>`;
@@ -99,27 +99,27 @@ import {summary} from "./summary"
 				}
 			}
 		}
-		else if(x==2){
+		else if(x==2){		// This case is for cases, where we are loading from youtube
 			stck='<div style="max-width:400px;margin-top:40px;"><img src="https://1000logos.net/wp-content/uploads/2017/05/Youtube-Logo-500x313.png" alt="YOUTUBE"></div>';
 			stck+=`<button class="buttonload">
 			<i class="fa fa-refresh fa-spin" style="Margin-left:30px;"></i>
 		  </button>`;
 		}
-		else if(x==3){
+		else if(x==3){		// This case is for cases, where we are loading from stackoverflow
 			stck='<div style="max-width:400px;margin-bottom:30px;margin-top:40px;"><img src="https://logos-download.com/wp-content/uploads/2019/01/Stack_Overflow_Logo-700x283.png" alt="StackOverFlow"/></div>'
 			stck+=`<button class="buttonload">
 			<i class="fa fa-refresh fa-spin" style="Margin-left:30px;"></i>
 		  </button>`;
 		}
-		else if(x==4){
+		else if(x==4){		// This case is for cases, where there are no results from stackoverflow
 			stck='<div style="max-width:400px;margin-bottom:30px;margin-top:40px;"><img src="https://logos-download.com/wp-content/uploads/2019/01/Stack_Overflow_Logo-700x283.png" alt="StackOverFlow"/></div>'
 			stck+=`<div>No Results Found ...</div>`;
 		}
-		else if(x==5){
+		else if(x==5){			// This case is for cases, where we are loading from youtube
 			stck='<div style="max-width:400px;margin-top:40px;"><img src="https://1000logos.net/wp-content/uploads/2017/05/Youtube-Logo-500x313.png" alt="YOUTUBE"></div>';
 			stck+=`<div>No Results Found ...</div>`;
 		}
-    	else{
+    	else{		// else
 			stck='<div style="max-width:400px;"><img src="https://i.ibb.co/z7Bt1tN/bcg-white-dev-boon.png" alt="DEV BOON"></div><div style="margin-top:40px;"><h3>Automatically generating a Code Snippet ...</h3></div>';
 			stck+=`<button class="buttonload">
 					<i class="fa fa-refresh fa-spin"></i>
@@ -226,11 +226,7 @@ import {summary} from "./summary"
 							<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.0-beta2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-BmbxuPwQa2lc/FVzBcNJ7UAyJxM6wuqIj61tLrc4wSX0szH/Ev+nYRRuWlolflfl" crossorigin="anonymous"
 					</head>
 					<body >
-<<<<<<< HEAD
-						<div id = "MyCustom">
-=======
 						<div class = "testing">
->>>>>>> 244d46282cdf481f2bd58fb4cb94a43176e51b55
 							${stck}
 						</div>
 					</body>
