@@ -22,7 +22,6 @@
 		"onCommand:dev-boon.CUSTOM_SEARCH",
 		"onCommand:dev-boon.YOUTUBE_SEARCH_WITH_SELECTED_TEXT_USING_PROMPT",
 		"onCommand:dev-boon.NLP_TO_CODE",
-		"onCommand:dev-boon.CODE_SUMMARY",
 		"onCommand:dev-boon.ERROR_QUERY",
 		"onCommand:dev-boon.COMPLETION_QUERY",
 		"onView:dev-boon-sidebar"
@@ -86,11 +85,7 @@
 				"category": "dev-boon",
 				"title": "Search using prompt"
 			},
-			{
-				"command": "dev-boon.CODE_SUMMARY",
-				"category": "dev-boon",
-				"title": "code summary"
-			},
+			
 			{
 				"command": "dev-boon.ERROR_QUERY",
 				"category": "dev-boon",
@@ -121,10 +116,6 @@
 			{
 				"command": "dev-boon.CUSTOM_SEARCH",
 				"key": "ctrl+shift+q"
-			},
-			{
-				"command": "dev-boon.CODE_SUMMARY",
-				"key": "ctrl+shift+c"
 			},
 			{
 				"command": "dev-boon.ACTIVATE_EXTENSION",

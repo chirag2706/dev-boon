@@ -41,11 +41,6 @@ class YouTube(Resource):
 
 
 
-#this class tries to summarize code
-class Code_Summary(Resource):
-    def get(self,entire_code):
-        return jsonify({'summary':entire_code})
-
 # This class basically helps to fetch website links of stackoverflow and geeksforgeeks based on query
 class NlpToCode_googleSearchUrl(Resource):
     def get(self,key,cx,qry,num_urls):
@@ -212,7 +207,7 @@ class CompletionQuery(Resource):
             
 
 #this class executes error query logic using get request
-class Custom_StackOverFlowUrl(Resource):
+class ErrorAndSearchQuery(Resource):
     def get(self,encodedSearchTerm):
         return_dict=GetDisplayInformation(encodedSearchTerm)
         return return_dict
@@ -221,12 +216,12 @@ class Custom_StackOverFlowUrl(Resource):
 
 #The below code tells that which calls should be called based on given URL.
 
-api.add_resource(Custom_StackOverFlowUrl,'/Custom_StackOverFlowUrl/<encodedSearchTerm>')
+api.add_resource(ErrorAndSearchQuery,'/Custom_StackOverFlowUrl/<encodedSearchTerm>')
 api.add_resource(YouTube,'/YouTube/<encodedWebSearchTerm>')
 api.add_resource(NlpToCode_googleSearchUrl,"/NlpToCode_googleSearchUrl/<key>/<cx>/<qry>/<num_urls>")
 api.add_resource(NlpToCode_snippet,"/NlpToCode_snippet/<address>")
 api.add_resource(NlpToCode_snippetGFG,"/NlpToCode_snippetGFG/<address>/<langType>")
-api.add_resource(Code_Summary,'/Code_Summary/<entire_code>')
+
 api.add_resource(CompletionQuery,"/CompletionQuery/<lang>/<query>")
 
 

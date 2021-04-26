@@ -9,6 +9,9 @@ from .CommentClassifier import Getpolarity_Score
 
 
 def GetDisplayInformation(query):
+    
+
+
     #Google CSE Api Information
     
     api_key="AIzaSyAkSpqRYUzIX19c05nACM4EMbuDRU-hwmw"
@@ -47,6 +50,11 @@ def GetDisplayInformation(query):
     everything=[]
 
     for link in req_links:
+
+        # If Link is present in data base
+        # Then store
+
+
         print(link)
 
         try:
@@ -495,11 +503,11 @@ def GetDisplayInformation(query):
     s=0
     for k in answ.keys():
         score[k]+=s
-        s+=150
+        s+=100
     s=0
     for k in codw.keys():
         score[k]+=s
-        s+=150
+        s+=100
 
     s=0
     for k in ans_rep.keys():
