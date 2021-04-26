@@ -1,3 +1,0 @@
-def factorial(n):
-     
-

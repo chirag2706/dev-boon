@@ -31,41 +31,7 @@ print("=========================MODEL LOADED SUCCESSFULLY=======================
 app = Flask(__name__)
 api = Api(app)
 
-
-class StackOverFlow_apiSearchUrl_Single(Resource):
-    def get(self,encodedAPISearchTerm):
-        stackoverflowApiKey = 'Y3TeIyyVjpbz**icfv1oVg(('
-        encodedTagsString=''
-        apiSearchUrl = "https://api.stackexchange.com/2.2/search?order=desc&sort=relevance&intitle={encodedAPISearchTerm}&tagged={encodedTagsString}&site=stackoverflow&key={stackoverflowApiKey}".format(encodedAPISearchTerm=encodedAPISearchTerm,encodedTagsString=encodedTagsString,stackoverflowApiKey=stackoverflowApiKey)
-        print(apiSearchUrl)
-        resp = requests.get(apiSearchUrl)
-        return resp.json()
-
-
-class StackOverFlow_apiSearchUrl(Resource):
-    def get(self,encodedAPISearchTerm,encodedTagsString):
-        stackoverflowApiKey = 'Y3TeIyyVjpbz**icfv1oVg(('
-        apiSearchUrl = "https://api.stackexchange.com/2.2/search?order=desc&sort=relevance&intitle={encodedAPISearchTerm}&tagged={encodedTagsString}&site=stackoverflow&key={stackoverflowApiKey}".format(encodedAPISearchTerm=encodedAPISearchTerm,encodedTagsString=encodedTagsString,stackoverflowApiKey=stackoverflowApiKey)
-        resp = requests.get(apiSearchUrl)
-        return resp.json()
-
-
-
-class StackOverFlow_stackoverflowSearchUrl(Resource):
-    def get(self,encodedWebSearchTerm):
-        stackoverflowSearchUrl = "https://stackoverflow.com/search?q={encodedWebSearchTerm}".format(encodedWebSearchTerm=encodedWebSearchTerm)
-        resp = requests.get(stackoverflowSearchUrl)
-        return resp.json()
-
-
-
-class StackOverFlow_googleSearchUrl(Resource):
-    def get(self,encodedWebSearchTerm):
-        googleSearchUrl = "https://www.google.com/search?q={encodedWebSearchTerm}".format(encodedWebSearchTerm=encodedWebSearchTerm)
-        resp = requests.get(googleSearchUrl)
-        return resp.json()
-
-
+# class which is called in order to make get request to fetch stackoverflow posts based on query
 class YouTube(Resource):
     def get(self,encodedWebSearchTerm):
         api_key_="AIzaSyCy8jgQFIVEq2qLBdZMSaHQOiDGAggQTeQ"
@@ -74,29 +40,17 @@ class YouTube(Resource):
         return jsonify(r)
 
 
-class YouTube_youtubeSearchUrl(Resource):
-    def get(self,encodedWebSearchTerm):
-        googleSearchUrl = "https://www.youtube.com/results?search_query={encodedWebSearchTerm}".format(encodedWebSearchTerm=encodedWebSearchTerm)
-        resp = requests.get(googleSearchUrl)        
-        return resp.json()
 
-
-class YouTube_googleSearchUrl(Resource):
-    def get(self,encodedWebSearchTerm):
-        googleSearchUrl = "https://www.google.com/search?q={encodedWebSearchTerm}".format(encodedWebSearchTerm=encodedWebSearchTerm)
-        resp = requests.get(googleSearchUrl)        
-        return resp.json()
-
-
+#this class tries to summarize code
 class Code_Summary(Resource):
     def get(self,entire_code):
         return jsonify({'summary':entire_code})
 
-
+# This class basically helps to fetch website links of stackoverflow and geeksforgeeks based on query
 class NlpToCode_googleSearchUrl(Resource):
     def get(self,key,cx,qry,num_urls):
         num_urls = str(num_urls)
-        # The url is structured to do a custom search which only looks at StackOverflow sites.
+        # The url is structured to do a custom search which only looks at StackOverflow and GeeksForGeeks sites.
         googleSearchUrl = "https://www.googleapis.com/customsearch/v1?key=" + key + "&cx=" + cx + "&q="+ qry + "&alt=json" + "&num="+num_urls
         resp = requests.get(googleSearchUrl)
         output = resp.json()
@@ -104,7 +58,7 @@ class NlpToCode_googleSearchUrl(Resource):
 
         return output
 
-
+# This class basically tells logic on how snippets are extracted from stackoverflow website based on query and programming language
 class NlpToCode_snippet(Resource):
     def get(self,address):
         try:
@@ -153,6 +107,7 @@ class NlpToCode_snippet(Resource):
         return out
 
 
+# This class basically tells logic on how snippets are extracted from geeksforgeeks website based on query and programming language
 class NlpToCode_snippetGFG(Resource):
     def get(self,address,langType):
         try:
@@ -256,7 +211,7 @@ class CompletionQuery(Resource):
         #     return {"snippets":"Some error occured in completion query"}
             
 
-
+#this class executes error query logic using get request
 class Custom_StackOverFlowUrl(Resource):
     def get(self,encodedSearchTerm):
         return_dict=GetDisplayInformation(encodedSearchTerm)
@@ -264,18 +219,10 @@ class Custom_StackOverFlowUrl(Resource):
 
     
 
+#The below code tells that which calls should be called based on given URL.
 
-api.add_resource(StackOverFlow_apiSearchUrl_Single,'/apiSearchUrl_Single/<encodedAPISearchTerm>')
-api.add_resource(StackOverFlow_apiSearchUrl,'/apiSearchUrl/<encodedAPISearchTerm>/<encodedTagsString>')
-api.add_resource(StackOverFlow_stackoverflowSearchUrl,'/stackoverflowSearchUrl/<encodedWebSearchTerm>')
-api.add_resource(StackOverFlow_googleSearchUrl,'/googleSearchUrl/<encodedWebSearchTerm>')
 api.add_resource(Custom_StackOverFlowUrl,'/Custom_StackOverFlowUrl/<encodedSearchTerm>')
-
-
-
 api.add_resource(YouTube,'/YouTube/<encodedWebSearchTerm>')
-api.add_resource(YouTube_youtubeSearchUrl,'/YouTube_youtubeSearchUrl/<encodedWebSearchTerm>')
-api.add_resource(YouTube_googleSearchUrl,'/YouTube_googleSearchUrl/<encodedWebSearchTerm>')
 api.add_resource(NlpToCode_googleSearchUrl,"/NlpToCode_googleSearchUrl/<key>/<cx>/<qry>/<num_urls>")
 api.add_resource(NlpToCode_snippet,"/NlpToCode_snippet/<address>")
 api.add_resource(NlpToCode_snippetGFG,"/NlpToCode_snippetGFG/<address>/<langType>")
@@ -286,4 +233,5 @@ api.add_resource(CompletionQuery,"/CompletionQuery/<lang>/<query>")
 
 
 if __name__ == '__main__':
-     app.run(port='6615')
+    #app is running of port 6615
+    app.run(port='6615')

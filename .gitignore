@@ -14,3 +14,4 @@ src/backend/model
 src/backend/__pycache__/
 src/backend/completionQuery/__pycache__/
 src/backend/__pycache__/interact.cpython-38.pyc
+src/backend/ErrorSearchQuery/__pycache__

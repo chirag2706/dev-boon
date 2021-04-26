@@ -19,6 +19,7 @@ if __name__ == '__main__':
     paths = ['Python', 'Java']
     segments = {}
 
+    # The logic is to traverse each and every file of Python and  Java directories and segment each code
     for path in paths:
         source_files = glob.glob(f'{path}/**/*.py' if path == "Python" else f'{path}/**/*.java', recursive=True)
         for each_src in tqdm(source_files):
@@ -31,6 +32,7 @@ if __name__ == '__main__':
                         segments[path] = []
                     segments[path].append(json.dumps({"token_ids": seg, "label": path}))
 
+    #splitting of dataset into training dataset and dev dataset
     train, dev = [], []
     for key in segments:
         # we don't shuffle before splitting because we want the train and dev to be very different (less overlapping)
