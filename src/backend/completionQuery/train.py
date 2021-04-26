@@ -1,6 +1,8 @@
 import argparse, os
 import logging
-
+"""
+This file contains python script inorder to fine-tune GPT-2-Large model based on taken dataset (Algorithms)
+"""
 logging.basicConfig(
     format=logging.BASIC_FORMAT,
     datefmt='%Y-%m-%d %H:%M:%S',

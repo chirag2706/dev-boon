@@ -1,6 +1,8 @@
 from transformers import GPT2LMHeadModel, GPT2Tokenizer
 import argparse
-
+"""
+This file contains python script inorder to test completionQuery model on given query
+"""
 if __name__ == '__main__':
 
     parser = argparse.ArgumentParser(description='Params')

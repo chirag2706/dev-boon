@@ -11,6 +11,10 @@ logging.basicConfig(
 )
 logger = logging.getLogger(__name__)
 
+
+"""
+Class which tries to class loss and perplexity in order to check evaluation of model
+"""
 class SingleCLMEvaluator():
     def __init__(self, dataloader: DataLoader = None,
                  data_tag: str = "dev",
