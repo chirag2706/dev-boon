@@ -1,10 +1,10 @@
-// const mongoose = require('mongoose');
-// const Schema = mongoose.Schema;
+const mongoose_ = require('mongoose');
+const Schema_ = mongoose_.Schema;
 
 /**
  *  Schema(Logical) of our database for Error and Search Query
  */
-const ErrorSearchScheme = new Schema(
+const ErrorSearchScheme = new Schema_(
   {
     query:{type:String,required:true},
     ans:{
@@ -14,7 +14,7 @@ const ErrorSearchScheme = new Schema(
   }
 );
 
-const ErrorSearch = mongoose.model('ErrorSearch', ErrorSearchScheme);
+const ErrorSearch = mongoose_.model('ErrorSearch', ErrorSearchScheme);
 
 module.exports = ErrorSearch;
 
