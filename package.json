@@ -85,6 +85,7 @@
 				"category": "dev-boon",
 				"title": "Search using prompt"
 			},
+			
 			{
 				"command": "dev-boon.ERROR_QUERY",
 				"category": "dev-boon",
