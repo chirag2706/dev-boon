@@ -298,7 +298,7 @@ def GetDisplayInformation(query):
                     cc=cc.text
                     comments.append(cc)
                     #print(cc)
-                    score+=Getpolarity(cc)
+                    score+=Getpolarity_Score(cc)
                 score/=num
 
                 accanswer["Comments"]=score
@@ -413,7 +413,7 @@ def GetDisplayInformation(query):
                         comments.append(cc)
                         #print(cc)
                         num+=1
-                        score+=Getpolarity(cc)
+                        score+=Getpolarity_Score(cc)
                     score/=num
                     a["Comments"]=score
                 except:
@@ -535,8 +535,8 @@ def GetDisplayInformation(query):
             #print("********************************************")
             #print(everything[k]["accepted_answer"]["AnswerText"])
             try:
-                #print(generate_summary(everything[k]["accepted_answer"]["AnswerText"]))
-                x["AnswerText"]=generate_summary(everything[k]["accepted_answer"]["AnswerText"])
+                #print(generate_summary_(everything[k]["accepted_answer"]["AnswerText"]))
+                x["AnswerText"]=generate_summary_(everything[k]["accepted_answer"]["AnswerText"])
             except:
                 #print(everything[k]["accepted_answer"]["AnswerText"])
                 x["AnswerText"]=everything[k]["accepted_answer"]["AnswerText"]
