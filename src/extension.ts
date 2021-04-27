@@ -6,6 +6,7 @@ import {summary} from "./summary";
 import {difficultQueryQueue} from './difficult_query_queue';
 import {errorQuery} from './error_query';
 import {QueryDocListener} from './snippetQuery/QueryDocListener';
+const errorModel = require("./database/models/ErrorSearch.model");
 const mongoose = require('mongoose');
 //Devboon123
 let uri = "mongodb+srv://chirag2706:Devboon123@cluster0.ihmsp.mongodb.net/snippetQuery?retryWrites=true&w=majority";
@@ -354,97 +355,20 @@ function getSelectedTextFromEditor(): string|undefined{
 }
 
 
-/**
- * 
- * @param selectedText 
- * Function which searches stackoverflowposts based on @param selectedText
- */
-// async function _runSearchingForStackOverFlowPosts(selectedText:string): Promise<void>{
-// 	if(!selectedText || selectedText.trim() === ""){
-// 		return;
-// 	}
-// 	selectedText = selectedText.trim();
-//     vscode.window.showInformationMessage(`Initiated a StackOverFlow search with \"[${selectedText}]\" query`);
-
-// 	let tags: string[] = [];
-// 	let tagsMatch;
-// 	let updatedSelectedText = selectedText;
-
-// 	while ((tagsMatch = regex.exec(updatedSelectedText)) !== null) {
-//         // This is necessary to avoid infinite loops with zero-width matches
-//         if (tagsMatch.index === regex.lastIndex) {
-//             regex.lastIndex++;
-//         }
-        
-//         // The result can be accessed through the `m`-variable.
-//         tagsMatch.forEach((match, groupIndex) => {
-//             if(groupIndex === 0) { // full match without group for replace
-//                 updatedSelectedText = updatedSelectedText.replace(match, "").trim();
-//             } else if(groupIndex === 1) { // not a full match
-//                 tags.push(match);
-//             }
-//         }); 
-//     }
-//     var encodedTagsString = encodeURIComponent(tags.join(';'));
-//     const encodedAPISearchTerm = encodeURIComponent(updatedSelectedText);
-//     const encodedWebSearchTerm = encodeURIComponent(selectedText);
-
-// 	var apiSearchUrl;
-// 	if(encodedTagsString.length>0){
-//     	apiSearchUrl = `http://127.0.0.1:6615/apiSearchUrl/${encodedAPISearchTerm}/${encodedTagsString}`;
-// 	}
-// 	else{
-// 		apiSearchUrl = `http://127.0.0.1:6615/apiSearchUrl_Single/${encodedAPISearchTerm}`
-// 	}
-// 	// const stackoverflowSearchUrl = `http://127.0.0.1:6615/stackoverflowSearchUrl/${encodedWebSearchTerm}`;
-//     // const googleSearchUrl = `http://127.0.0.1:6615/googleSearchUrl/${encodedWebSearchTerm}`;
-//     const uriOptions = {
-//         uri: apiSearchUrl,
-//         json: true,
-//         gzip: true,
-//     };
-
-//     try {
-
-// 		var emptyArray:description[]=new Array(10);
-
-// 		if(sidebarProvider!==null && sidebarProvider!==undefined){
-// 			sidebarProvider.customResolveWebviewView(3,emptyArray);
-// 		}
-
-//         const searchResponse = await request.get(uriOptions); //api call
-
-		
-//         if (searchResponse.items && searchResponse.items.length > 0) {
-//             var passTheResult:description[]=new Array(10);
-// 			var count:number=0;
-//             searchResponse.items.forEach((q: any, i: any) => {
-// 				if(count<10){
-// 					passTheResult[count]=new description(q.title,q.tags.join(','),q.owner.display_name,q.link,"");
-// 					count=count+1;
-// 				}
-//             });
-// 			if(sidebarProvider === undefined || sidebarProvider === null){
-// 				return;
-// 			}
-// 			if(sidebarProvider!==null && sidebarProvider!==undefined){
-// 				sidebarProvider.customResolveWebviewView(0,passTheResult);
-// 			}
-//         }
-// 		else{
-// 			var passTheResult:description[]=new Array(10);
-// 			if(sidebarProvider!==null && sidebarProvider!==undefined){
-// 				sidebarProvider.customResolveWebviewView(4,passTheResult);
-// 			}
-// 		}
-//     } 
-// 	catch (error) {
-// 		var passTheResult:description[]=new Array(10);
-//         if(sidebarProvider!==null && sidebarProvider!==undefined){
-// 			sidebarProvider.customResolveWebviewView(4,passTheResult);
-// 		}
-//     }
-// }
+async function isExists(query:string){
+	console.log(typeof query);
+	return await errorModel.findOne({ $or: [{ query: query}]}).then((ans:any)=>{
+		console.log("error query inside database is ");
+		// console.log(codeSnippet);
+		if(ans === undefined || ans === null){
+			console.log("bye");
+			
+			return [false,{}];
+		}
+		console.log(ans.ans);
+		return [true,ans.ans];
+	});
+}
 
 /**
  * 
@@ -480,6 +404,7 @@ async function runSearchingForStackOverFlowPosts(selectedText:string): Promise<v
     }
 
     var encodedTagsString = encodeURIComponent(tags.join(';'));
+	
     const encodedAPISearchTerm = encodeURIComponent(updatedSelectedText);
     const encodedWebSearchTerm = encodeURIComponent(selectedText);
 	console.log(encodedTagsString);
@@ -503,11 +428,29 @@ async function runSearchingForStackOverFlowPosts(selectedText:string): Promise<v
 			sidebarProvider.customResolveWebviewView(3,emptyArray);
 		}
 
-		console.log("Reached here...");
-        const sr = await request.get(uriOptions);
-		console.log("Completed here...");
+		let searchResponse = null;
+		let sr = null;
+		let result:any = await isExists(encodedAPISearchTerm);
+		console.log(result);
+		if(result[0]){
+			sr = result[1];
+			searchResponse = sr;
+		}else{
+			console.log("Reached here...");
+			sr = await request.get(uriOptions);
+			const errorModelObject = new errorModel({
+				query:encodedAPISearchTerm,
+				ans:JSON.parse(sr)
+			});
+			await errorModelObject.save(()=>{
+				console.log("Error query object saved successfully");
+			})
+			searchResponse = JSON.parse(sr);
+			console.log("Completed here...");
+		}
+        
 		//console.log(searchResponse.0);
-		let searchResponse = JSON.parse(sr);
+		
 		console.log(Object.keys(searchResponse).length);
 		var mm=5;
 		if(Object.keys(searchResponse).length<mm){

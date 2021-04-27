@@ -1,0 +1,1043 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.9.2" />
+<title>main API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>main</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">from flask import Flask, request,redirect,jsonify
+from flask_restful import Resource, Api
+from json import *
+import requests
+# from apiclient.discovery import build
+from googleapiclient.discovery import build
+from pyyoutube import Api as API_YOUTUBE
+from bs4 import BeautifulSoup
+
+# completionQuery interaction class
+from interact import InteractWithGptModel 
+from ErrorSearchQuery.StackOverFLowPosts import GetDisplayInformation
+
+
+#model_path indicates path where model is trained
+model_path = &#34;model/gpt2_medium_fine_tuned_coder&#34;
+max_length = 2560*2
+temperature = 0.5
+use_cuda = False #for now,we have used CPU to train models,Now, we will try to train much bigger models with more parameters and bigger dataset inorder to imporvise our model either using CUDA or some cloud service
+gptModelInteractionWithExtension = InteractWithGptModel(model_path,max_length,temperature,use_cuda,None,None)
+gptModelInteractionWithExtension.load_tokenizer()
+gptModelInteractionWithExtension.load_model()    
+
+
+
+print(&#34;=========================MODEL LOADED SUCCESSFULLY==============================&#34;)
+
+
+
+
+app = Flask(__name__)
+api = Api(app)
+
+# class which is called in order to make get request to fetch stackoverflow posts based on query
+class YouTube(Resource):
+    def get(self,encodedWebSearchTerm):
+        api_key_=&#34;AIzaSyCy8jgQFIVEq2qLBdZMSaHQOiDGAggQTeQ&#34;
+        api = API_YOUTUBE(api_key=api_key_)
+        r=api.search_by_keywords(q=encodedWebSearchTerm, search_type=[&#34;video&#34;], count=15, limit=15)
+        return jsonify(r)
+
+
+
+# This class basically helps to fetch website links of stackoverflow and geeksforgeeks based on query
+class NlpToCodeGoogleSearchUrl(Resource):
+    def get(self,key,cx,qry,num_urls):
+        num_urls = str(num_urls)
+        # The url is structured to do a custom search which only looks at StackOverflow and GeeksForGeeks sites.
+        googleSearchUrl = &#34;https://www.googleapis.com/customsearch/v1?key=&#34; + key + &#34;&amp;cx=&#34; + cx + &#34;&amp;q=&#34;+ qry + &#34;&amp;alt=json&#34; + &#34;&amp;num=&#34;+num_urls
+        resp = requests.get(googleSearchUrl)
+        output = resp.json()
+
+
+        return output
+
+# This class basically tells logic on how snippets are extracted from stackoverflow website based on query and programming language
+class NlpToCodeSnippetStackOverFlow(Resource):
+    def get(self,address):
+        try:
+            stackoverflowUrl = &#34;https://&#34;+self.replaceAll(address,&#34;$&#34;,&#39;/&#39;)
+            resp = requests.get(stackoverflowUrl)
+
+            snippets = []
+
+            soup = BeautifulSoup(resp.content, &#39;html.parser&#39;)
+
+            
+
+            arrayOfCodeSnippets = (soup.find_all(id=&#34;answers&#34;)[0].find_all(&#39;code&#39;))
+            print(&#34;###################arrayOfCodeSnippets#########################&#34;)
+            print(arrayOfCodeSnippets)
+
+            if(len(arrayOfCodeSnippets) == 0):
+                arrayOfCodeSnippets = (soup.find_all(&#39;code&#39;))
+                print(&#34;###################arrayOfCodeSnippetsWithoutAnswers#########################&#34;)
+                print(arrayOfCodeSnippets)
+
+            #considering only first n most relevant posts
+            for codeSnippet in arrayOfCodeSnippets:
+                currentCodeSnippet = codeSnippet.get_text()
+                    
+                # if(len(currentCodeSnippet)&gt;0):
+                snippets.append(&#34; snippet from &#34; + stackoverflowUrl+&#34; \n&#34;+currentCodeSnippet + &#34;\n&#34;)
+
+                
+
+            return {&#34;snippets&#34;:snippets}
+            
+        except:
+            return {&#34;snippets&#34;:[]}
+
+
+
+    def replaceAll(self,query,text,format):
+        out = &#34;&#34;
+
+        for i in query:
+            if(i == text):
+                out+=format
+            else:
+                out+=i
+        return out
+
+
+# This class basically tells logic on how snippets are extracted from geeksforgeeks website based on query and programming language
+class NlpToCodeSnippetGFG(Resource):
+    def get(self,address,langType):
+        try:
+            # gfgUrl = &#34;https://&#34;+self.replaceAll(address,&#34;$&#34;,&#39;/&#39;)
+            gfgUrl = &#34;https://&#34;+self.replaceAll(address,&#34;$&#34;,&#39;/&#39;)
+            resp = requests.get(gfgUrl)
+            snippets = []
+
+            soup = BeautifulSoup(resp.content, &#39;html.parser&#39;)
+
+            #assuming that length of arrayOfCodeSnippets and languageTypes is same
+            arrayOfCodeSnippets = soup.find_all(&#34;td&#34;,class_=&#34;code&#34;)
+            languageTypes = []
+            lt = soup.find_all(&#34;h2&#34;,class_=&#34;tabtitle&#34;)
+
+            for i in range(len(lt)):
+                languageTypes.append(lt[i].get_text(strip=True))
+
+            print(languageTypes)
+            
+
+            print(&#34;########################INSIDE GFG##########################&#34;)
+            
+
+            if(len(languageTypes) == len(arrayOfCodeSnippets)):
+
+                for idxNo in range(len(arrayOfCodeSnippets)):
+                    languageTypes[idxNo] = languageTypes[idxNo].lower()
+                    if(languageTypes[idxNo] == &#34;python&#34;):
+                        languageTypes[idxNo] = &#34;python3&#34;
+                        
+                    if(languageTypes[idxNo]!=langType):
+                        continue
+
+                    currentSnippet = &#34;&#34;
+                    codeSnippetsInsideDiv = arrayOfCodeSnippets[idxNo].find_all(&#34;div&#34;,class_=&#34;line&#34;)
+                    
+                    
+
+                    for i in codeSnippetsInsideDiv:
+                        codeSnippetsInsideCode = i.find_all(&#34;code&#34;)
+                        line = &#34;&#34;
+
+                        for j in codeSnippetsInsideCode:
+                            line+=j.get_text()+&#34; &#34;
+                        currentSnippet+=line+&#34;\n&#34;   
+
+
+                    snippets.append(&#34; snippet from &#34; + gfgUrl+&#34; \n&#34;+currentSnippet + &#34;\n&#34;)
+            else:
+                for idxNo in range(len(arrayOfCodeSnippets)):
+
+                    currentSnippet = &#34;&#34;
+                    codeSnippetsInsideDiv = arrayOfCodeSnippets[idxNo].find_all(&#34;div&#34;,class_=&#34;line&#34;)
+                    
+                    
+
+                    for i in codeSnippetsInsideDiv:
+                        codeSnippetsInsideCode = i.find_all(&#34;code&#34;)
+                        line = &#34;&#34;
+
+                        for j in codeSnippetsInsideCode:
+                            line+=j.get_text()+&#34; &#34;
+                        currentSnippet+=line+&#34;\n&#34;   
+
+
+                    snippets.append(&#34; snippet from &#34; + gfgUrl+&#34; \n&#34;+currentSnippet + &#34;\n&#34;)
+
+            return {&#34;snippets&#34;:snippets}
+
+        except:
+            return {&#34;snippets&#34;:[&#34;some error occured&#34;]}
+
+    def replaceAll(self,query,text,format):
+        out = &#34;&#34;
+
+        for i in query:
+            if(i == text):
+                out+=format
+            else:
+                out+=i
+        return out
+
+
+# completion query is basically a advanced and much more intelligent snippet query which tries to complete code just by function names
+class CompletionQuery(Resource):
+    def get(self,lang,query):
+
+            #lang must be either python or java as models are right now trained on python and java only
+        print(&#34;====================INSIDE COMPLETIONQUERY API CALL========================&#34;)
+        gptModelInteractionWithExtension.set_lang(lang)
+        gptModelInteractionWithExtension.set_query(query)    
+        output = gptModelInteractionWithExtension.generate_output()
+
+        
+
+        print(output)
+
+        return {&#34;snippets&#34;:output}
+        # except:
+        #     return {&#34;snippets&#34;:&#34;Some error occured in completion query&#34;}
+            
+
+#this class executes error query logic using get request
+class ErrorAndSearchQuery(Resource):
+    def get(self,encodedSearchTerm):
+        return_dict=GetDisplayInformation(encodedSearchTerm)
+        return return_dict
+
+    
+
+#The below code tells that which calls should be called based on given URL.
+
+api.add_resource(ErrorAndSearchQuery,&#39;/Custom_StackOverFlowUrl/&lt;encodedSearchTerm&gt;&#39;)
+api.add_resource(YouTube,&#39;/YouTube/&lt;encodedWebSearchTerm&gt;&#39;)
+api.add_resource(NlpToCodeGoogleSearchUrl,&#34;/NlpToCode_googleSearchUrl/&lt;key&gt;/&lt;cx&gt;/&lt;qry&gt;/&lt;num_urls&gt;&#34;)
+api.add_resource(NlpToCodeSnippetStackOverFlow,&#34;/NlpToCode_snippet/&lt;address&gt;&#34;)
+api.add_resource(NlpToCodeSnippetGFG,&#34;/NlpToCode_snippetGFG/&lt;address&gt;/&lt;langType&gt;&#34;)
+api.add_resource(CompletionQuery,&#34;/CompletionQuery/&lt;lang&gt;/&lt;query&gt;&#34;)
+
+
+
+
+if __name__ == &#39;__main__&#39;:
+    #app is running of port 6615
+    app.run(port=&#39;6615&#39;)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-classes">Classes</h2>
+<dl>
+<dt id="main.CompletionQuery"><code class="flex name class">
+<span>class <span class="ident">CompletionQuery</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Represents an abstract RESTful resource. Concrete resources should
+extend from this class and expose methods for each supported HTTP
+method. If a resource is invoked with an unsupported HTTP method,
+the API will return a response with status 405 Method Not Allowed.
+Otherwise the appropriate method is called and passed all arguments
+from the url rule used when adding the resource to an Api instance. See
+:meth:<code>~flask_restful.Api.add_resource</code> for details.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class CompletionQuery(Resource):
+    def get(self,lang,query):
+
+            #lang must be either python or java as models are right now trained on python and java only
+        print(&#34;====================INSIDE COMPLETIONQUERY API CALL========================&#34;)
+        gptModelInteractionWithExtension.set_lang(lang)
+        gptModelInteractionWithExtension.set_query(query)    
+        output = gptModelInteractionWithExtension.generate_output()
+
+        
+
+        print(output)
+
+        return {&#34;snippets&#34;:output}</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>flask_restful.Resource</li>
+<li>flask.views.MethodView</li>
+<li>flask.views.View</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="main.CompletionQuery.endpoint"><code class="name">var <span class="ident">endpoint</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="main.CompletionQuery.methods"><code class="name">var <span class="ident">methods</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="main.CompletionQuery.get"><code class="name flex">
+<span>def <span class="ident">get</span></span>(<span>self, lang, query)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get(self,lang,query):
+
+        #lang must be either python or java as models are right now trained on python and java only
+    print(&#34;====================INSIDE COMPLETIONQUERY API CALL========================&#34;)
+    gptModelInteractionWithExtension.set_lang(lang)
+    gptModelInteractionWithExtension.set_query(query)    
+    output = gptModelInteractionWithExtension.generate_output()
+
+    
+
+    print(output)
+
+    return {&#34;snippets&#34;:output}</code></pre>
+</details>
+</dd>
+<dt id="main.CompletionQuery.mediatypes"><code class="name flex">
+<span>def <span class="ident">mediatypes</span></span>(<span>resource_cls)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">return lambda resource_cls: self.mediatypes() + [self.default_mediatype]</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="main.ErrorAndSearchQuery"><code class="flex name class">
+<span>class <span class="ident">ErrorAndSearchQuery</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Represents an abstract RESTful resource. Concrete resources should
+extend from this class and expose methods for each supported HTTP
+method. If a resource is invoked with an unsupported HTTP method,
+the API will return a response with status 405 Method Not Allowed.
+Otherwise the appropriate method is called and passed all arguments
+from the url rule used when adding the resource to an Api instance. See
+:meth:<code>~flask_restful.Api.add_resource</code> for details.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class ErrorAndSearchQuery(Resource):
+    def get(self,encodedSearchTerm):
+        return_dict=GetDisplayInformation(encodedSearchTerm)
+        return return_dict</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>flask_restful.Resource</li>
+<li>flask.views.MethodView</li>
+<li>flask.views.View</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="main.ErrorAndSearchQuery.endpoint"><code class="name">var <span class="ident">endpoint</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="main.ErrorAndSearchQuery.methods"><code class="name">var <span class="ident">methods</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="main.ErrorAndSearchQuery.get"><code class="name flex">
+<span>def <span class="ident">get</span></span>(<span>self, encodedSearchTerm)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get(self,encodedSearchTerm):
+    return_dict=GetDisplayInformation(encodedSearchTerm)
+    return return_dict</code></pre>
+</details>
+</dd>
+<dt id="main.ErrorAndSearchQuery.mediatypes"><code class="name flex">
+<span>def <span class="ident">mediatypes</span></span>(<span>resource_cls)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">return lambda resource_cls: self.mediatypes() + [self.default_mediatype]</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="main.NlpToCodeGoogleSearchUrl"><code class="flex name class">
+<span>class <span class="ident">NlpToCodeGoogleSearchUrl</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Represents an abstract RESTful resource. Concrete resources should
+extend from this class and expose methods for each supported HTTP
+method. If a resource is invoked with an unsupported HTTP method,
+the API will return a response with status 405 Method Not Allowed.
+Otherwise the appropriate method is called and passed all arguments
+from the url rule used when adding the resource to an Api instance. See
+:meth:<code>~flask_restful.Api.add_resource</code> for details.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class NlpToCodeGoogleSearchUrl(Resource):
+    def get(self,key,cx,qry,num_urls):
+        num_urls = str(num_urls)
+        # The url is structured to do a custom search which only looks at StackOverflow and GeeksForGeeks sites.
+        googleSearchUrl = &#34;https://www.googleapis.com/customsearch/v1?key=&#34; + key + &#34;&amp;cx=&#34; + cx + &#34;&amp;q=&#34;+ qry + &#34;&amp;alt=json&#34; + &#34;&amp;num=&#34;+num_urls
+        resp = requests.get(googleSearchUrl)
+        output = resp.json()
+
+
+        return output</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>flask_restful.Resource</li>
+<li>flask.views.MethodView</li>
+<li>flask.views.View</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="main.NlpToCodeGoogleSearchUrl.endpoint"><code class="name">var <span class="ident">endpoint</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="main.NlpToCodeGoogleSearchUrl.methods"><code class="name">var <span class="ident">methods</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="main.NlpToCodeGoogleSearchUrl.get"><code class="name flex">
+<span>def <span class="ident">get</span></span>(<span>self, key, cx, qry, num_urls)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get(self,key,cx,qry,num_urls):
+    num_urls = str(num_urls)
+    # The url is structured to do a custom search which only looks at StackOverflow and GeeksForGeeks sites.
+    googleSearchUrl = &#34;https://www.googleapis.com/customsearch/v1?key=&#34; + key + &#34;&amp;cx=&#34; + cx + &#34;&amp;q=&#34;+ qry + &#34;&amp;alt=json&#34; + &#34;&amp;num=&#34;+num_urls
+    resp = requests.get(googleSearchUrl)
+    output = resp.json()
+
+
+    return output</code></pre>
+</details>
+</dd>
+<dt id="main.NlpToCodeGoogleSearchUrl.mediatypes"><code class="name flex">
+<span>def <span class="ident">mediatypes</span></span>(<span>resource_cls)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">return lambda resource_cls: self.mediatypes() + [self.default_mediatype]</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="main.NlpToCodeSnippetGFG"><code class="flex name class">
+<span>class <span class="ident">NlpToCodeSnippetGFG</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Represents an abstract RESTful resource. Concrete resources should
+extend from this class and expose methods for each supported HTTP
+method. If a resource is invoked with an unsupported HTTP method,
+the API will return a response with status 405 Method Not Allowed.
+Otherwise the appropriate method is called and passed all arguments
+from the url rule used when adding the resource to an Api instance. See
+:meth:<code>~flask_restful.Api.add_resource</code> for details.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class NlpToCodeSnippetGFG(Resource):
+    def get(self,address,langType):
+        try:
+            # gfgUrl = &#34;https://&#34;+self.replaceAll(address,&#34;$&#34;,&#39;/&#39;)
+            gfgUrl = &#34;https://&#34;+self.replaceAll(address,&#34;$&#34;,&#39;/&#39;)
+            resp = requests.get(gfgUrl)
+            snippets = []
+
+            soup = BeautifulSoup(resp.content, &#39;html.parser&#39;)
+
+            #assuming that length of arrayOfCodeSnippets and languageTypes is same
+            arrayOfCodeSnippets = soup.find_all(&#34;td&#34;,class_=&#34;code&#34;)
+            languageTypes = []
+            lt = soup.find_all(&#34;h2&#34;,class_=&#34;tabtitle&#34;)
+
+            for i in range(len(lt)):
+                languageTypes.append(lt[i].get_text(strip=True))
+
+            print(languageTypes)
+            
+
+            print(&#34;########################INSIDE GFG##########################&#34;)
+            
+
+            if(len(languageTypes) == len(arrayOfCodeSnippets)):
+
+                for idxNo in range(len(arrayOfCodeSnippets)):
+                    languageTypes[idxNo] = languageTypes[idxNo].lower()
+                    if(languageTypes[idxNo] == &#34;python&#34;):
+                        languageTypes[idxNo] = &#34;python3&#34;
+                        
+                    if(languageTypes[idxNo]!=langType):
+                        continue
+
+                    currentSnippet = &#34;&#34;
+                    codeSnippetsInsideDiv = arrayOfCodeSnippets[idxNo].find_all(&#34;div&#34;,class_=&#34;line&#34;)
+                    
+                    
+
+                    for i in codeSnippetsInsideDiv:
+                        codeSnippetsInsideCode = i.find_all(&#34;code&#34;)
+                        line = &#34;&#34;
+
+                        for j in codeSnippetsInsideCode:
+                            line+=j.get_text()+&#34; &#34;
+                        currentSnippet+=line+&#34;\n&#34;   
+
+
+                    snippets.append(&#34; snippet from &#34; + gfgUrl+&#34; \n&#34;+currentSnippet + &#34;\n&#34;)
+            else:
+                for idxNo in range(len(arrayOfCodeSnippets)):
+
+                    currentSnippet = &#34;&#34;
+                    codeSnippetsInsideDiv = arrayOfCodeSnippets[idxNo].find_all(&#34;div&#34;,class_=&#34;line&#34;)
+                    
+                    
+
+                    for i in codeSnippetsInsideDiv:
+                        codeSnippetsInsideCode = i.find_all(&#34;code&#34;)
+                        line = &#34;&#34;
+
+                        for j in codeSnippetsInsideCode:
+                            line+=j.get_text()+&#34; &#34;
+                        currentSnippet+=line+&#34;\n&#34;   
+
+
+                    snippets.append(&#34; snippet from &#34; + gfgUrl+&#34; \n&#34;+currentSnippet + &#34;\n&#34;)
+
+            return {&#34;snippets&#34;:snippets}
+
+        except:
+            return {&#34;snippets&#34;:[&#34;some error occured&#34;]}
+
+    def replaceAll(self,query,text,format):
+        out = &#34;&#34;
+
+        for i in query:
+            if(i == text):
+                out+=format
+            else:
+                out+=i
+        return out</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>flask_restful.Resource</li>
+<li>flask.views.MethodView</li>
+<li>flask.views.View</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="main.NlpToCodeSnippetGFG.endpoint"><code class="name">var <span class="ident">endpoint</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="main.NlpToCodeSnippetGFG.methods"><code class="name">var <span class="ident">methods</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="main.NlpToCodeSnippetGFG.get"><code class="name flex">
+<span>def <span class="ident">get</span></span>(<span>self, address, langType)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get(self,address,langType):
+    try:
+        # gfgUrl = &#34;https://&#34;+self.replaceAll(address,&#34;$&#34;,&#39;/&#39;)
+        gfgUrl = &#34;https://&#34;+self.replaceAll(address,&#34;$&#34;,&#39;/&#39;)
+        resp = requests.get(gfgUrl)
+        snippets = []
+
+        soup = BeautifulSoup(resp.content, &#39;html.parser&#39;)
+
+        #assuming that length of arrayOfCodeSnippets and languageTypes is same
+        arrayOfCodeSnippets = soup.find_all(&#34;td&#34;,class_=&#34;code&#34;)
+        languageTypes = []
+        lt = soup.find_all(&#34;h2&#34;,class_=&#34;tabtitle&#34;)
+
+        for i in range(len(lt)):
+            languageTypes.append(lt[i].get_text(strip=True))
+
+        print(languageTypes)
+        
+
+        print(&#34;########################INSIDE GFG##########################&#34;)
+        
+
+        if(len(languageTypes) == len(arrayOfCodeSnippets)):
+
+            for idxNo in range(len(arrayOfCodeSnippets)):
+                languageTypes[idxNo] = languageTypes[idxNo].lower()
+                if(languageTypes[idxNo] == &#34;python&#34;):
+                    languageTypes[idxNo] = &#34;python3&#34;
+                    
+                if(languageTypes[idxNo]!=langType):
+                    continue
+
+                currentSnippet = &#34;&#34;
+                codeSnippetsInsideDiv = arrayOfCodeSnippets[idxNo].find_all(&#34;div&#34;,class_=&#34;line&#34;)
+                
+                
+
+                for i in codeSnippetsInsideDiv:
+                    codeSnippetsInsideCode = i.find_all(&#34;code&#34;)
+                    line = &#34;&#34;
+
+                    for j in codeSnippetsInsideCode:
+                        line+=j.get_text()+&#34; &#34;
+                    currentSnippet+=line+&#34;\n&#34;   
+
+
+                snippets.append(&#34; snippet from &#34; + gfgUrl+&#34; \n&#34;+currentSnippet + &#34;\n&#34;)
+        else:
+            for idxNo in range(len(arrayOfCodeSnippets)):
+
+                currentSnippet = &#34;&#34;
+                codeSnippetsInsideDiv = arrayOfCodeSnippets[idxNo].find_all(&#34;div&#34;,class_=&#34;line&#34;)
+                
+                
+
+                for i in codeSnippetsInsideDiv:
+                    codeSnippetsInsideCode = i.find_all(&#34;code&#34;)
+                    line = &#34;&#34;
+
+                    for j in codeSnippetsInsideCode:
+                        line+=j.get_text()+&#34; &#34;
+                    currentSnippet+=line+&#34;\n&#34;   
+
+
+                snippets.append(&#34; snippet from &#34; + gfgUrl+&#34; \n&#34;+currentSnippet + &#34;\n&#34;)
+
+        return {&#34;snippets&#34;:snippets}
+
+    except:
+        return {&#34;snippets&#34;:[&#34;some error occured&#34;]}</code></pre>
+</details>
+</dd>
+<dt id="main.NlpToCodeSnippetGFG.mediatypes"><code class="name flex">
+<span>def <span class="ident">mediatypes</span></span>(<span>resource_cls)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">return lambda resource_cls: self.mediatypes() + [self.default_mediatype]</code></pre>
+</details>
+</dd>
+<dt id="main.NlpToCodeSnippetGFG.replaceAll"><code class="name flex">
+<span>def <span class="ident">replaceAll</span></span>(<span>self, query, text, format)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def replaceAll(self,query,text,format):
+    out = &#34;&#34;
+
+    for i in query:
+        if(i == text):
+            out+=format
+        else:
+            out+=i
+    return out</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="main.NlpToCodeSnippetStackOverFlow"><code class="flex name class">
+<span>class <span class="ident">NlpToCodeSnippetStackOverFlow</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Represents an abstract RESTful resource. Concrete resources should
+extend from this class and expose methods for each supported HTTP
+method. If a resource is invoked with an unsupported HTTP method,
+the API will return a response with status 405 Method Not Allowed.
+Otherwise the appropriate method is called and passed all arguments
+from the url rule used when adding the resource to an Api instance. See
+:meth:<code>~flask_restful.Api.add_resource</code> for details.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class NlpToCodeSnippetStackOverFlow(Resource):
+    def get(self,address):
+        try:
+            stackoverflowUrl = &#34;https://&#34;+self.replaceAll(address,&#34;$&#34;,&#39;/&#39;)
+            resp = requests.get(stackoverflowUrl)
+
+            snippets = []
+
+            soup = BeautifulSoup(resp.content, &#39;html.parser&#39;)
+
+            
+
+            arrayOfCodeSnippets = (soup.find_all(id=&#34;answers&#34;)[0].find_all(&#39;code&#39;))
+            print(&#34;###################arrayOfCodeSnippets#########################&#34;)
+            print(arrayOfCodeSnippets)
+
+            if(len(arrayOfCodeSnippets) == 0):
+                arrayOfCodeSnippets = (soup.find_all(&#39;code&#39;))
+                print(&#34;###################arrayOfCodeSnippetsWithoutAnswers#########################&#34;)
+                print(arrayOfCodeSnippets)
+
+            #considering only first n most relevant posts
+            for codeSnippet in arrayOfCodeSnippets:
+                currentCodeSnippet = codeSnippet.get_text()
+                    
+                # if(len(currentCodeSnippet)&gt;0):
+                snippets.append(&#34; snippet from &#34; + stackoverflowUrl+&#34; \n&#34;+currentCodeSnippet + &#34;\n&#34;)
+
+                
+
+            return {&#34;snippets&#34;:snippets}
+            
+        except:
+            return {&#34;snippets&#34;:[]}
+
+
+
+    def replaceAll(self,query,text,format):
+        out = &#34;&#34;
+
+        for i in query:
+            if(i == text):
+                out+=format
+            else:
+                out+=i
+        return out</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>flask_restful.Resource</li>
+<li>flask.views.MethodView</li>
+<li>flask.views.View</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="main.NlpToCodeSnippetStackOverFlow.endpoint"><code class="name">var <span class="ident">endpoint</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="main.NlpToCodeSnippetStackOverFlow.methods"><code class="name">var <span class="ident">methods</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="main.NlpToCodeSnippetStackOverFlow.get"><code class="name flex">
+<span>def <span class="ident">get</span></span>(<span>self, address)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get(self,address):
+    try:
+        stackoverflowUrl = &#34;https://&#34;+self.replaceAll(address,&#34;$&#34;,&#39;/&#39;)
+        resp = requests.get(stackoverflowUrl)
+
+        snippets = []
+
+        soup = BeautifulSoup(resp.content, &#39;html.parser&#39;)
+
+        
+
+        arrayOfCodeSnippets = (soup.find_all(id=&#34;answers&#34;)[0].find_all(&#39;code&#39;))
+        print(&#34;###################arrayOfCodeSnippets#########################&#34;)
+        print(arrayOfCodeSnippets)
+
+        if(len(arrayOfCodeSnippets) == 0):
+            arrayOfCodeSnippets = (soup.find_all(&#39;code&#39;))
+            print(&#34;###################arrayOfCodeSnippetsWithoutAnswers#########################&#34;)
+            print(arrayOfCodeSnippets)
+
+        #considering only first n most relevant posts
+        for codeSnippet in arrayOfCodeSnippets:
+            currentCodeSnippet = codeSnippet.get_text()
+                
+            # if(len(currentCodeSnippet)&gt;0):
+            snippets.append(&#34; snippet from &#34; + stackoverflowUrl+&#34; \n&#34;+currentCodeSnippet + &#34;\n&#34;)
+
+            
+
+        return {&#34;snippets&#34;:snippets}
+        
+    except:
+        return {&#34;snippets&#34;:[]}</code></pre>
+</details>
+</dd>
+<dt id="main.NlpToCodeSnippetStackOverFlow.mediatypes"><code class="name flex">
+<span>def <span class="ident">mediatypes</span></span>(<span>resource_cls)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">return lambda resource_cls: self.mediatypes() + [self.default_mediatype]</code></pre>
+</details>
+</dd>
+<dt id="main.NlpToCodeSnippetStackOverFlow.replaceAll"><code class="name flex">
+<span>def <span class="ident">replaceAll</span></span>(<span>self, query, text, format)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def replaceAll(self,query,text,format):
+    out = &#34;&#34;
+
+    for i in query:
+        if(i == text):
+            out+=format
+        else:
+            out+=i
+    return out</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+<dt id="main.YouTube"><code class="flex name class">
+<span>class <span class="ident">YouTube</span></span>
+</code></dt>
+<dd>
+<div class="desc"><p>Represents an abstract RESTful resource. Concrete resources should
+extend from this class and expose methods for each supported HTTP
+method. If a resource is invoked with an unsupported HTTP method,
+the API will return a response with status 405 Method Not Allowed.
+Otherwise the appropriate method is called and passed all arguments
+from the url rule used when adding the resource to an Api instance. See
+:meth:<code>~flask_restful.Api.add_resource</code> for details.</p></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">class YouTube(Resource):
+    def get(self,encodedWebSearchTerm):
+        api_key_=&#34;AIzaSyCy8jgQFIVEq2qLBdZMSaHQOiDGAggQTeQ&#34;
+        api = API_YOUTUBE(api_key=api_key_)
+        r=api.search_by_keywords(q=encodedWebSearchTerm, search_type=[&#34;video&#34;], count=15, limit=15)
+        return jsonify(r)</code></pre>
+</details>
+<h3>Ancestors</h3>
+<ul class="hlist">
+<li>flask_restful.Resource</li>
+<li>flask.views.MethodView</li>
+<li>flask.views.View</li>
+</ul>
+<h3>Class variables</h3>
+<dl>
+<dt id="main.YouTube.endpoint"><code class="name">var <span class="ident">endpoint</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+<dt id="main.YouTube.methods"><code class="name">var <span class="ident">methods</span></code></dt>
+<dd>
+<div class="desc"></div>
+</dd>
+</dl>
+<h3>Methods</h3>
+<dl>
+<dt id="main.YouTube.get"><code class="name flex">
+<span>def <span class="ident">get</span></span>(<span>self, encodedWebSearchTerm)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def get(self,encodedWebSearchTerm):
+    api_key_=&#34;AIzaSyCy8jgQFIVEq2qLBdZMSaHQOiDGAggQTeQ&#34;
+    api = API_YOUTUBE(api_key=api_key_)
+    r=api.search_by_keywords(q=encodedWebSearchTerm, search_type=[&#34;video&#34;], count=15, limit=15)
+    return jsonify(r)</code></pre>
+</details>
+</dd>
+<dt id="main.YouTube.mediatypes"><code class="name flex">
+<span>def <span class="ident">mediatypes</span></span>(<span>resource_cls)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">return lambda resource_cls: self.mediatypes() + [self.default_mediatype]</code></pre>
+</details>
+</dd>
+</dl>
+</dd>
+</dl>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3><a href="#header-classes">Classes</a></h3>
+<ul>
+<li>
+<h4><code><a title="main.CompletionQuery" href="#main.CompletionQuery">CompletionQuery</a></code></h4>
+<ul class="">
+<li><code><a title="main.CompletionQuery.endpoint" href="#main.CompletionQuery.endpoint">endpoint</a></code></li>
+<li><code><a title="main.CompletionQuery.get" href="#main.CompletionQuery.get">get</a></code></li>
+<li><code><a title="main.CompletionQuery.mediatypes" href="#main.CompletionQuery.mediatypes">mediatypes</a></code></li>
+<li><code><a title="main.CompletionQuery.methods" href="#main.CompletionQuery.methods">methods</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="main.ErrorAndSearchQuery" href="#main.ErrorAndSearchQuery">ErrorAndSearchQuery</a></code></h4>
+<ul class="">
+<li><code><a title="main.ErrorAndSearchQuery.endpoint" href="#main.ErrorAndSearchQuery.endpoint">endpoint</a></code></li>
+<li><code><a title="main.ErrorAndSearchQuery.get" href="#main.ErrorAndSearchQuery.get">get</a></code></li>
+<li><code><a title="main.ErrorAndSearchQuery.mediatypes" href="#main.ErrorAndSearchQuery.mediatypes">mediatypes</a></code></li>
+<li><code><a title="main.ErrorAndSearchQuery.methods" href="#main.ErrorAndSearchQuery.methods">methods</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="main.NlpToCodeGoogleSearchUrl" href="#main.NlpToCodeGoogleSearchUrl">NlpToCodeGoogleSearchUrl</a></code></h4>
+<ul class="">
+<li><code><a title="main.NlpToCodeGoogleSearchUrl.endpoint" href="#main.NlpToCodeGoogleSearchUrl.endpoint">endpoint</a></code></li>
+<li><code><a title="main.NlpToCodeGoogleSearchUrl.get" href="#main.NlpToCodeGoogleSearchUrl.get">get</a></code></li>
+<li><code><a title="main.NlpToCodeGoogleSearchUrl.mediatypes" href="#main.NlpToCodeGoogleSearchUrl.mediatypes">mediatypes</a></code></li>
+<li><code><a title="main.NlpToCodeGoogleSearchUrl.methods" href="#main.NlpToCodeGoogleSearchUrl.methods">methods</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="main.NlpToCodeSnippetGFG" href="#main.NlpToCodeSnippetGFG">NlpToCodeSnippetGFG</a></code></h4>
+<ul class="">
+<li><code><a title="main.NlpToCodeSnippetGFG.endpoint" href="#main.NlpToCodeSnippetGFG.endpoint">endpoint</a></code></li>
+<li><code><a title="main.NlpToCodeSnippetGFG.get" href="#main.NlpToCodeSnippetGFG.get">get</a></code></li>
+<li><code><a title="main.NlpToCodeSnippetGFG.mediatypes" href="#main.NlpToCodeSnippetGFG.mediatypes">mediatypes</a></code></li>
+<li><code><a title="main.NlpToCodeSnippetGFG.methods" href="#main.NlpToCodeSnippetGFG.methods">methods</a></code></li>
+<li><code><a title="main.NlpToCodeSnippetGFG.replaceAll" href="#main.NlpToCodeSnippetGFG.replaceAll">replaceAll</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="main.NlpToCodeSnippetStackOverFlow" href="#main.NlpToCodeSnippetStackOverFlow">NlpToCodeSnippetStackOverFlow</a></code></h4>
+<ul class="">
+<li><code><a title="main.NlpToCodeSnippetStackOverFlow.endpoint" href="#main.NlpToCodeSnippetStackOverFlow.endpoint">endpoint</a></code></li>
+<li><code><a title="main.NlpToCodeSnippetStackOverFlow.get" href="#main.NlpToCodeSnippetStackOverFlow.get">get</a></code></li>
+<li><code><a title="main.NlpToCodeSnippetStackOverFlow.mediatypes" href="#main.NlpToCodeSnippetStackOverFlow.mediatypes">mediatypes</a></code></li>
+<li><code><a title="main.NlpToCodeSnippetStackOverFlow.methods" href="#main.NlpToCodeSnippetStackOverFlow.methods">methods</a></code></li>
+<li><code><a title="main.NlpToCodeSnippetStackOverFlow.replaceAll" href="#main.NlpToCodeSnippetStackOverFlow.replaceAll">replaceAll</a></code></li>
+</ul>
+</li>
+<li>
+<h4><code><a title="main.YouTube" href="#main.YouTube">YouTube</a></code></h4>
+<ul class="">
+<li><code><a title="main.YouTube.endpoint" href="#main.YouTube.endpoint">endpoint</a></code></li>
+<li><code><a title="main.YouTube.get" href="#main.YouTube.get">get</a></code></li>
+<li><code><a title="main.YouTube.mediatypes" href="#main.YouTube.mediatypes">mediatypes</a></code></li>
+<li><code><a title="main.YouTube.methods" href="#main.YouTube.methods">methods</a></code></li>
+</ul>
+</li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.2</a>.</p>
+</footer>
+</body>
+</html>

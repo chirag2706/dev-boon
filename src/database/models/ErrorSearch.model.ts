@@ -1,15 +1,16 @@
+// const mongoose = require('mongoose');
+// const Schema = mongoose.Schema;
+
 /**
  *  Schema(Logical) of our database for Error and Search Query
  */
 const ErrorSearchScheme = new Schema(
   {
-    link:{type:String,required:true},
-    langauge:{type:String,required:true},
-    codeSnippets:
-        {
-            code:{type:String},
-            quality:{type:Number}
-        }
+    query:{type:String,required:true},
+    ans:{
+      type:Object,
+      required:true
+    }
   }
 );
 

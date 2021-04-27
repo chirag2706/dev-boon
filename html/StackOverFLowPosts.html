@@ -1,0 +1,1184 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, minimum-scale=1" />
+<meta name="generator" content="pdoc 0.9.2" />
+<title>StackOverFLowPosts API documentation</title>
+<meta name="description" content="" />
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/sanitize.min.css" integrity="sha256-PK9q560IAAa6WVRRh76LtCaI8pjTJ2z11v0miyNNjrs=" crossorigin>
+<link rel="preload stylesheet" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/10up-sanitize.css/11.0.1/typography.min.css" integrity="sha256-7l/o7C8jubJiy74VsKTidCy1yBkRtiUGbVkYBylBqUg=" crossorigin>
+<link rel="stylesheet preload" as="style" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/styles/github.min.css" crossorigin>
+<style>:root{--highlight-color:#fe9}.flex{display:flex !important}body{line-height:1.5em}#content{padding:20px}#sidebar{padding:30px;overflow:hidden}#sidebar > *:last-child{margin-bottom:2cm}.http-server-breadcrumbs{font-size:130%;margin:0 0 15px 0}#footer{font-size:.75em;padding:5px 30px;border-top:1px solid #ddd;text-align:right}#footer p{margin:0 0 0 1em;display:inline-block}#footer p:last-child{margin-right:30px}h1,h2,h3,h4,h5{font-weight:300}h1{font-size:2.5em;line-height:1.1em}h2{font-size:1.75em;margin:1em 0 .50em 0}h3{font-size:1.4em;margin:25px 0 10px 0}h4{margin:0;font-size:105%}h1:target,h2:target,h3:target,h4:target,h5:target,h6:target{background:var(--highlight-color);padding:.2em 0}a{color:#058;text-decoration:none;transition:color .3s ease-in-out}a:hover{color:#e82}.title code{font-weight:bold}h2[id^="header-"]{margin-top:2em}.ident{color:#900}pre code{background:#f8f8f8;font-size:.8em;line-height:1.4em}code{background:#f2f2f1;padding:1px 4px;overflow-wrap:break-word}h1 code{background:transparent}pre{background:#f8f8f8;border:0;border-top:1px solid #ccc;border-bottom:1px solid #ccc;margin:1em 0;padding:1ex}#http-server-module-list{display:flex;flex-flow:column}#http-server-module-list div{display:flex}#http-server-module-list dt{min-width:10%}#http-server-module-list p{margin-top:0}.toc ul,#index{list-style-type:none;margin:0;padding:0}#index code{background:transparent}#index h3{border-bottom:1px solid #ddd}#index ul{padding:0}#index h4{margin-top:.6em;font-weight:bold}@media (min-width:200ex){#index .two-column{column-count:2}}@media (min-width:300ex){#index .two-column{column-count:3}}dl{margin-bottom:2em}dl dl:last-child{margin-bottom:4em}dd{margin:0 0 1em 3em}#header-classes + dl > dd{margin-bottom:3em}dd dd{margin-left:2em}dd p{margin:10px 0}.name{background:#eee;font-weight:bold;font-size:.85em;padding:5px 10px;display:inline-block;min-width:40%}.name:hover{background:#e0e0e0}dt:target .name{background:var(--highlight-color)}.name > span:first-child{white-space:nowrap}.name.class > span:nth-child(2){margin-left:.4em}.inherited{color:#999;border-left:5px solid #eee;padding-left:1em}.inheritance em{font-style:normal;font-weight:bold}.desc h2{font-weight:400;font-size:1.25em}.desc h3{font-size:1em}.desc dt code{background:inherit}.source summary,.git-link-div{color:#666;text-align:right;font-weight:400;font-size:.8em;text-transform:uppercase}.source summary > *{white-space:nowrap;cursor:pointer}.git-link{color:inherit;margin-left:1em}.source pre{max-height:500px;overflow:auto;margin:0}.source pre code{font-size:12px;overflow:visible}.hlist{list-style:none}.hlist li{display:inline}.hlist li:after{content:',\2002'}.hlist li:last-child:after{content:none}.hlist .hlist{display:inline;padding-left:1em}img{max-width:100%}td{padding:0 .5em}.admonition{padding:.1em .5em;margin-bottom:1em}.admonition-title{font-weight:bold}.admonition.note,.admonition.info,.admonition.important{background:#aef}.admonition.todo,.admonition.versionadded,.admonition.tip,.admonition.hint{background:#dfd}.admonition.warning,.admonition.versionchanged,.admonition.deprecated{background:#fd4}.admonition.error,.admonition.danger,.admonition.caution{background:lightpink}</style>
+<style media="screen and (min-width: 700px)">@media screen and (min-width:700px){#sidebar{width:30%;height:100vh;overflow:auto;position:sticky;top:0}#content{width:70%;max-width:100ch;padding:3em 4em;border-left:1px solid #ddd}pre code{font-size:1em}.item .name{font-size:1em}main{display:flex;flex-direction:row-reverse;justify-content:flex-end}.toc ul ul,#index ul{padding-left:1.5em}.toc > ul > li{margin-top:.5em}}</style>
+<style media="print">@media print{#sidebar h1{page-break-before:always}.source{display:none}}@media print{*{background:transparent !important;color:#000 !important;box-shadow:none !important;text-shadow:none !important}a[href]:after{content:" (" attr(href) ")";font-size:90%}a[href][title]:after{content:none}abbr[title]:after{content:" (" attr(title) ")"}.ir a:after,a[href^="javascript:"]:after,a[href^="#"]:after{content:""}pre,blockquote{border:1px solid #999;page-break-inside:avoid}thead{display:table-header-group}tr,img{page-break-inside:avoid}img{max-width:100% !important}@page{margin:0.5cm}p,h2,h3{orphans:3;widows:3}h1,h2,h3,h4,h5,h6{page-break-after:avoid}}</style>
+<script defer src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/10.1.1/highlight.min.js" integrity="sha256-Uv3H6lx7dJmRfRvH8TH6kJD1TSK1aFcwgx+mdg3epi8=" crossorigin></script>
+<script>window.addEventListener('DOMContentLoaded', () => hljs.initHighlighting())</script>
+</head>
+<body>
+<main>
+<article id="content">
+<header>
+<h1 class="title">Module <code>StackOverFLowPosts</code></h1>
+</header>
+<section id="section-intro">
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">import requests
+from bs4 import BeautifulSoup
+from textblob import TextBlob
+import statistics
+import json  
+from googleapiclient.discovery import build
+
+
+
+def GetDisplayInformation(query):
+    
+
+
+    #Google CSE Api Information
+    
+    api_key=&#34;AIzaSyAkSpqRYUzIX19c05nACM4EMbuDRU-hwmw&#34;
+    cse_id=&#34;a2a833c876db82751&#34;
+    resource=build(&#34;customsearch&#34;,&#39;v1&#39;,developerKey=api_key).cse()
+    result=resource.list(q=query,cx=cse_id).execute()
+    
+
+    req_links={}
+
+    for item in result[&#39;items&#39;]:
+        j=item[&#39;link&#39;]
+        req_links[j]=[]
+
+    # dict has link and list as key and value
+    # each value list contains
+    # rating of question as 1st element ( based on custom parameters)
+    # question as 2nd element
+    # rating of accepted answer as 3rd element
+    # accepted answer as 4th element
+    # rating of best other answer as 5th element
+    # best other answer as 6th element
+
+
+    # all_details :
+    #             question
+    #             time
+    #             Viewed
+    #             NumAnswers
+    #             VoteCount
+    #             AuthorReputationScore
+
+    #             acceted_answer
+
+
+    everything=[]
+
+    for link in req_links:
+
+        # If Link is present in data base
+        # Then store
+
+
+        print(link)
+
+        try:
+            all_details={}
+            all_details[&#34;link&#34;]=link
+
+
+            r=requests.get(link)
+            soup = BeautifulSoup(r.content, &#39;html5lib&#39;)
+
+            ############################################################################################################################################
+            #       QUESTION
+            ############################################################################################################################################
+
+
+
+            ######################################################################
+            #question
+
+            question = soup.find(&#39;a&#39;, attrs = {&#39;class&#39;:&#39;question-hyperlink&#39;}) 
+            question=question.text
+            #print(question)
+
+            all_details[&#34;question&#34;]=question
+
+            ######################################################################
+            #Number of Months passed after this question was asked
+
+            try:
+                DateCreated=soup.find(&#39;time&#39; , attrs={&#39;itemprop&#39;:&#34;dateCreated&#34;})
+                DateCreated=DateCreated.text
+                #print(DateCreated)
+                if &#34;years&#34; in DateCreated:
+                    y=DateCreated.split(&#34;years&#34;)[0]
+                    y=y.replace(&#34; &#34;,&#34;&#34;)
+                    y=int(y)
+                    y*=12
+                if &#34;month&#34; in DateCreated:
+                    m=DateCreated.split(&#34;month&#34;)[0]
+                    m=m.split(&#34;,&#34;)[1]
+                    m=m.replace(&#34; &#34;,&#34;&#34;)
+                    m=int(m)
+                time=m+y
+            except:
+                #assume question is asked 5 years ago
+                time=60
+
+            all_details[&#34;time_passed&#34;]=time
+
+            ######################################################################
+            #Number of Views to this question
+
+            try:
+                Viewed=soup.find(&#39;div&#39; , attrs={&#39;class&#39;:&#34;grid--cell ws-nowrap mb8&#34;})
+                Viewed=Viewed.text
+                Viewed=Viewed.replace(&#34; &#34;,&#34;&#34;)
+                Viewed=Viewed.replace(&#34;\n&#34;,&#34;&#34;)
+                #print(Viewed)
+                Viewed=Viewed.replace(&#34;Viewed&#34;,&#34;&#34;)
+                Viewed=Viewed.replace(&#34;times&#34;,&#34;&#34;)
+                Viewed=Viewed.replace(&#34; &#34;,&#34;&#34;)
+                Viewed=Viewed.replace(&#34;,&#34;,&#34;&#34;)
+                if &#34;k&#34; in Viewed:
+                    Viewed=Viewed.replace(&#34;k&#34;,&#34;&#34;)
+                    Viewed=Viewed*(1000)
+                if &#34;m&#34; in Viewed:
+                    Viewed=Viewed.replace(&#34;m&#34;,&#34;&#34;)
+                    Viewed=Viewed*(1000000)
+                Viewed=float(Viewed)
+                Viewed=int(Viewed)
+            except:
+                # assume 100 people viewed this
+                Viewed=100
+
+            all_details[&#34;Viewed&#34;]=Viewed
+
+
+            ######################################################################
+            #Number of answers to this question
+
+            try:
+                NumAnswers=soup.find(&#34;h2&#34;,attrs={&#34;class&#34;:&#34;mb0&#34;})
+                NumAnswers=NumAnswers[&#34;data-answercount&#34;]
+                #print(NumAnswers)
+                NumAnswers=NumAnswers.replace(&#34; &#34;,&#34;&#34;)
+                NumAnswers=NumAnswers.replace(&#34;,&#34;,&#34;&#34;)
+                if &#34;k&#34; in NumAnswers:
+                    NumAnswers=NumAnswers.replace(&#34;k&#34;,&#34;&#34;)
+                    NumAnswers=NumAnswers*(1000)
+                if &#34;m&#34; in NumAnswers:
+                    NumAnswers=NumAnswers.replace(&#34;m&#34;,&#34;&#34;)
+                    NumAnswers=NumAnswers*(1000000)
+                NumAnswers=float(NumAnswers)
+                NumAnswers=int(NumAnswers)
+            except:
+                # assume there is 1 answer
+                NumAnswers=0
+
+
+            all_details[&#34;NumAnswers&#34;]=NumAnswers
+
+            ######################################################################
+            QuestionSoup=soup.find(&#34;div&#34;,{&#34;class&#34;:&#34;question&#34;})
+            #Number of votes to this question
+
+            try:
+                VoteCount=QuestionSoup.find(&#34;div&#34;,attrs={&#34;itemprop&#34;:&#34;upvoteCount&#34;})
+                VoteCount=VoteCount.text
+                #print(VoteCount)
+                VoteCount=VoteCount.replace(&#34; &#34;,&#34;&#34;)
+                VoteCount=VoteCount.replace(&#34;,&#34;,&#34;&#34;)
+                if &#34;k&#34; in VoteCount:
+                    VoteCount=VoteCount.replace(&#34;k&#34;,&#34;&#34;)
+                    VoteCount=VoteCount*(1000)
+                if &#34;m&#34; in VoteCount:
+                    VoteCount=VoteCount.replace(&#34;m&#34;,&#34;&#34;)
+                    VoteCount=VoteCount*(1000000)
+                VoteCount=float(VoteCount)
+                VoteCount=int(VoteCount)
+            except:
+                # assume there are 5 votes
+                VoteCount=5
+
+            all_details[&#34;VoteCount&#34;]=VoteCount
+
+
+
+            ######################################################################
+            #Question author reputation score
+
+            try:
+                Author=QuestionSoup.find(&#34;div&#34;,attrs={&#34;itemprop&#34;:&#34;author&#34;})
+                AuthorReputationScore=Author.find(&#34;span&#34;,attrs={&#39;class&#39;:&#34;reputation-score&#34;})
+                AuthorReputationScore=AuthorReputationScore.text
+                AuthorReputationScore=AuthorReputationScore.replace(&#34; &#34;,&#34;&#34;)
+                AuthorReputationScore=AuthorReputationScore.replace(&#34;,&#34;,&#34;&#34;)
+                if &#34;k&#34; in AuthorReputationScore:
+                    AuthorReputationScore=AuthorReputationScore.replace(&#34;k&#34;,&#34;&#34;)
+                    AuthorReputationScore=AuthorReputationScore*(1000)
+                if &#34;m&#34; in AuthorReputationScore:
+                    AuthorReputationScore=AuthorReputationScore.replace(&#34;m&#34;,&#34;&#34;)
+                    AuthorReputationScore=AuthorReputationScore*(1000000)
+                AuthorReputationScore=float(AuthorReputationScore)
+                AuthorReputationScore=int(AuthorReputationScore)
+                #print(AuthorReputationScore)
+            except:
+                # assume the reputation score as 5
+                AuthorReputationScore=5
+
+
+            all_details[&#34;AuthorReputationScore&#34;]=AuthorReputationScore
+
+
+            ############################################################################################################################################
+            #       ACCEPTED ANSWER
+            ############################################################################################################################################
+
+            
+
+            accanswer={}
+            Answers=soup.find(&#34;div&#34;,{&#34;class&#34;:&#34;answer accepted-answer&#34;})
+
+
+
+            ######################################################################
+            #Vote count of accepted answer
+
+            try:
+                VoteCount=Answers.find(&#34;div&#34;,attrs={&#34;itemprop&#34;:&#34;upvoteCount&#34;})
+                VoteCount=VoteCount.text
+                VoteCount=VoteCount.replace(&#34; &#34;,&#34;&#34;)
+                VoteCount=VoteCount.replace(&#34;,&#34;,&#34;&#34;)
+                if &#34;k&#34; in VoteCount:
+                    VoteCount=VoteCount.replace(&#34;k&#34;,&#34;&#34;)
+                    VoteCount=VoteCount*(1000)
+                if &#34;m&#34; in VoteCount:
+                    VoteCount=VoteCount.replace(&#34;m&#34;,&#34;&#34;)
+                    VoteCount=VoteCount*(1000000)
+                VoteCount=float(VoteCount)
+                VoteCount=int(VoteCount)
+                accanswer[&#34;Upvotes&#34;]=VoteCount
+            except:
+                # assume there are 5 votes
+                VoteCount=5
+                accanswer[&#34;Upvotes&#34;]=VoteCount
+
+
+
+            #####################################################################
+            # Accepted answer
+            try:
+                ans=Answers.find(&#34;div&#34;,attrs={&#34;class&#34;:&#34;s-prose js-post-body&#34;})
+                accanswer[&#34;AnswerCode&#34;]=&#34;&#34;
+                accanswer[&#34;AnswerText&#34;]=&#34;&#34;
+                for item in ans.find_all(&#34;p&#34;):
+                    accanswer[&#34;AnswerText&#34;]+=item.text
+                for item in ans.find_all(&#34;code&#34;):
+                    accanswer[&#34;AnswerCode&#34;]+=item.text
+            except:
+                accanswer[&#34;AnswerText&#34;]=&#34;&#34;
+                accanswer[&#34;AnswerCode&#34;]=&#34;&#34;
+
+
+
+            ######################################################################
+            #ReputationScore of answerer
+
+            try:
+                ans=Answers.find(&#34;div&#34;,attrs={&#34;itemprop&#34;:&#34;author&#34;})
+                AuthorReputationScore=Answers.find(&#34;span&#34;,attrs={&#39;class&#39;:&#34;reputation-score&#34;})
+                AuthorReputationScore=AuthorReputationScore.text
+                AuthorReputationScore=AuthorReputationScore.replace(&#34; &#34;,&#34;&#34;)
+                AuthorReputationScore=AuthorReputationScore.replace(&#34;,&#34;,&#34;&#34;)
+                if &#34;k&#34; in AuthorReputationScore:
+                    AuthorReputationScore=AuthorReputationScore.replace(&#34;k&#34;,&#34;&#34;)
+                    AuthorReputationScore=AuthorReputationScore*(1000)
+                if &#34;m&#34; in AuthorReputationScore:
+                    AuthorReputationScore=AuthorReputationScore.replace(&#34;m&#34;,&#34;&#34;)
+                    AuthorReputationScore=AuthorReputationScore*(1000000)
+                AuthorReputationScore=float(AuthorReputationScore)
+                AuthorReputationScore=int(AuthorReputationScore)
+                #print(AuthorReputationScore)
+                accanswer[&#34;ReputationScore&#34;]=AuthorReputationScore
+            except:
+                AuthorReputationScore=5
+                accanswer[&#34;ReputationScore&#34;]=AuthorReputationScore
+
+
+
+            ######################################################################
+            #Comments score of answerer
+
+            try:
+                comments=[]
+                Comment=Answers.find(&#34;div&#34;,{&#34;class&#34;:&#34;js-post-comments-component&#34;})
+                Comment=Comment.find_all(&#34;li&#34;,{&#34;class&#34;:&#34;comment js-comment&#34;})
+                score=0
+                num=0
+                for c in Comment:
+                    cc=c.find(&#34;span&#34;,{&#34;class&#34;:&#34;comment-copy&#34;})
+                    cc=cc.text
+                    comments.append(cc)
+                    #print(cc)
+                    score+=Getpolarity(cc)
+                score/=num
+
+                accanswer[&#34;Comments&#34;]=score
+            except:
+                # assume the commments polarity as 0.1
+                score=0.1
+                accanswer[&#34;Comments&#34;]=score
+            
+            accanswer[&#34;accepted&#34;]=1
+
+            t=all_details
+
+            all_details[&#34;accepted_answer&#34;]=accanswer
+
+            everything.append(all_details)
+
+            all_details=t
+            
+
+            ######################################################################
+            #       OTHER ANSWER
+            ######################################################################
+
+
+            answers=[]
+            a={}
+            Answers=soup.find_all(&#34;div&#34;,{&#34;itemprop&#34;:&#34;suggestedAnswer&#34;})
+
+            for answer in Answers:
+                a={}
+                a[&#34;accepted&#34;]=0
+                ######################################################################
+                #Vote count of this answer
+
+                try:
+                    VoteCount=answer.find(&#34;div&#34;,attrs={&#34;itemprop&#34;:&#34;upvoteCount&#34;})
+                    VoteCount=VoteCount.text
+                    VoteCount=VoteCount.replace(&#34; &#34;,&#34;&#34;)
+                    VoteCount=VoteCount.replace(&#34;,&#34;,&#34;&#34;)
+                    if &#34;k&#34; in VoteCount:
+                        VoteCount=VoteCount.replace(&#34;k&#34;,&#34;&#34;)
+                        VoteCount=VoteCount*(1000)
+                    if &#34;m&#34; in VoteCount:
+                        VoteCount=VoteCount.replace(&#34;m&#34;,&#34;&#34;)
+                        VoteCount=VoteCount*(1000000)
+                    VoteCount=float(VoteCount)
+                    VoteCount=int(VoteCount)
+                    a[&#34;Upvotes&#34;]=VoteCount
+                except:
+                    # assume there are 5 votes
+                    VoteCount=5
+                    a[&#34;Upvotes&#34;]=VoteCount
+                #print(VoteCount)
+
+
+
+                #####################################################################
+                # Accepted answer
+                try:
+                    ans=answer.find(&#34;div&#34;,attrs={&#34;class&#34;:&#34;s-prose js-post-body&#34;})
+                    a[&#34;AnswerCode&#34;]=&#34;&#34;
+                    a[&#34;AnswerText&#34;]=&#34;&#34;
+                    for item in ans.find_all(&#34;p&#34;):
+                        a[&#34;AnswerText&#34;]+=item.text
+                    for item in ans.find_all(&#34;code&#34;):
+                        a[&#34;AnswerCode&#34;]+=item.text
+                except:
+                    a[&#34;AnswerText&#34;]=&#34;&#34;
+                    a[&#34;AnswerCode&#34;]=&#34;&#34;
+
+                #print(a[&#34;AnswerCode&#34;])
+
+                ######################################################################
+                #ReputationScore of answerer
+
+                try:
+                    ans=answer.find(&#34;div&#34;,attrs={&#34;itemprop&#34;:&#34;author&#34;})
+                    AuthorReputationScore=answer.find(&#34;span&#34;,attrs={&#39;class&#39;:&#34;reputation-score&#34;})
+                    AuthorReputationScore=AuthorReputationScore.text
+                    AuthorReputationScore=AuthorReputationScore.replace(&#34; &#34;,&#34;&#34;)
+                    AuthorReputationScore=AuthorReputationScore.replace(&#34;,&#34;,&#34;&#34;)
+                    if &#34;k&#34; in AuthorReputationScore:
+                        AuthorReputationScore=AuthorReputationScore.replace(&#34;k&#34;,&#34;&#34;)
+                        AuthorReputationScore=AuthorReputationScore*(1000)
+                    if &#34;m&#34; in AuthorReputationScore:
+                        AuthorReputationScore=AuthorReputationScore.replace(&#34;m&#34;,&#34;&#34;)
+                        AuthorReputationScore=AuthorReputationScore*(1000000)
+                    AuthorReputationScore=float(AuthorReputationScore)
+                    AuthorReputationScore=int(AuthorReputationScore)
+                    #print(AuthorReputationScore)
+                    a[&#34;ReputationScore&#34;]=AuthorReputationScore
+                except:
+                    AuthorReputationScore=5
+                    a[&#34;ReputationScore&#34;]=AuthorReputationScore
+
+                #print(a[&#34;ReputationScore&#34;])
+
+
+
+                ######################################################################
+                #Comments score of answerer
+
+                try:
+                    comments=[]
+                    Comment=answer.find(&#34;div&#34;,{&#34;class&#34;:&#34;js-post-comments-component&#34;})
+                    Comment=Comment.find_all(&#34;li&#34;,{&#34;class&#34;:&#34;comment js-comment&#34;})
+                    score=0
+                    num=0
+                    for c in Comment:
+                        cc=c.find(&#34;span&#34;,{&#34;class&#34;:&#34;comment-copy&#34;})
+                        cc=cc.text
+                        comments.append(cc)
+                        #print(cc)
+                        num+=1
+                        score+=Getpolarity(cc)
+                    score/=num
+                    a[&#34;Comments&#34;]=score
+                except:
+                    # assume the commments polarity as 0.1
+                    score=0
+                    a[&#34;Comments&#34;]=score
+
+                #print(a[&#34;Comments&#34;])
+
+                # t=all_details
+                # all_details[&#34;accepted_answer&#34;]=a
+                # everything.append(all_details)
+                # all_details=t
+
+
+            #everything.append(all_details)
+            all_details={}
+
+        except:
+            pass
+
+
+    tim={}   #20
+    view={} #100
+    NumAns={} #20
+    VotC={}  #100
+    AuthRep={} #20
+    score={}
+    codw={}
+    answ={}
+    ans_rep={}
+    ans_sc={}
+
+    ################################################3
+    #Select 3 questions to show in order
+
+
+    for i in range(len(everything)):
+        tim[i]=everything[i][&#34;time_passed&#34;]
+        view[i]=everything[i][&#34;Viewed&#34;]
+        NumAns[i]=everything[i][&#34;NumAnswers&#34;]
+        VotC[i]=everything[i][&#34;VoteCount&#34;]
+        AuthRep[i]=everything[i][&#34;AuthorReputationScore&#34;]
+        score[i]=0
+
+        answ[i]=everything[i][&#34;accepted_answer&#34;][&#34;AnswerText&#34;]
+        codw[i]=everything[i][&#34;accepted_answer&#34;][&#34;AnswerCode&#34;]
+        ans_rep[i]=everything[i][&#34;accepted_answer&#34;][&#34;ReputationScore&#34;]
+        ans_sc[i]=everything[i][&#34;accepted_answer&#34;][&#34;Comments&#34;]
+
+
+
+
+    tim=dict(sorted(tim.items(), key=lambda item: item[1]))
+    view=dict(sorted(view.items(), key=lambda item: item[1]))
+    NumAns=dict(sorted(NumAns.items(), key=lambda item: item[1]))
+    VotC=dict(sorted(VotC.items(), key=lambda item: item[1]))
+    AuthRep=dict(sorted(AuthRep.items(), key=lambda item: item[1]))
+
+    answ=dict(sorted(answ.items(), key=lambda item: len(item[1])))
+    codw=dict(sorted(codw.items(), key=lambda item: len(item[1])))
+    ans_rep=dict(sorted(ans_rep.items(), key=lambda item: item[1]))
+    ans_sc=dict(sorted(ans_sc.items(), key=lambda item: item[1]))
+
+    
+
+    s=0
+    for k in tim.keys():
+        score[k]+=s
+        s+=20
+    s=0
+    for k in view.keys():
+        score[k]+=s
+        s+=100
+    s=0
+    for k in NumAns.keys():
+        score[k]+=s
+        s+=20
+    s=0
+    for k in VotC.keys():
+        score[k]+=s
+        s+=100
+    s=0
+    for k in AuthRep.keys():
+        score[k]+=s
+        s+=20
+    s=0
+    for k in answ.keys():
+        score[k]+=s
+        s+=100
+    s=0
+    for k in codw.keys():
+        score[k]+=s
+        s+=100
+
+    s=0
+    for k in ans_rep.keys():
+        score[k]+=s
+        s+=20
+
+    s=0
+    for k in ans_sc.keys():
+        score[k]+=s
+        s+=20
+    
+    score=dict(sorted(score.items(), key=lambda item: item[1],reverse=True))
+    count=3
+
+    return_dict={}
+    i=0
+
+    for k in score.keys():
+        if count&gt;0:
+            x={}
+            #print(&#34;********************************************&#34;)
+            #print(everything[k][&#34;question&#34;])
+            x[&#34;link&#34;]=everything[k][&#34;link&#34;]
+            x[&#34;question&#34;]=everything[k][&#34;question&#34;]
+            #print(&#34;********************************************&#34;)
+            #print(everything[k][&#34;accepted_answer&#34;][&#34;AnswerText&#34;])
+            try:
+                #print(generate_summary(everything[k][&#34;accepted_answer&#34;][&#34;AnswerText&#34;]))
+                x[&#34;AnswerText&#34;]=generate_summary(everything[k][&#34;accepted_answer&#34;][&#34;AnswerText&#34;])
+            except:
+                #print(everything[k][&#34;accepted_answer&#34;][&#34;AnswerText&#34;])
+                x[&#34;AnswerText&#34;]=everything[k][&#34;accepted_answer&#34;][&#34;AnswerText&#34;]
+            # print(&#34;********************************************&#34;)
+            # print(everything[k][&#34;accepted_answer&#34;][&#34;AnswerCode&#34;])
+            # print(everything[k][&#34;accepted_answer&#34;][&#34;AnswerCode&#34;])
+            # print(&#34;********************************************&#34;)
+            
+            x[&#34;AnswerCode&#34;]=everything[k][&#34;accepted_answer&#34;][&#34;AnswerCode&#34;]
+
+            return_dict[i]=x
+            count-=1
+            i+=1
+
+        else:
+            pass
+
+    json_return_obj=json.dumps(return_dict)
+    print(json_return_obj)
+    return json_return_obj
+
+
+
+# query = &#34;TypeError: search() got multiple values for argument &#39;tld&#39;&#34;
+# GetDisplayInformation(query)</code></pre>
+</details>
+</section>
+<section>
+</section>
+<section>
+</section>
+<section>
+<h2 class="section-title" id="header-functions">Functions</h2>
+<dl>
+<dt id="StackOverFLowPosts.GetDisplayInformation"><code class="name flex">
+<span>def <span class="ident">GetDisplayInformation</span></span>(<span>query)</span>
+</code></dt>
+<dd>
+<div class="desc"></div>
+<details class="source">
+<summary>
+<span>Expand source code</span>
+</summary>
+<pre><code class="python">def GetDisplayInformation(query):
+    
+
+
+    #Google CSE Api Information
+    
+    api_key=&#34;AIzaSyAkSpqRYUzIX19c05nACM4EMbuDRU-hwmw&#34;
+    cse_id=&#34;a2a833c876db82751&#34;
+    resource=build(&#34;customsearch&#34;,&#39;v1&#39;,developerKey=api_key).cse()
+    result=resource.list(q=query,cx=cse_id).execute()
+    
+
+    req_links={}
+
+    for item in result[&#39;items&#39;]:
+        j=item[&#39;link&#39;]
+        req_links[j]=[]
+
+    # dict has link and list as key and value
+    # each value list contains
+    # rating of question as 1st element ( based on custom parameters)
+    # question as 2nd element
+    # rating of accepted answer as 3rd element
+    # accepted answer as 4th element
+    # rating of best other answer as 5th element
+    # best other answer as 6th element
+
+
+    # all_details :
+    #             question
+    #             time
+    #             Viewed
+    #             NumAnswers
+    #             VoteCount
+    #             AuthorReputationScore
+
+    #             acceted_answer
+
+
+    everything=[]
+
+    for link in req_links:
+
+        # If Link is present in data base
+        # Then store
+
+
+        print(link)
+
+        try:
+            all_details={}
+            all_details[&#34;link&#34;]=link
+
+
+            r=requests.get(link)
+            soup = BeautifulSoup(r.content, &#39;html5lib&#39;)
+
+            ############################################################################################################################################
+            #       QUESTION
+            ############################################################################################################################################
+
+
+
+            ######################################################################
+            #question
+
+            question = soup.find(&#39;a&#39;, attrs = {&#39;class&#39;:&#39;question-hyperlink&#39;}) 
+            question=question.text
+            #print(question)
+
+            all_details[&#34;question&#34;]=question
+
+            ######################################################################
+            #Number of Months passed after this question was asked
+
+            try:
+                DateCreated=soup.find(&#39;time&#39; , attrs={&#39;itemprop&#39;:&#34;dateCreated&#34;})
+                DateCreated=DateCreated.text
+                #print(DateCreated)
+                if &#34;years&#34; in DateCreated:
+                    y=DateCreated.split(&#34;years&#34;)[0]
+                    y=y.replace(&#34; &#34;,&#34;&#34;)
+                    y=int(y)
+                    y*=12
+                if &#34;month&#34; in DateCreated:
+                    m=DateCreated.split(&#34;month&#34;)[0]
+                    m=m.split(&#34;,&#34;)[1]
+                    m=m.replace(&#34; &#34;,&#34;&#34;)
+                    m=int(m)
+                time=m+y
+            except:
+                #assume question is asked 5 years ago
+                time=60
+
+            all_details[&#34;time_passed&#34;]=time
+
+            ######################################################################
+            #Number of Views to this question
+
+            try:
+                Viewed=soup.find(&#39;div&#39; , attrs={&#39;class&#39;:&#34;grid--cell ws-nowrap mb8&#34;})
+                Viewed=Viewed.text
+                Viewed=Viewed.replace(&#34; &#34;,&#34;&#34;)
+                Viewed=Viewed.replace(&#34;\n&#34;,&#34;&#34;)
+                #print(Viewed)
+                Viewed=Viewed.replace(&#34;Viewed&#34;,&#34;&#34;)
+                Viewed=Viewed.replace(&#34;times&#34;,&#34;&#34;)
+                Viewed=Viewed.replace(&#34; &#34;,&#34;&#34;)
+                Viewed=Viewed.replace(&#34;,&#34;,&#34;&#34;)
+                if &#34;k&#34; in Viewed:
+                    Viewed=Viewed.replace(&#34;k&#34;,&#34;&#34;)
+                    Viewed=Viewed*(1000)
+                if &#34;m&#34; in Viewed:
+                    Viewed=Viewed.replace(&#34;m&#34;,&#34;&#34;)
+                    Viewed=Viewed*(1000000)
+                Viewed=float(Viewed)
+                Viewed=int(Viewed)
+            except:
+                # assume 100 people viewed this
+                Viewed=100
+
+            all_details[&#34;Viewed&#34;]=Viewed
+
+
+            ######################################################################
+            #Number of answers to this question
+
+            try:
+                NumAnswers=soup.find(&#34;h2&#34;,attrs={&#34;class&#34;:&#34;mb0&#34;})
+                NumAnswers=NumAnswers[&#34;data-answercount&#34;]
+                #print(NumAnswers)
+                NumAnswers=NumAnswers.replace(&#34; &#34;,&#34;&#34;)
+                NumAnswers=NumAnswers.replace(&#34;,&#34;,&#34;&#34;)
+                if &#34;k&#34; in NumAnswers:
+                    NumAnswers=NumAnswers.replace(&#34;k&#34;,&#34;&#34;)
+                    NumAnswers=NumAnswers*(1000)
+                if &#34;m&#34; in NumAnswers:
+                    NumAnswers=NumAnswers.replace(&#34;m&#34;,&#34;&#34;)
+                    NumAnswers=NumAnswers*(1000000)
+                NumAnswers=float(NumAnswers)
+                NumAnswers=int(NumAnswers)
+            except:
+                # assume there is 1 answer
+                NumAnswers=0
+
+
+            all_details[&#34;NumAnswers&#34;]=NumAnswers
+
+            ######################################################################
+            QuestionSoup=soup.find(&#34;div&#34;,{&#34;class&#34;:&#34;question&#34;})
+            #Number of votes to this question
+
+            try:
+                VoteCount=QuestionSoup.find(&#34;div&#34;,attrs={&#34;itemprop&#34;:&#34;upvoteCount&#34;})
+                VoteCount=VoteCount.text
+                #print(VoteCount)
+                VoteCount=VoteCount.replace(&#34; &#34;,&#34;&#34;)
+                VoteCount=VoteCount.replace(&#34;,&#34;,&#34;&#34;)
+                if &#34;k&#34; in VoteCount:
+                    VoteCount=VoteCount.replace(&#34;k&#34;,&#34;&#34;)
+                    VoteCount=VoteCount*(1000)
+                if &#34;m&#34; in VoteCount:
+                    VoteCount=VoteCount.replace(&#34;m&#34;,&#34;&#34;)
+                    VoteCount=VoteCount*(1000000)
+                VoteCount=float(VoteCount)
+                VoteCount=int(VoteCount)
+            except:
+                # assume there are 5 votes
+                VoteCount=5
+
+            all_details[&#34;VoteCount&#34;]=VoteCount
+
+
+
+            ######################################################################
+            #Question author reputation score
+
+            try:
+                Author=QuestionSoup.find(&#34;div&#34;,attrs={&#34;itemprop&#34;:&#34;author&#34;})
+                AuthorReputationScore=Author.find(&#34;span&#34;,attrs={&#39;class&#39;:&#34;reputation-score&#34;})
+                AuthorReputationScore=AuthorReputationScore.text
+                AuthorReputationScore=AuthorReputationScore.replace(&#34; &#34;,&#34;&#34;)
+                AuthorReputationScore=AuthorReputationScore.replace(&#34;,&#34;,&#34;&#34;)
+                if &#34;k&#34; in AuthorReputationScore:
+                    AuthorReputationScore=AuthorReputationScore.replace(&#34;k&#34;,&#34;&#34;)
+                    AuthorReputationScore=AuthorReputationScore*(1000)
+                if &#34;m&#34; in AuthorReputationScore:
+                    AuthorReputationScore=AuthorReputationScore.replace(&#34;m&#34;,&#34;&#34;)
+                    AuthorReputationScore=AuthorReputationScore*(1000000)
+                AuthorReputationScore=float(AuthorReputationScore)
+                AuthorReputationScore=int(AuthorReputationScore)
+                #print(AuthorReputationScore)
+            except:
+                # assume the reputation score as 5
+                AuthorReputationScore=5
+
+
+            all_details[&#34;AuthorReputationScore&#34;]=AuthorReputationScore
+
+
+            ############################################################################################################################################
+            #       ACCEPTED ANSWER
+            ############################################################################################################################################
+
+            
+
+            accanswer={}
+            Answers=soup.find(&#34;div&#34;,{&#34;class&#34;:&#34;answer accepted-answer&#34;})
+
+
+
+            ######################################################################
+            #Vote count of accepted answer
+
+            try:
+                VoteCount=Answers.find(&#34;div&#34;,attrs={&#34;itemprop&#34;:&#34;upvoteCount&#34;})
+                VoteCount=VoteCount.text
+                VoteCount=VoteCount.replace(&#34; &#34;,&#34;&#34;)
+                VoteCount=VoteCount.replace(&#34;,&#34;,&#34;&#34;)
+                if &#34;k&#34; in VoteCount:
+                    VoteCount=VoteCount.replace(&#34;k&#34;,&#34;&#34;)
+                    VoteCount=VoteCount*(1000)
+                if &#34;m&#34; in VoteCount:
+                    VoteCount=VoteCount.replace(&#34;m&#34;,&#34;&#34;)
+                    VoteCount=VoteCount*(1000000)
+                VoteCount=float(VoteCount)
+                VoteCount=int(VoteCount)
+                accanswer[&#34;Upvotes&#34;]=VoteCount
+            except:
+                # assume there are 5 votes
+                VoteCount=5
+                accanswer[&#34;Upvotes&#34;]=VoteCount
+
+
+
+            #####################################################################
+            # Accepted answer
+            try:
+                ans=Answers.find(&#34;div&#34;,attrs={&#34;class&#34;:&#34;s-prose js-post-body&#34;})
+                accanswer[&#34;AnswerCode&#34;]=&#34;&#34;
+                accanswer[&#34;AnswerText&#34;]=&#34;&#34;
+                for item in ans.find_all(&#34;p&#34;):
+                    accanswer[&#34;AnswerText&#34;]+=item.text
+                for item in ans.find_all(&#34;code&#34;):
+                    accanswer[&#34;AnswerCode&#34;]+=item.text
+            except:
+                accanswer[&#34;AnswerText&#34;]=&#34;&#34;
+                accanswer[&#34;AnswerCode&#34;]=&#34;&#34;
+
+
+
+            ######################################################################
+            #ReputationScore of answerer
+
+            try:
+                ans=Answers.find(&#34;div&#34;,attrs={&#34;itemprop&#34;:&#34;author&#34;})
+                AuthorReputationScore=Answers.find(&#34;span&#34;,attrs={&#39;class&#39;:&#34;reputation-score&#34;})
+                AuthorReputationScore=AuthorReputationScore.text
+                AuthorReputationScore=AuthorReputationScore.replace(&#34; &#34;,&#34;&#34;)
+                AuthorReputationScore=AuthorReputationScore.replace(&#34;,&#34;,&#34;&#34;)
+                if &#34;k&#34; in AuthorReputationScore:
+                    AuthorReputationScore=AuthorReputationScore.replace(&#34;k&#34;,&#34;&#34;)
+                    AuthorReputationScore=AuthorReputationScore*(1000)
+                if &#34;m&#34; in AuthorReputationScore:
+                    AuthorReputationScore=AuthorReputationScore.replace(&#34;m&#34;,&#34;&#34;)
+                    AuthorReputationScore=AuthorReputationScore*(1000000)
+                AuthorReputationScore=float(AuthorReputationScore)
+                AuthorReputationScore=int(AuthorReputationScore)
+                #print(AuthorReputationScore)
+                accanswer[&#34;ReputationScore&#34;]=AuthorReputationScore
+            except:
+                AuthorReputationScore=5
+                accanswer[&#34;ReputationScore&#34;]=AuthorReputationScore
+
+
+
+            ######################################################################
+            #Comments score of answerer
+
+            try:
+                comments=[]
+                Comment=Answers.find(&#34;div&#34;,{&#34;class&#34;:&#34;js-post-comments-component&#34;})
+                Comment=Comment.find_all(&#34;li&#34;,{&#34;class&#34;:&#34;comment js-comment&#34;})
+                score=0
+                num=0
+                for c in Comment:
+                    cc=c.find(&#34;span&#34;,{&#34;class&#34;:&#34;comment-copy&#34;})
+                    cc=cc.text
+                    comments.append(cc)
+                    #print(cc)
+                    score+=Getpolarity(cc)
+                score/=num
+
+                accanswer[&#34;Comments&#34;]=score
+            except:
+                # assume the commments polarity as 0.1
+                score=0.1
+                accanswer[&#34;Comments&#34;]=score
+            
+            accanswer[&#34;accepted&#34;]=1
+
+            t=all_details
+
+            all_details[&#34;accepted_answer&#34;]=accanswer
+
+            everything.append(all_details)
+
+            all_details=t
+            
+
+            ######################################################################
+            #       OTHER ANSWER
+            ######################################################################
+
+
+            answers=[]
+            a={}
+            Answers=soup.find_all(&#34;div&#34;,{&#34;itemprop&#34;:&#34;suggestedAnswer&#34;})
+
+            for answer in Answers:
+                a={}
+                a[&#34;accepted&#34;]=0
+                ######################################################################
+                #Vote count of this answer
+
+                try:
+                    VoteCount=answer.find(&#34;div&#34;,attrs={&#34;itemprop&#34;:&#34;upvoteCount&#34;})
+                    VoteCount=VoteCount.text
+                    VoteCount=VoteCount.replace(&#34; &#34;,&#34;&#34;)
+                    VoteCount=VoteCount.replace(&#34;,&#34;,&#34;&#34;)
+                    if &#34;k&#34; in VoteCount:
+                        VoteCount=VoteCount.replace(&#34;k&#34;,&#34;&#34;)
+                        VoteCount=VoteCount*(1000)
+                    if &#34;m&#34; in VoteCount:
+                        VoteCount=VoteCount.replace(&#34;m&#34;,&#34;&#34;)
+                        VoteCount=VoteCount*(1000000)
+                    VoteCount=float(VoteCount)
+                    VoteCount=int(VoteCount)
+                    a[&#34;Upvotes&#34;]=VoteCount
+                except:
+                    # assume there are 5 votes
+                    VoteCount=5
+                    a[&#34;Upvotes&#34;]=VoteCount
+                #print(VoteCount)
+
+
+
+                #####################################################################
+                # Accepted answer
+                try:
+                    ans=answer.find(&#34;div&#34;,attrs={&#34;class&#34;:&#34;s-prose js-post-body&#34;})
+                    a[&#34;AnswerCode&#34;]=&#34;&#34;
+                    a[&#34;AnswerText&#34;]=&#34;&#34;
+                    for item in ans.find_all(&#34;p&#34;):
+                        a[&#34;AnswerText&#34;]+=item.text
+                    for item in ans.find_all(&#34;code&#34;):
+                        a[&#34;AnswerCode&#34;]+=item.text
+                except:
+                    a[&#34;AnswerText&#34;]=&#34;&#34;
+                    a[&#34;AnswerCode&#34;]=&#34;&#34;
+
+                #print(a[&#34;AnswerCode&#34;])
+
+                ######################################################################
+                #ReputationScore of answerer
+
+                try:
+                    ans=answer.find(&#34;div&#34;,attrs={&#34;itemprop&#34;:&#34;author&#34;})
+                    AuthorReputationScore=answer.find(&#34;span&#34;,attrs={&#39;class&#39;:&#34;reputation-score&#34;})
+                    AuthorReputationScore=AuthorReputationScore.text
+                    AuthorReputationScore=AuthorReputationScore.replace(&#34; &#34;,&#34;&#34;)
+                    AuthorReputationScore=AuthorReputationScore.replace(&#34;,&#34;,&#34;&#34;)
+                    if &#34;k&#34; in AuthorReputationScore:
+                        AuthorReputationScore=AuthorReputationScore.replace(&#34;k&#34;,&#34;&#34;)
+                        AuthorReputationScore=AuthorReputationScore*(1000)
+                    if &#34;m&#34; in AuthorReputationScore:
+                        AuthorReputationScore=AuthorReputationScore.replace(&#34;m&#34;,&#34;&#34;)
+                        AuthorReputationScore=AuthorReputationScore*(1000000)
+                    AuthorReputationScore=float(AuthorReputationScore)
+                    AuthorReputationScore=int(AuthorReputationScore)
+                    #print(AuthorReputationScore)
+                    a[&#34;ReputationScore&#34;]=AuthorReputationScore
+                except:
+                    AuthorReputationScore=5
+                    a[&#34;ReputationScore&#34;]=AuthorReputationScore
+
+                #print(a[&#34;ReputationScore&#34;])
+
+
+
+                ######################################################################
+                #Comments score of answerer
+
+                try:
+                    comments=[]
+                    Comment=answer.find(&#34;div&#34;,{&#34;class&#34;:&#34;js-post-comments-component&#34;})
+                    Comment=Comment.find_all(&#34;li&#34;,{&#34;class&#34;:&#34;comment js-comment&#34;})
+                    score=0
+                    num=0
+                    for c in Comment:
+                        cc=c.find(&#34;span&#34;,{&#34;class&#34;:&#34;comment-copy&#34;})
+                        cc=cc.text
+                        comments.append(cc)
+                        #print(cc)
+                        num+=1
+                        score+=Getpolarity(cc)
+                    score/=num
+                    a[&#34;Comments&#34;]=score
+                except:
+                    # assume the commments polarity as 0.1
+                    score=0
+                    a[&#34;Comments&#34;]=score
+
+                #print(a[&#34;Comments&#34;])
+
+                # t=all_details
+                # all_details[&#34;accepted_answer&#34;]=a
+                # everything.append(all_details)
+                # all_details=t
+
+
+            #everything.append(all_details)
+            all_details={}
+
+        except:
+            pass
+
+
+    tim={}   #20
+    view={} #100
+    NumAns={} #20
+    VotC={}  #100
+    AuthRep={} #20
+    score={}
+    codw={}
+    answ={}
+    ans_rep={}
+    ans_sc={}
+
+    ################################################3
+    #Select 3 questions to show in order
+
+
+    for i in range(len(everything)):
+        tim[i]=everything[i][&#34;time_passed&#34;]
+        view[i]=everything[i][&#34;Viewed&#34;]
+        NumAns[i]=everything[i][&#34;NumAnswers&#34;]
+        VotC[i]=everything[i][&#34;VoteCount&#34;]
+        AuthRep[i]=everything[i][&#34;AuthorReputationScore&#34;]
+        score[i]=0
+
+        answ[i]=everything[i][&#34;accepted_answer&#34;][&#34;AnswerText&#34;]
+        codw[i]=everything[i][&#34;accepted_answer&#34;][&#34;AnswerCode&#34;]
+        ans_rep[i]=everything[i][&#34;accepted_answer&#34;][&#34;ReputationScore&#34;]
+        ans_sc[i]=everything[i][&#34;accepted_answer&#34;][&#34;Comments&#34;]
+
+
+
+
+    tim=dict(sorted(tim.items(), key=lambda item: item[1]))
+    view=dict(sorted(view.items(), key=lambda item: item[1]))
+    NumAns=dict(sorted(NumAns.items(), key=lambda item: item[1]))
+    VotC=dict(sorted(VotC.items(), key=lambda item: item[1]))
+    AuthRep=dict(sorted(AuthRep.items(), key=lambda item: item[1]))
+
+    answ=dict(sorted(answ.items(), key=lambda item: len(item[1])))
+    codw=dict(sorted(codw.items(), key=lambda item: len(item[1])))
+    ans_rep=dict(sorted(ans_rep.items(), key=lambda item: item[1]))
+    ans_sc=dict(sorted(ans_sc.items(), key=lambda item: item[1]))
+
+    
+
+    s=0
+    for k in tim.keys():
+        score[k]+=s
+        s+=20
+    s=0
+    for k in view.keys():
+        score[k]+=s
+        s+=100
+    s=0
+    for k in NumAns.keys():
+        score[k]+=s
+        s+=20
+    s=0
+    for k in VotC.keys():
+        score[k]+=s
+        s+=100
+    s=0
+    for k in AuthRep.keys():
+        score[k]+=s
+        s+=20
+    s=0
+    for k in answ.keys():
+        score[k]+=s
+        s+=100
+    s=0
+    for k in codw.keys():
+        score[k]+=s
+        s+=100
+
+    s=0
+    for k in ans_rep.keys():
+        score[k]+=s
+        s+=20
+
+    s=0
+    for k in ans_sc.keys():
+        score[k]+=s
+        s+=20
+    
+    score=dict(sorted(score.items(), key=lambda item: item[1],reverse=True))
+    count=3
+
+    return_dict={}
+    i=0
+
+    for k in score.keys():
+        if count&gt;0:
+            x={}
+            #print(&#34;********************************************&#34;)
+            #print(everything[k][&#34;question&#34;])
+            x[&#34;link&#34;]=everything[k][&#34;link&#34;]
+            x[&#34;question&#34;]=everything[k][&#34;question&#34;]
+            #print(&#34;********************************************&#34;)
+            #print(everything[k][&#34;accepted_answer&#34;][&#34;AnswerText&#34;])
+            try:
+                #print(generate_summary(everything[k][&#34;accepted_answer&#34;][&#34;AnswerText&#34;]))
+                x[&#34;AnswerText&#34;]=generate_summary(everything[k][&#34;accepted_answer&#34;][&#34;AnswerText&#34;])
+            except:
+                #print(everything[k][&#34;accepted_answer&#34;][&#34;AnswerText&#34;])
+                x[&#34;AnswerText&#34;]=everything[k][&#34;accepted_answer&#34;][&#34;AnswerText&#34;]
+            # print(&#34;********************************************&#34;)
+            # print(everything[k][&#34;accepted_answer&#34;][&#34;AnswerCode&#34;])
+            # print(everything[k][&#34;accepted_answer&#34;][&#34;AnswerCode&#34;])
+            # print(&#34;********************************************&#34;)
+            
+            x[&#34;AnswerCode&#34;]=everything[k][&#34;accepted_answer&#34;][&#34;AnswerCode&#34;]
+
+            return_dict[i]=x
+            count-=1
+            i+=1
+
+        else:
+            pass
+
+    json_return_obj=json.dumps(return_dict)
+    print(json_return_obj)
+    return json_return_obj</code></pre>
+</details>
+</dd>
+</dl>
+</section>
+<section>
+</section>
+</article>
+<nav id="sidebar">
+<h1>Index</h1>
+<div class="toc">
+<ul></ul>
+</div>
+<ul id="index">
+<li><h3><a href="#header-functions">Functions</a></h3>
+<ul class="">
+<li><code><a title="StackOverFLowPosts.GetDisplayInformation" href="#StackOverFLowPosts.GetDisplayInformation">GetDisplayInformation</a></code></li>
+</ul>
+</li>
+</ul>
+</nav>
+</main>
+<footer id="footer">
+<p>Generated by <a href="https://pdoc3.github.io/pdoc"><cite>pdoc</cite> 0.9.2</a>.</p>
+</footer>
+</body>
+</html>
