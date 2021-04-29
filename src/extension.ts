@@ -438,6 +438,8 @@ async function runSearchingForStackOverFlowPosts(selectedText:string): Promise<v
 		}else{
 			console.log("Reached here...");
 			sr = await request.get(uriOptions);
+			console.log("AFTER SR\n");
+			//console.log(error.message);
 			const errorModelObject = new errorModel({
 				query:encodedAPISearchTerm,
 				ans:JSON.parse(sr)
@@ -482,6 +484,8 @@ async function runSearchingForStackOverFlowPosts(selectedText:string): Promise<v
 		}
     } 
 	catch (error) {
+		console.log("CAME TO CATCH");
+		console.log(error.message);
 		var passTheResult:description[]=new Array(10);
         if(sidebarProvider!==null && sidebarProvider!==undefined){
 			sidebarProvider.customResolveWebviewView(4,passTheResult);

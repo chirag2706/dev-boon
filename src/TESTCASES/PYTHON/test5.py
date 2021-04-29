@@ -1,4 +1,5 @@
-# index error
+import numpy 
 
-x=[1,2,3]
-print(x[5])
+a=[1,2,[3,4]]
+
+a=numpy.array(a)
