@@ -1,4 +1,3 @@
 DEV-BOON:
 
-Please visit our website for proper code documentation and installation details: https://chirag2706.github.io/
-
+Visit https://chirag2706.github.io/ for Code documentation,Installation and other details: 
