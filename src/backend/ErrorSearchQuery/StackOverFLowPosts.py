@@ -436,6 +436,7 @@ def GetDisplayInformation(query):
             pass
 
 
+
     tim={}   #20
     view={} #100
     NumAns={} #20
@@ -449,6 +450,8 @@ def GetDisplayInformation(query):
 
     ################################################3
     #Select 3 questions to show in order
+
+
 
 
     for i in range(len(everything)):
@@ -467,6 +470,7 @@ def GetDisplayInformation(query):
 
 
 
+
     tim=dict(sorted(tim.items(), key=lambda item: item[1]))
     view=dict(sorted(view.items(), key=lambda item: item[1]))
     NumAns=dict(sorted(NumAns.items(), key=lambda item: item[1]))
@@ -477,6 +481,7 @@ def GetDisplayInformation(query):
     codw=dict(sorted(codw.items(), key=lambda item: len(item[1])))
     ans_rep=dict(sorted(ans_rep.items(), key=lambda item: item[1]))
     ans_sc=dict(sorted(ans_sc.items(), key=lambda item: item[1]))
+
 
     
 
@@ -518,6 +523,7 @@ def GetDisplayInformation(query):
     for k in ans_sc.keys():
         score[k]+=s
         s+=20
+
     
     score=dict(sorted(score.items(), key=lambda item: item[1],reverse=True))
     count=3
@@ -553,9 +559,12 @@ def GetDisplayInformation(query):
 
         else:
             pass
+    
 
     json_return_obj=json.dumps(return_dict)
-    print(json_return_obj)
+    #print("&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&&")
+    #print(json_return_obj)
+    #print(json_return_obj)
     return json_return_obj
 
 
