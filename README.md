@@ -37,6 +37,7 @@ git clone https://github.com/chirag2706/dev-boon
 Navigate inside the dev-boon directory.
 Now execute the following commands to install all necessary npm and python packages in your computer.
 ```sh
+cd dev-boon
 npm install
 pip3 install -r requirements.txt
 ```
