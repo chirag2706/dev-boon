@@ -1,7 +1,7 @@
 {
 	"name": "dev-boon",
 	"displayName": "dev-boon",
-	"description": "An extension which helps developers in order to find solutions to errors occured during execution of commands(in command line) through stackOverFlow,youtube videos etc.",
+	"description": "DevBoon is Visual Studio Code extension, that provides a query engine inorder to help python and java developers so as to decrease development time. The current version only has 4 queries namely Search Query, Error Query, Snippet Query, Completion Query.",
 	"version": "0.0.1",
 	"engines": {
 		"vscode": "^1.53.0"
@@ -24,7 +24,8 @@
 		"onCommand:dev-boon.NLP_TO_CODE",
 		"onCommand:dev-boon.ERROR_QUERY",
 		"onCommand:dev-boon.COMPLETION_QUERY",
-		"onView:dev-boon-sidebar"
+		"onView:dev-boon-sidebar",
+		"*"
 	],
 	"main": "./out/extension.js",
 	"license": "MIT",
@@ -85,7 +86,6 @@
 				"category": "dev-boon",
 				"title": "Search using prompt"
 			},
-			
 			{
 				"command": "dev-boon.ERROR_QUERY",
 				"category": "dev-boon",
