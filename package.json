@@ -3,7 +3,7 @@
 	"displayName": "dev-boon",
 	"description": "DevBoon is Visual Studio Code extension, that provides a query engine inorder to help python and java developers so as to decrease development time. The current version only has 4 queries namely Search Query, Error Query, Snippet Query, Completion Query.",
 	"version": "0.0.1",
-	"icon": "./icons/dev-boon.png",
+	"icon": "icons/dev-boon.png",
 	"engines": {
 		"vscode": "^1.53.0"
 	},
