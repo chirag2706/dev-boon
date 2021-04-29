@@ -32,7 +32,8 @@ from textblob import TextBlob
 import statistics
 import json  
 from googleapiclient.discovery import build
-
+# from .AnswerSummarizer import generate_summary_
+# from .CommentClassifier import Getpolarity_Score
 
 
 def GetDisplayInformation(query):
@@ -325,7 +326,7 @@ def GetDisplayInformation(query):
                     cc=cc.text
                     comments.append(cc)
                     #print(cc)
-                    score+=Getpolarity(cc)
+                    score+=Getpolarity_Score(cc)
                 score/=num
 
                 accanswer[&#34;Comments&#34;]=score
@@ -440,7 +441,7 @@ def GetDisplayInformation(query):
                         comments.append(cc)
                         #print(cc)
                         num+=1
-                        score+=Getpolarity(cc)
+                        score+=Getpolarity_Score(cc)
                     score/=num
                     a[&#34;Comments&#34;]=score
                 except:
@@ -562,8 +563,8 @@ def GetDisplayInformation(query):
             #print(&#34;********************************************&#34;)
             #print(everything[k][&#34;accepted_answer&#34;][&#34;AnswerText&#34;])
             try:
-                #print(generate_summary(everything[k][&#34;accepted_answer&#34;][&#34;AnswerText&#34;]))
-                x[&#34;AnswerText&#34;]=generate_summary(everything[k][&#34;accepted_answer&#34;][&#34;AnswerText&#34;])
+                #print(generate_summary_(everything[k][&#34;accepted_answer&#34;][&#34;AnswerText&#34;]))
+                x[&#34;AnswerText&#34;]=generate_summary_(everything[k][&#34;accepted_answer&#34;][&#34;AnswerText&#34;])
             except:
                 #print(everything[k][&#34;accepted_answer&#34;][&#34;AnswerText&#34;])
                 x[&#34;AnswerText&#34;]=everything[k][&#34;accepted_answer&#34;][&#34;AnswerText&#34;]
@@ -897,7 +898,7 @@ def GetDisplayInformation(query):
                     cc=cc.text
                     comments.append(cc)
                     #print(cc)
-                    score+=Getpolarity(cc)
+                    score+=Getpolarity_Score(cc)
                 score/=num
 
                 accanswer[&#34;Comments&#34;]=score
@@ -1012,7 +1013,7 @@ def GetDisplayInformation(query):
                         comments.append(cc)
                         #print(cc)
                         num+=1
-                        score+=Getpolarity(cc)
+                        score+=Getpolarity_Score(cc)
                     score/=num
                     a[&#34;Comments&#34;]=score
                 except:
@@ -1134,8 +1135,8 @@ def GetDisplayInformation(query):
             #print(&#34;********************************************&#34;)
             #print(everything[k][&#34;accepted_answer&#34;][&#34;AnswerText&#34;])
             try:
-                #print(generate_summary(everything[k][&#34;accepted_answer&#34;][&#34;AnswerText&#34;]))
-                x[&#34;AnswerText&#34;]=generate_summary(everything[k][&#34;accepted_answer&#34;][&#34;AnswerText&#34;])
+                #print(generate_summary_(everything[k][&#34;accepted_answer&#34;][&#34;AnswerText&#34;]))
+                x[&#34;AnswerText&#34;]=generate_summary_(everything[k][&#34;accepted_answer&#34;][&#34;AnswerText&#34;])
             except:
                 #print(everything[k][&#34;accepted_answer&#34;][&#34;AnswerText&#34;])
                 x[&#34;AnswerText&#34;]=everything[k][&#34;accepted_answer&#34;][&#34;AnswerText&#34;]
